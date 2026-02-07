@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Page() {
   return (
     <div>
       <h1 className="text-2xl mb-4">/app</h1>
