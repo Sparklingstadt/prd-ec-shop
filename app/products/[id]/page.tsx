@@ -1,3 +1,4 @@
+import QuantityStepper from "@/app/components/QuantityStepper"
 import { getProduct } from "@/app/lib/products"
 
 export default async function Page({
@@ -22,9 +23,7 @@ export default async function Page({
       </div>
       <div>
         <p>数量</p>
-        <button>+</button>
-        <p>1</p>
-        <button>-</button>
+        <QuantityStepper value={1} min={1} max={3} />
       </div>
       <div>
         <button>購入</button>
