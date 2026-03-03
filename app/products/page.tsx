@@ -1,4 +1,4 @@
-import getProducts from "../lib/getProducts"
+import { getProducts } from "../lib/products"
 import ProductList from "../components/ProductList"
 
 export default function Page(){

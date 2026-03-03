@@ -1,4 +1,4 @@
-export default function getProducts(): Array<Product> {
+export function getProducts(): Array<Product> {
   return [
     { id: 0, name: "アクリルスタンド", price: 1800 },
     { id: 1, name: "クリアファイル", price: 700 },
@@ -8,4 +8,13 @@ export default function getProducts(): Array<Product> {
     { id: 5, name: "タペストリー", price: 4500 },
     { id: 6, name: "キーホルダー", price: 1000 },
   ]
+}
+export function getProduct(id: number) {
+  return {
+    id,
+    name: "プロダクト名",
+    price: "¥5,800",
+    category: "グッズ",
+    description: "グッズの詳細情報"
+  }
 }
