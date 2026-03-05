@@ -1,5 +1,5 @@
 import { getProducts } from "../lib/products"
-import ProductList from "../components/ProductList"
+import ProductList from "./ProductList"
 
 export default function Page(){
   const products = getProducts()

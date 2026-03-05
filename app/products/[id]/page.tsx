@@ -1,5 +1,5 @@
-import QuantityStepper from "@/app/components/QuantityStepper"
 import { getProduct } from "@/app/lib/products"
+import QuantityStepper from "./QuantityStepper"
 
 export default async function Page({
   params
