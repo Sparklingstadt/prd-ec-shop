@@ -1,5 +1,6 @@
 import { getProductById } from "@/app/lib/mock/products"
 import QuantityStepper from "./QuantityStepper"
+import ProductImage from "./ProductImage"
 
 export default async function Page({
   params
@@ -13,7 +14,7 @@ export default async function Page({
   return (
     <div>
       <div>
-        <div className="h-96 w-full bg-gray-200"></div>
+        <ProductImage />
       </div>
       <h1 className="text-2xl">{product.name}</h1>
       <h2 className="text-xl">¥{product.price}</h2>
