@@ -1,2 +1,2 @@
 export * as getProducts from "./getProducts"
-export * from "./getProductById"
+export * as getProductById from "./getProductById"
