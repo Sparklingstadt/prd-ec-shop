@@ -1,8 +1,8 @@
-import { getProducts } from "../lib/mock/products/index"
+import { getProducts } from "../lib/mock/products"
 import ProductList from "./ProductList"
 
 export default function Page(){
-  const products = getProducts.default()
+  const products = getProducts()
 
   return (
     <div>

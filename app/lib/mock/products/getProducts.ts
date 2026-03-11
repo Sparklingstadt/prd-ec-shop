@@ -1,4 +1,4 @@
-export default function getProducts(): Array<Product> {
+export function getProducts(): Array<Product> {
   return [
     { id: 0, name: "アクリルスタンド", price: 1800 },
     { id: 1, name: "クリアファイル", price: 700 },

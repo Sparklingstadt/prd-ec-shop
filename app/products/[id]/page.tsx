@@ -1,4 +1,4 @@
-import { getProductById } from "@/app/lib/mock/products/index"
+import { getProductById } from "@/app/lib/mock/products"
 import QuantityStepper from "./QuantityStepper"
 
 export default async function Page({
@@ -8,14 +8,15 @@ export default async function Page({
 }) {
   const id = parseInt((await params).id)
   // idが数字でない時の処理は別途でやる
-  const product = await getProductById.default(id)
+  const product = await getProductById(id)
 
   return (
     <div>
       <div>
         <div className="h-96 w-full bg-gray-200"></div>
       </div>
-      <h1 className="text-2xl">Product {product.id}</h1>
+      <h1 className="text-2xl">{product.name}</h1>
+      <h2 className="text-xl">¥{product.price}</h2>
       <p>カテゴリー：グッズ</p>
       <div className="my-4">
         <h2 className="text-xl">詳細情報</h2>
