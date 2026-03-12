@@ -1,6 +1,7 @@
 import { getProductById } from "@/app/lib/mock/products"
 import QuantityStepper from "./QuantityStepper"
 import ProductImage from "./ProductImage"
+import Button from "@/app/components/Button"
 
 export default async function Page({
   params
@@ -28,8 +29,8 @@ export default async function Page({
         <QuantityStepper value={1} min={1} max={3} />
       </div>
       <div>
-        <button>購入</button>
-        <button>カートに追加</button>
+        <Button>購入</Button>
+        <Button>カートに追加</Button>
       </div>
     </div>
   )
