@@ -18,10 +18,10 @@ export default async function Page({
       </div>
       <h1 className="text-2xl">{product.name}</h1>
       <h2 className="text-xl">¥{product.price}</h2>
-      <p>カテゴリー：グッズ</p>
+      <p>カテゴリー：{product.category || "カテゴリー指定なし"}</p>
       <div className="my-4">
         <h2 className="text-xl">詳細情報</h2>
-        <p>ここに商品の詳細情報</p>
+        <p>{product.description || "詳細情報の記入なし"}</p>
       </div>
       <div>
         <p>数量</p>
