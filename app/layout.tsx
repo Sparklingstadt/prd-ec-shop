@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "EC Shop",
+  title: "Candy Rain",
   description: "EC Shopping app developed with Next.js v16",
 };
 
@@ -15,15 +15,18 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <header className="flex justify-between items-center">
-          <h1 className="text-2xl">EC shop app</h1>
+        <header className="flex justify-between items-center w-11/12 mx-auto">
+          <h1 className="text-2xl">Candy Rain</h1>
           <nav>
             <ul className="flex">
               <li>
-                <Link className="inline-block p-4 px-8" href="/">Top</Link>
+                <Link className="inline-block p-4 px-8" href="/products">Products</Link>
               </li>
               <li>
-                <Link className="inline-block p-4 px-8" href="/products">Products</Link>
+                <Link className="inline-block p-4 px-8" href="/orders">Orders</Link>
+              </li>
+              <li>
+                <Link className="inline-block p-4 px-8" href="/users">Users</Link>
               </li>
             </ul>
           </nav>
