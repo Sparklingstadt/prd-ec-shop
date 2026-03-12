@@ -1,4 +1,4 @@
-import { getProductById } from "@/app/lib/mock/products"
+import { getProductById } from "@/lib/mock/products"
 import QuantityStepper from "./QuantityStepper"
 import ProductImage from "./ProductImage"
 import Button from "@/app/components/Button"

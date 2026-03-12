@@ -1,4 +1,4 @@
-import { getProducts } from "../lib/mock/products"
+import { getProducts } from "@/lib/mock/products"
 import ProductList from "./ProductList"
 
 export default function Page(){
