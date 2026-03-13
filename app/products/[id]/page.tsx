@@ -1,7 +1,7 @@
-import { getProductById } from "@/lib/mock/products"
 import QuantityStepper from "./QuantityStepper"
 import ProductImage from "./ProductImage"
 import Button from "@/app/components/Button"
+import { getProductById } from "@/repositories/products"
 
 export default async function Page({
   params
