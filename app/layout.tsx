@@ -15,23 +15,27 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <header className="flex justify-between items-center w-11/12 mx-auto">
-          <h1 className="text-2xl">Candy Rain</h1>
+        <header className="border-b border-gray-300">
+        <div className="flex justify-between items-center w-11/12 mx-auto">
+          <h1 className="text-2xl font-light">Candy Rain</h1>
           <nav>
             <ul className="flex">
               <li>
-                <Link className="inline-block p-4 px-8" href="/products">Products</Link>
+                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/products">Products</Link>
               </li>
               <li>
-                <Link className="inline-block p-4 px-8" href="/orders">Orders</Link>
+                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/orders">Orders</Link>
               </li>
               <li>
-                <Link className="inline-block p-4 px-8" href="/users">Users</Link>
+                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/users">Users</Link>
               </li>
             </ul>
           </nav>
+        </div>
         </header>
-        {children}
+        <div className="w-11/12 mx-auto py-8">
+          {children}
+        </div>
       </body>
     </html>
   );

@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div>
       <h1>注文履歴</h1>
-      <table className="w-11/12 mx-auto border border-gray-300">
+      <table className="w-full mx-auto border border-gray-300">
         <thead>
           <tr>
             <th className="p-4 font-normal text-gray-500 text-sm">注文ID</th>

@@ -18,7 +18,7 @@ export default async function Page({
       <Link href="/orders" className="text-sm underline">注文一覧へ戻る</Link>
       <p className="text-2xl font-bold py-4">Order #{orderId}</p>
       <p className="py-4">{new Date().toLocaleString()}</p>
-      <table className="w-11/12 mx-auto border border-gray-300">
+      <table className="w-full border border-gray-300">
         <thead>
           <tr>
             <th className="p-4 text-left font-normal text-gray-500 text-sm">商品名</th>
@@ -38,7 +38,7 @@ export default async function Page({
           ))}
         </tbody>
       </table>
-      <div className="w-11/12 mx-auto p-4 border border-t-0 border-gray-300">
+      <div className="w-full mx-auto p-4 border border-t-0 border-gray-300">
         <div className="flex justify-between mt-4">
           <p>小計</p>
           <p>¥3000</p>
