@@ -6,7 +6,8 @@ export async function getOrders() {
       date: new Date(),
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
-      total: 3000
+      shippingPrice: 1000,
+      total: 4000
     },
     {
       id: 1,
@@ -14,7 +15,8 @@ export async function getOrders() {
       date: new Date(),
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
-      total: 6000
+      shippingPrice: 1000,
+      total: 7000
     },
     {
       id: 2,
@@ -22,7 +24,8 @@ export async function getOrders() {
       date: new Date(),
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
-      total: 13000
+      shippingPrice: 1000,
+      total: 14000
     },
   ]
 
