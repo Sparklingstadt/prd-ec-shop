@@ -1,4 +1,4 @@
-export default async function getUsers() {
+export async function getUsers() {
   const users = [
     { id: 0, firstName: "Admin", lastName: "User" },
     { id: 1, firstName: "Bill", lastName: "User" },
