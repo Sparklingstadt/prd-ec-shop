@@ -4,4 +4,5 @@ type Product = {
   category: string,
   description: string,
   price: number,
+  imageUrl: string,
 }
