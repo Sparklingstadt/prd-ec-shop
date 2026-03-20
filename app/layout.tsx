@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   const navLinks = [
     { href: "/products", text: "Products" },
-    { href: "/orders", text: "Orders" },
+    // { href: "/orders", text: "Orders" },
     { href: "/users", text: "Users" },
   ]
 
@@ -33,7 +33,7 @@ export default function RootLayout({
               ))}
               <li className="inline-block px-0 py-8 font-bold uppercase text-sm">/</li>
               <li>
-                <Link href="/" className="inline-block p-8 font-bold uppercase text-sm">ログイン中</Link>
+                <Link href="/account" className="inline-block p-8 font-bold uppercase text-sm">ログイン中</Link>
               </li>
             </ul>
           </nav>
