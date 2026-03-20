@@ -12,6 +12,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navLinks = [
+    { href: "/products", text: "Products" },
+    { href: "/orders", text: "Orders" },
+    { href: "/users", text: "Users" },
+  ]
+
   return (
     <html lang="ja">
       <body>
@@ -20,14 +26,14 @@ export default function RootLayout({
           <h1 className="text-2xl font-light">Candy Rain</h1>
           <nav>
             <ul className="flex">
+              { navLinks.map((navLink, index) => (
+                <li key={index}>
+                  <Link href={navLink.href} className="inline-block p-8 font-bold uppercase text-sm">{navLink.text}</Link>
+                </li>
+              ))}
+              <li className="inline-block px-0 py-8 font-bold uppercase text-sm">/</li>
               <li>
-                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/products">Products</Link>
-              </li>
-              <li>
-                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/orders">Orders</Link>
-              </li>
-              <li>
-                <Link className="inline-block p-8 font-bold uppercase text-sm" href="/users">Users</Link>
+                <Link href="/" className="inline-block p-8 font-bold uppercase text-sm">ログイン中</Link>
               </li>
             </ul>
           </nav>
