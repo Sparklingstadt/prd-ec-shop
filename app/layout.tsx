@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   const navLinks = [
     { href: "/products", text: "Products" },
-    // { href: "/orders", text: "Orders" },
+    { href: "/orders", text: "Orders" },
     { href: "/users", text: "Users" },
   ]
 

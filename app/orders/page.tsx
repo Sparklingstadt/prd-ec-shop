@@ -6,7 +6,7 @@ export default async function Page() {
 
   return (
     <div>
-      <h1>注文履歴</h1>
+      <h1 className="text-2xl font-bold py-4">注文履歴</h1>
       <table className="w-full mx-auto border border-gray-300">
         <thead>
           <tr>
