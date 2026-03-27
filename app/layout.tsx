@@ -23,7 +23,9 @@ export default function RootLayout({
       <body>
         <header className="border-b border-gray-300">
         <div className="flex justify-between items-center w-11/12 mx-auto">
-          <h1 className="text-2xl font-light">Candy Rain</h1>
+          <h1 className="text-2xl font-light">
+            <Link href="/">Candy Rain</Link>
+          </h1>
           <nav>
             <ul className="flex">
               { navLinks.map((navLink, index) => (
