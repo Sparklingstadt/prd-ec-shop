@@ -16,6 +16,7 @@ export default function RootLayout({
     { href: "/products", text: "Products" },
     { href: "/orders", text: "Orders" },
     { href: "/users", text: "Users" },
+    { href: "/cart", text: "Cart"}
   ]
 
   return (
