@@ -7,7 +7,7 @@ export async function getOrders() {
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
       shippingPrice: 1000,
-      total: 4000
+      total: 5800
     },
     {
       id: 1,
@@ -16,7 +16,7 @@ export async function getOrders() {
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
       shippingPrice: 1000,
-      total: 7000
+      total: 5800
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export async function getOrders() {
       paymentStatus: "支払い済み",
       shippingStatus: "配送済み",
       shippingPrice: 1000,
-      total: 14000
+      total: 12300
     },
   ]
 
