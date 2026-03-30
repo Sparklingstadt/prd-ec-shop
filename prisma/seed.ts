@@ -100,14 +100,6 @@ async function main() {
       { id: 1, userId: 1}
     ]
   })
-
-  await prisma.cartItem.createMany({
-    data: [
-      { id: 0, cartId: 0, productId: 2, quantity: 2},
-      { id: 1, cartId: 0, productId: 3, quantity: 1},
-      { id: 2, cartId: 0, productId: 5, quantity: 1},
-    ]
-  })
 }
 
 main()

@@ -1,7 +1,6 @@
-import QuantityStepper from "./QuantityStepper"
-import Button from "@/app/components/Button"
 import { getProductById } from "@/repositories/products"
 import Image from "next/image"
+import AddItemToCartForm from "./AddItemToCartForm"
 
 export default async function Page({
   params
@@ -25,13 +24,7 @@ export default async function Page({
         <h2 className="text-xl">詳細情報</h2>
         <p>{product.description || "詳細情報の記入なし"}</p>
       </div>
-      <div className="flex items-center">
-        <p className="mr-4">数量</p>
-        <QuantityStepper value={1} min={1} max={3} />
-      </div>
-      <div className="flex mt-4">
-        <Button>カートに追加</Button>
-      </div>
+      <AddItemToCartForm cartId={0} productId={id}/>
     </div>
   )
 }

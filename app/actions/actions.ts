@@ -1,14 +1,35 @@
+"use server"
 import { prisma } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 
 export async function addItemToCart({
+  cartId,
   productId,
   quantity
 }: {
+  cartId: number,
   productId: number,
   quantity: number
 }) {
-  "use server"
 
-  console.log(productId, quantity)
-  // await prisma.cartItem.create()
+  await prisma.cartItem.upsert({
+    where: {
+      cartId_productId: {
+        cartId,
+        productId
+      }
+    },
+    update: {
+      quantity
+    },
+    create: {
+      cartId,
+      productId,
+      quantity
+    }
+  })
+
+  revalidatePath("/", "layout")
+
+  return { success: true }
 }
