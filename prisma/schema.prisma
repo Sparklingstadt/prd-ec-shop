@@ -12,16 +12,10 @@ datasource db {
   provider = "postgresql"
 }
 
-enum ROLE {
-  ADMIN
-  USER
-}
-
 model User {
   id Int @id @default(autoincrement())
   firstName String
   lastName String
-  role ROLE @default(USER)
   orders Order[]
   carts Cart[]
 }
