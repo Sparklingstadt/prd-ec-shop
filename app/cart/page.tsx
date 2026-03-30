@@ -1,15 +1,21 @@
-"use client"
-
+import { prisma } from "@/lib/prisma"
 import Link from "next/link"
-import { useState } from "react"
 
-export default function Page(){
-  const [cartItems] = useState([
-    { name: "アクリルスタンド A", price: 1500, quantity: 1, productId: 0 },
-    { name: "アクリルスタンド B", price: 1500, quantity: 1, productId: 1 },
-    { name: "タペストリー", price: 4000, quantity: 1, productId: 4 },
-  ])
-  const subTotalPrice = cartItems.reduce((acc, item) => acc + (item.quantity * item.price), 0)
+export default async function Page(){
+  const cart = await prisma.cart.findUnique({
+    where: {
+      userId: 0
+    },
+    include: {
+      items: {
+        include: {
+          product: true
+        }
+      }
+    }
+  })
+  if(!cart) throw new Error("Cart not found")
+  const subTotalPrice = cart.items.reduce((acc, item) => acc + (item.quantity * item.product.price), 0)
   const totalPrice = subTotalPrice + 1000 + 300
 
 
@@ -27,12 +33,12 @@ export default function Page(){
           </tr>
         </thead>
         <tbody>
-          { cartItems.map((item, index) => (
+          { cart.items.map((item, index) => (
             <tr key={item.productId} className="border-t border-gray-300 text-sm">
-              <td className="p-4">{item.name}</td>
-              <td className="p-4 text-center">¥{item.price}</td>
+              <td className="p-4">{item.product.name}</td>
+              <td className="p-4 text-center">¥{item.product.price}</td>
               <td className="p-4 text-center">{item.quantity}</td>
-              <td className="p-4 text-center">¥{item.quantity * item.price}</td>
+              <td className="p-4 text-center">¥{item.quantity * item.product.price}</td>
             </tr>
           ))}
         </tbody>

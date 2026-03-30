@@ -54,15 +54,15 @@ async function main() {
       {
         id: 0,
         orderId: 0,
-        productId: 0,
+        productId: 2,
         productName: "アクリルスタンド A",
-        quantity: 1,
+        quantity: 2,
         productPrice: 1500,
       },
       {
         id: 1,
         orderId: 0,
-        productId: 1,
+        productId: 3,
         productName: "アクリルスタンド B",
         quantity: 1,
         productPrice: 1500,
@@ -70,7 +70,7 @@ async function main() {
       {
         id: 2,
         orderId: 1,
-        productId: 1,
+        productId: 3,
         productName: "アクリルスタンド B",
         quantity: 3,
         productPrice: 1500,
@@ -91,6 +91,21 @@ async function main() {
         quantity: 1,
         productPrice: 6500,
       }
+    ]
+  })
+
+  await prisma.cart.createMany({
+    data: [
+      { id: 0, userId: 0},
+      { id: 1, userId: 1}
+    ]
+  })
+
+  await prisma.cartItem.createMany({
+    data: [
+      { id: 0, cartId: 0, productId: 2, quantity: 2},
+      { id: 1, cartId: 0, productId: 3, quantity: 1},
+      { id: 2, cartId: 0, productId: 5, quantity: 1},
     ]
   })
 }
