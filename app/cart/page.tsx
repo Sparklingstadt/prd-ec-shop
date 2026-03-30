@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
+import { removeCartItem } from "../actions/actions"
+import CartItemTable from "./CartItemTable"
 
 export default async function Page(){
   const cart = await prisma.cart.findUnique({
@@ -18,31 +20,11 @@ export default async function Page(){
   const subTotalPrice = cart.items.reduce((acc, item) => acc + (item.quantity * item.product.price), 0)
   const totalPrice = subTotalPrice + 1000 + 300
 
-
   return (
     <div>
       <Link href="/products" className="text-sm underline">商品一覧へ戻る</Link>
       <p className="text-2xl font-bold py-4">買い物かご</p>
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr>
-            <th className="p-4 text-left font-normal text-gray-500 text-sm">商品名</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">価格</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">数量</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">合計</th>
-          </tr>
-        </thead>
-        <tbody>
-          { cart.items.map((item, index) => (
-            <tr key={item.productId} className="border-t border-gray-300 text-sm">
-              <td className="p-4">{item.product.name}</td>
-              <td className="p-4 text-center">¥{item.product.price}</td>
-              <td className="p-4 text-center">{item.quantity}</td>
-              <td className="p-4 text-center">¥{item.quantity * item.product.price}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <CartItemTable cart={cart} />
       <div className="w-full mx-auto p-4 border border-t-0 border-gray-300">
         <div className="flex justify-between mt-4">
           <p>小計</p>

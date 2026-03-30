@@ -33,3 +33,23 @@ export async function addItemToCart({
 
   return { success: true }
 }
+
+type removeCartItemProps = {
+  cartId: number
+  productId: number
+}
+export async function removeCartItem({ cartId, productId }: removeCartItemProps) {
+  await prisma.cartItem.delete({
+    where: {
+      cartId_productId: {
+        cartId,
+        productId
+      }
+    }
+  })
+  
+  revalidatePath("/", "layout")
+
+  return { success: true }
+
+}
