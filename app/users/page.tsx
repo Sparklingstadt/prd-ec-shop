@@ -27,7 +27,7 @@ export default async function Page() {
               <td className="p-4 text-center">{user.lastName}</td>
               <td className="p-4 text-center">N/A</td>
               <td className="p-4 text-center">
-                <button disabled>{ user.role === "admin" ? "選択済み" : "切り替え" }</button>
+                <button disabled>切り替え</button>
               </td>
             </tr>
           ))}

@@ -11,6 +11,7 @@ export default async function Page({
   const id = parseInt((await params).id)
   // idが数字でない時の処理は別途でやる
   const product = await getProductById(id)
+  if(!product) throw new Error("Product not found")
 
   return (
     <div>

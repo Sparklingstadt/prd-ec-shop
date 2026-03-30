@@ -21,12 +21,12 @@ export default async function Page() {
           { orders.map(order => (
             <tr key={order.id} className="border-t border-gray-300">
               <td className="text-center">
-                <Link href={`/orders/${order.orderId}`} className="border border-gray-300 text-xs p-2 px-4">#{order.orderId}</Link>
+                <Link href={`/orders/${order.id}`} className="border border-gray-300 text-xs p-2 px-4">#{order.id}</Link>
               </td>
-              <td className="p-4 text-center">{order.date.toLocaleString()}</td>
+              <td className="p-4 text-center">{new Date().toLocaleString()}</td>
               <td className="p-4 text-center">{order.paymentStatus}</td>
               <td className="p-4 text-center">{order.shippingStatus}</td>
-              <td className="p-4 text-center">¥{order.total}</td>
+              <td className="p-4 text-center">¥{order.totalPrice}</td>
             </tr>
           ))}
         </tbody>

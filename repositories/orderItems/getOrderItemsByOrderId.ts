@@ -1,6 +1,11 @@
+import { prisma } from "@/lib/prisma";
 import getOrderItems from "./getOrderItems";
 
-export default async function getOrderItemsByOrderId(orderId: number){
-  const orderItems = (await getOrderItems()).filter(orderItem => orderItem.orderId === orderId)
+export default async function getOrderItemsById(id: number){
+  const orderItems = prisma.orderItem.findMany({
+    where: {
+      orderId: id
+    }
+  })
   return orderItems
 }

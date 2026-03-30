@@ -12,6 +12,87 @@ async function main() {
       { id: 6, name: "オリジナル TEE B", category: "グッズ", price: 6500, description: "", imageUrl: "/products/Rectangle 1.png" },
     ]
   })
+
+  await prisma.user.createMany({
+    data: [
+      { id: 0, firstName: "Angelia", lastName: "Hoge" },
+      { id: 1, firstName: "Bill", lastName: "Foo" },
+    ]
+  })
+
+  await prisma.order.createMany({
+    data: [
+      {
+        id: 0,
+        userId: 0,
+        paymentStatus: "支払い済み",
+        shippingStatus: "配送済み",
+        shippingPrice: 1000,
+        totalPrice: 4000,
+      },
+      {
+        id: 1,
+        userId: 0,
+        paymentStatus: "支払い済み",
+        shippingStatus: "配送済み",
+        shippingPrice: 1000,
+        totalPrice: 5500,
+      },
+      {
+        id: 2,
+        userId: 0,
+        paymentStatus: "支払い済み",
+        shippingStatus: "配送済み",
+        shippingPrice: 1000,
+        totalPrice: 12000,
+      },
+    ]
+  })
+
+  await prisma.orderItem.createMany({
+    data: [
+      {
+        id: 0,
+        orderId: 0,
+        productId: 0,
+        productName: "アクリルスタンド A",
+        quantity: 1,
+        productPrice: 1500,
+      },
+      {
+        id: 1,
+        orderId: 0,
+        productId: 1,
+        productName: "アクリルスタンド B",
+        quantity: 1,
+        productPrice: 1500,
+      },
+      {
+        id: 2,
+        orderId: 1,
+        productId: 1,
+        productName: "アクリルスタンド B",
+        quantity: 3,
+        productPrice: 1500,
+      },
+      {
+        id: 3,
+        orderId: 2,
+        productId: 4,
+        productName: "タペストリー",
+        quantity: 1,
+        productPrice: 4500,
+      },
+      {
+        id: 4,
+        orderId: 2,
+        productId: 6,
+        productName: "オリジナル TEE B",
+        quantity: 1,
+        productPrice: 6500,
+      }
+    ]
+  })
 }
 
 main()

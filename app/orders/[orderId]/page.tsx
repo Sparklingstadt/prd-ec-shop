@@ -8,8 +8,8 @@ export default async function Page({
 }) {
   const { orderId } = await params
   const orderItems = await getOrderItemsByOrderId(parseInt(orderId))
-  const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.price), 0)
-  const totalPrice = subTotalPrice + 1000 + 300
+  const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.productPrice), 0)
+  const totalPrice = subTotalPrice + 1000
 
   return (
     <div>
@@ -29,25 +29,21 @@ export default async function Page({
           { orderItems.map(item => (
             <tr key={item.productId} className="border-t border-gray-300 text-sm">
               <td className="p-4">{item.productName}</td>
-              <td className="p-4 text-center">¥{item.price}</td>
+              <td className="p-4 text-center">¥{item.productPrice}</td>
               <td className="p-4 text-center">{item.quantity}</td>
-              <td className="p-4 text-center">¥{item.quantity * item.price}</td>
+              <td className="p-4 text-center">¥{item.quantity * item.productPrice}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="w-full mx-auto p-4 border border-t-0 border-gray-300">
         <div className="flex justify-between mt-4">
-          <p>小計</p>
+          <p>小計(税込)</p>
           <p>¥{subTotalPrice}</p>
         </div>
         <div className="flex justify-between mt-4">
-          <p>送料</p>
+          <p>送料(税込)</p>
           <p>¥1000</p>
-        </div>
-        <div className="flex justify-between mt-4">
-          <p>消費税</p>
-          <p>¥300</p>
         </div>
         <div className="flex justify-between text-2xl mt-4">
           <p>合計</p>

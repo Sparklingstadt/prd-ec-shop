@@ -1,8 +1,7 @@
+import { prisma } from "@/lib/prisma"
+
 export async function getUsers() {
-  const users = [
-    { id: 0, firstName: "Angelia", lastName: "Hoge", role: "admin" },
-    { id: 1, firstName: "Bill", lastName: "Foo", role: "user" },
-  ]
+  const users = await prisma.user.findMany()
 
   return users
 }

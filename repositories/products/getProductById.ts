@@ -1,7 +1,9 @@
-import { getProducts } from "./getProducts";
+import { prisma } from "@/lib/prisma";
 
 export async function getProductById(id: number) {
-  // 将来的にPrismaに置き換え
-  
-  return (await getProducts())[id]
+  const product = await prisma.product.findUnique({
+    where: { id }
+  })
+
+  return product
 }

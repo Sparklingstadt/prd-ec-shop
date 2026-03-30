@@ -1,7 +1,11 @@
-import { getUsers } from "./getUsers";
+import { prisma } from "@/lib/prisma";
 
 export async function getUserById(userId: number) {
-  const user = (await getUsers())[userId]
+  const user = await prisma.user.findMany({
+    where: {
+      id: userId
+    }
+  })
 
   return user
 }
