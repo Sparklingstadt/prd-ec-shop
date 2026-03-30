@@ -1,20 +1,36 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
   description: "EC Shopping app developed with Next.js v16",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cart = await prisma.cart.findUnique({
+    where: {
+      userId: 0
+    },
+    include: {
+      items: {
+        include: {
+          product: true
+        }
+      }
+    }
+  })
+
+  if(!cart) throw new Error("Cart not found")
+
   const navLinks = [
     { href: "/products", text: "Products" },
-    { href: "/cart", text: "Cart"},
+    { href: "/cart", text: "Cart" + `(${cart.items.length})`},
     { href: "/users", text: "Users" },
     { href: "/orders", text: "Orders" },
     { href: "/account", text: "Account"},
