@@ -57,6 +57,7 @@ export async function removeCartItem({ cartId, productId }: removeCartItemProps)
 export async function signIn(userId: number) {
   (await cookies()).set("userId", String(userId))
   revalidatePath("/", "layout")
+  redirect("/account")
 }
 
 export async function signOut() {
