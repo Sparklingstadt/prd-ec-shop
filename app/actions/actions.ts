@@ -1,6 +1,7 @@
 "use server"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
 export async function addItemToCart({
   cartId,
@@ -30,7 +31,6 @@ export async function addItemToCart({
   })
 
   revalidatePath("/", "layout")
-
   return { success: true }
 }
 
@@ -38,6 +38,7 @@ type removeCartItemProps = {
   cartId: number
   productId: number
 }
+
 export async function removeCartItem({ cartId, productId }: removeCartItemProps) {
   await prisma.cartItem.delete({
     where: {
@@ -47,9 +48,12 @@ export async function removeCartItem({ cartId, productId }: removeCartItemProps)
       }
     }
   })
-  
+
   revalidatePath("/", "layout")
-
   return { success: true }
+}
 
+export async function signIn(userId: number) {
+  (await cookies()).set("userId", String(userId))
+  revalidatePath("/", "layout")
 }

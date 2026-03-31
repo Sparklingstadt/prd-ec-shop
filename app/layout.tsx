@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -26,6 +27,12 @@ export default async function RootLayout({
     }
   })
 
+  const userId = (await cookies()).get("userId")?.value
+  if(!userId) throw new Error("userId not found")
+  const user = await prisma.user.findFirst({ where: { id: parseInt(userId) }})
+if(!user) throw new Error("User not found")
+  console.log(user.firstName)
+
   if(!cart) throw new Error("Cart not found")
 
   const navLinks = [
@@ -33,7 +40,7 @@ export default async function RootLayout({
     { href: "/cart", text: "Cart" + `(${cart.items.length})`},
     { href: "/users", text: "Users" },
     { href: "/orders", text: "Orders" },
-    { href: "/account", text: "Account"},
+    { href: "/account", text: "Account" + `(${user.firstName})`},
   ]
 
   return (
