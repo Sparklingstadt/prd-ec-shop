@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 export async function addItemToCart({
   cartId,
@@ -56,4 +57,10 @@ export async function removeCartItem({ cartId, productId }: removeCartItemProps)
 export async function signIn(userId: number) {
   (await cookies()).set("userId", String(userId))
   revalidatePath("/", "layout")
+}
+
+export async function signOut() {
+  (await cookies()).delete("userId")
+  revalidatePath("/", "layout")
+  redirect("/signin")
 }

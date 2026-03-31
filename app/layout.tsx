@@ -28,11 +28,8 @@ export default async function RootLayout({
   })
 
   const userId = (await cookies()).get("userId")?.value
-  if(!userId) throw new Error("userId not found")
-  const user = await prisma.user.findFirst({ where: { id: parseInt(userId) }})
-if(!user) throw new Error("User not found")
-  console.log(user.firstName)
-
+  const user = userId && await prisma.user.findFirst({ where: { id: parseInt((userId)) }})
+  const userName = user ? user.firstName : "Guest"
   if(!cart) throw new Error("Cart not found")
 
   const navLinks = [
@@ -40,7 +37,7 @@ if(!user) throw new Error("User not found")
     { href: "/cart", text: "Cart" + `(${cart.items.length})`},
     { href: "/users", text: "Users" },
     { href: "/orders", text: "Orders" },
-    { href: "/account", text: "Account" + `(${user.firstName})`},
+    { href: "/account", text: "Account" + `(${userName})`},
   ]
 
   return (

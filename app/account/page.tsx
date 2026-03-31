@@ -1,12 +1,13 @@
 import { getOrders } from "@/repositories/orders";
 import Link from "next/link";
+import SignOut from "./SignOut";
 
 export default async function Page() {
   const orders = await getOrders()
 
   return (
     <div>
-      <Link href="/logout" className="text-sm underline">Sign out</Link>
+      <SignOut />
       <h1 className="text-2xl font-bold py-4">Account</h1>
       <h2 className=" text-xl font-bold py-4">注文履歴</h2>
       <table className="w-full mx-auto border border-gray-300">
