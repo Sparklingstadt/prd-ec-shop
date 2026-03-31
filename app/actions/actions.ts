@@ -65,3 +65,52 @@ export async function signOut() {
   revalidatePath("/", "layout")
   redirect("/signin")
 }
+
+export async function incrementCartItemQuantity({
+  cartId,
+  productId
+}: {
+  cartId: number
+  productId: number
+}){
+  await prisma.cartItem.update({
+    where: {
+      cartId_productId: {
+        cartId,
+        productId
+      }
+    },
+    data: {
+      quantity: {
+        increment: 1
+      }
+    }
+  })
+
+  revalidatePath("/cart")
+}
+
+export async function decrementCartItemQuantity({
+  cartId,
+  productId
+}: {
+  cartId: number
+  productId: number
+}){
+  await prisma.cartItem.update({
+    where: {
+      cartId_productId: {
+        cartId,
+        productId
+      }
+    },
+    data: {
+      quantity: {
+        decrement: 1
+      }
+    }
+  })
+
+  revalidatePath("/cart")
+}
+
