@@ -6,9 +6,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const orders = await getOrders()
   const userId = (await cookies()).get("userId")?.value
   if(!userId) redirect("/signin")
+  const orders = await getOrders(parseInt(userId))
   const user = await getUserById(parseInt(userId))
 
   return (
