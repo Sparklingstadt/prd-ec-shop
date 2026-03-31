@@ -5,12 +5,9 @@ import UserTable from "./UserTable"
 export default async function Page() {
   const users = await getUsers()
 
-  const userInfo = (await cookies()).get("userId")?.value
-
   return (
     <div>
-      <h1 className="text-2xl font-bold py-4">Users</h1>
-      <p>{ userInfo }</p>
+      <h1 className="text-2xl font-bold py-4">サインイン</h1>
       <UserTable users={users} />
     </div>
   )
