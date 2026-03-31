@@ -14,24 +14,29 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cart = await prisma.cart.findUnique({
-    where: {
-      userId: 0
-    },
-    include: {
-      items: {
-        include: {
-          product: true
-        }
+  const userId = (await cookies()).get("userId")?.value
+  console.log(userId)
+  let cartItemCountText = ""
+  if(userId){
+    const cart = await prisma.cart.findUnique({
+      where: {
+        userId: parseInt(userId)
+      },
+      include: {
+        items: true
       }
-    }
-  })
+    })
 
-  if(!cart) throw new Error("Cart not found")
+    if(!cart) throw new Error("Cart not found")
+
+    cartItemCountText = `(${cart.items.length})`
+  }
+
+
   
   const navLinks = [
     { href: "/products", text: "Products" },
-    { href: "/cart", text: "Cart" + `(${cart.items.length})`},
+    { href: "/cart", text: "Cart" + cartItemCountText},
     { href: "/orders", text: "Orders" },
     { href: "/account", text: "Account"}
   ]

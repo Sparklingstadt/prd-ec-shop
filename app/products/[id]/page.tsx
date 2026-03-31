@@ -1,6 +1,7 @@
 import { getProductById } from "@/repositories/products"
 import Image from "next/image"
 import AddItemToCartForm from "./AddItemToCartForm"
+import { cookies } from "next/headers"
 
 export default async function Page({
   params
@@ -8,10 +9,11 @@ export default async function Page({
   params: Promise<{ id: string }>
 }) {
   const id = parseInt((await params).id)
-  // idが数字でない時の処理は別途でやる
   const product = await getProductById(id)
   if(!product) throw new Error("Product not found")
 
+  const userId = (await cookies()).get("userId")?.value
+  
   return (
     <div>
       <div>
@@ -24,7 +26,7 @@ export default async function Page({
         <h2 className="text-xl">詳細情報</h2>
         <p>{product.description || "詳細情報の記入なし"}</p>
       </div>
-      <AddItemToCartForm cartId={0} productId={id}/>
+      <AddItemToCartForm cartId={userId ? parseInt(userId) : undefined} productId={id}/>
     </div>
   )
 }

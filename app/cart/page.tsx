@@ -1,12 +1,16 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
-import { removeCartItem } from "../actions/actions"
 import CartItemTable from "./CartItemTable"
+import { redirect } from "next/navigation"
+import { cookies } from "next/headers"
 
 export default async function Page(){
+  const userId = (await cookies()).get("userId")?.value
+  if(!userId) redirect("/signin")
+
   const cart = await prisma.cart.findUnique({
     where: {
-      userId: 0
+      userId: parseInt(userId)
     },
     include: {
       items: {
