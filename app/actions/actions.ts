@@ -63,7 +63,6 @@ export async function signIn(userId: number) {
 export async function signOut() {
   (await cookies()).delete("userId")
   revalidatePath("/", "layout")
-  redirect("/signin")
 }
 
 export async function incrementCartItemQuantity({

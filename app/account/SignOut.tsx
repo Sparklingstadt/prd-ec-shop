@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link"
 import { signOut } from "../actions/actions"
 
 export default function SignOut() {
@@ -8,9 +8,6 @@ export default function SignOut() {
   }
 
   return (
-    <p
-      className="text-sm underline"
-      onClick={handleSignOut}  
-    >Sign out</p>    
+    <Link href="/signout" className="text-sm underline" onClick={handleSignOut}>Sign out</Link>    
   )
 }
