@@ -25,7 +25,7 @@ export default async function checkoutService(userId: number) {
         paymentStatus: "支払い済み",
         shippingStatus: "発送済み",
         shippingPrice: 1000,
-        totalPrice: cart.items.reduce((acc, item) => acc + item.product.price, 0),
+        totalPrice: cart.items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0),
         orderItems: {
           create: cart.items.map(item => ({
             productId: item.productId,
