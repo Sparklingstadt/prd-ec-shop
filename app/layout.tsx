@@ -15,7 +15,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const userId = (await cookies()).get("userId")?.value
-  console.log(userId)
   let cartItemCountText = ""
   if(userId){
     const cart = await prisma.cart.findUnique({

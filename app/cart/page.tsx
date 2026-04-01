@@ -3,10 +3,12 @@ import Link from "next/link"
 import CartItemTable from "./CartItemTable"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
+import PlaceOrderButton from "./PlaceOrderButton"
 
 export default async function Page(){
   const userId = (await cookies()).get("userId")?.value
   if(!userId) redirect("/signin")
+
 
   const cart = await prisma.cart.findUnique({
     where: {
@@ -20,6 +22,7 @@ export default async function Page(){
       }
     }
   })
+  
   if(!cart) throw new Error("Cart not found")
   const subTotalPrice = cart.items.reduce((acc, item) => acc + (item.quantity * item.product.price), 0)
   const totalPrice = subTotalPrice + 1000 + 300
@@ -52,6 +55,9 @@ export default async function Page(){
           <p>カートの中は空です</p>
         </div>
       }
+      <div>
+        <PlaceOrderButton userId={parseInt(userId)}/>
+      </div>
     </div>
   )
 }

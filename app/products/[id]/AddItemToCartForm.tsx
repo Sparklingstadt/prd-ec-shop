@@ -16,7 +16,7 @@ export default function AddItemToCartForm({ cartId, productId }: AddItemToCartFo
   const [message, setMessesage] = useState("")
 
   const handleClick = async () => {
-    if(!cartId) {
+    if(cartId === undefined) {
       setMessesage("カートに追加するにはサインインが必要です")
       return
     }
