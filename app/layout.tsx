@@ -30,8 +30,6 @@ export default async function RootLayout({
     if(!cart) throw new Error("Cart not found")
     cartItemCountText = `(${cart.items.length})`
   }
-
-
   
   const navLinks = [
     { href: "/products", text: "Products" },
@@ -55,6 +53,14 @@ export default async function RootLayout({
                   <Link href={navLink.href} className="inline-block p-8 font-bold uppercase text-sm">{navLink.text}</Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="https://github.com/Sparklingstadt/prd-ec-shop"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block p-8 font-bold uppercase text-sm"
+                >GitHub</a>
+              </li>
             </ul>
           </nav>
         </div>
