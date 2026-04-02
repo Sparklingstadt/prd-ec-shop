@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { signOut } from "../actions/actions"
+import { signOut } from "@/app/actions/actions"
 
 export default function SignOut() {
   const handleSignOut = async () => {

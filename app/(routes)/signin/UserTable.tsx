@@ -1,5 +1,5 @@
 "use client"
-import { signIn } from "../actions/actions"
+import { signIn } from "@/app/actions/actions"
 import { useRouter } from "next/navigation"
 
 export default function UserTable({ users }: { users: any }) {

@@ -3,7 +3,6 @@ import "./globals.css";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { requireUserId } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Candy Rain",

@@ -1,5 +1,5 @@
 "use client"
-import { decrementCartItemQuantity, incrementCartItemQuantity, removeCartItem } from "../actions/actions"
+import { decrementCartItemQuantity, incrementCartItemQuantity, removeCartItem } from "@/app/actions/actions"
 
 export default function CartItemTable({ cart }: { cart: any}) {
   const handleRemoveCartItem = async (cartId: number, productId: number) => {
