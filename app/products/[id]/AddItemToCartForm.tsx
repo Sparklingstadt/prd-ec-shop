@@ -6,7 +6,7 @@ import { addItemToCart } from "@/app/actions/actions"
 import { useState } from "react"
 
 type AddItemToCartFormProps = {
-  cartId: number | undefined
+  cartId: number
   productId: number
 }
 
@@ -16,14 +16,10 @@ export default function AddItemToCartForm({ cartId, productId }: AddItemToCartFo
   const [message, setMessesage] = useState("")
 
   const handleClick = async () => {
-    if(cartId === undefined) {
-      setMessesage("カートに追加するにはサインインが必要です")
-      return
-    }
     const res = await addItemToCart({ cartId, productId, quantity})
-
     if(res?.success) setMessesage("カートに追加しました！")
   }
+
   return (
     <div>
       <div className="flex items-center">
