@@ -36,11 +36,12 @@ export async function addItemToCart({
 }
 
 type removeCartItemProps = {
-  cartId: number
-  productId: number
 }
 
-export async function removeCartItem({ cartId, productId }: removeCartItemProps) {
+export async function removeCartItem({ cartId, productId }: {
+  cartId: number
+  productId: number
+}) {
   await prisma.cartItem.delete({
     where: {
       cartId_productId: {
@@ -56,8 +57,6 @@ export async function removeCartItem({ cartId, productId }: removeCartItemProps)
 
 export async function signIn(userId: number) {
   (await cookies()).set("userId", String(userId))
-  revalidatePath("/", "layout")
-  redirect("/account")
 }
 
 export async function signOut() {

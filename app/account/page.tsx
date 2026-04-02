@@ -2,14 +2,12 @@ import { getOrders } from "@/repositories/orders";
 import Link from "next/link";
 import SignOut from "./SignOut";
 import { getUserById } from "@/repositories/users";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireUserId } from "@/lib/auth";
 
 export default async function Page() {
-  const userId = (await cookies()).get("userId")?.value
-  if(!userId) redirect("/signin")
-  const orders = await getOrders(parseInt(userId))
-  const user = await getUserById(parseInt(userId))
+  const userId = await requireUserId()
+  const orders = await getOrders(userId)
+  const user = await getUserById(userId)
 
   return (
     <div>
@@ -42,7 +40,7 @@ export default async function Page() {
       </table>
       <h2 className="text-xl font-bold py-4">お届け先住所</h2>
       <div>
-        <p>{user.firstName} {user.lastName}</p>
+        <p>{user && user.firstName} {user && user.lastName}</p>
         <p>000-0000</p>
         <p>XX県 YY市 ZZ丁目</p>
         <p>A-B-C号室</p>

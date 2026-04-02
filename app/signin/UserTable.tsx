@@ -1,14 +1,13 @@
 "use client"
-
 import { signIn } from "../actions/actions"
+import { useRouter } from "next/navigation"
 
-type UserTableProps = {
-  users: any
-}
+export default function UserTable({ users }: { users: any }) {
+  const router = useRouter()
 
-export default function UserTable({ users }: UserTableProps) {
   const handleSignIn = async (userId: number) => {
-    signIn(userId)
+    await signIn(userId)
+    router.push("/account")
   }
 
   return (

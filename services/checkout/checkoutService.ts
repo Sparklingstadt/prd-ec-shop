@@ -45,5 +45,4 @@ export default async function checkoutService(userId: number) {
   })
 
   revalidatePath("/", "layout")
-  redirect("/orders")
 }

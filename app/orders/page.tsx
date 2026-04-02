@@ -1,12 +1,10 @@
 import { getOrders } from "@/repositories/orders"
-import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
 import Link from "next/link"
+import { requireUserId } from "@/lib/auth"
 
 export default async function Page() {
-  const userId = (await cookies()).get("userId")?.value
-  if(!userId) redirect("/signin")
-  const orders = await getOrders(parseInt(userId))
+  const userId = await requireUserId()
+  const orders = await getOrders(userId)
 
   return (
     <div>
@@ -37,8 +35,4 @@ export default async function Page() {
       </table>
     </div>
   )
-}
-
-function cookie() {
-  throw new Error("Function not implemented.")
 }

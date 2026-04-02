@@ -1,19 +1,15 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import CartItemTable from "./CartItemTable"
-import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
 import PlaceOrderButton from "./PlaceOrderButton"
+import { requireUserId } from "@/lib/auth"
 
 export default async function Page(){
-  const userId = (await cookies()).get("userId")?.value
-  if(!userId) redirect("/signin")
+  const userId = await requireUserId()
 
 
   const cart = await prisma.cart.findUnique({
-    where: {
-      userId: parseInt(userId)
-    },
+    where: { userId },
     include: {
       items: {
         include: {
@@ -56,7 +52,7 @@ export default async function Page(){
         </div>
       }
       <div>
-        <PlaceOrderButton userId={parseInt(userId)}/>
+        <PlaceOrderButton userId={userId}/>
       </div>
     </div>
   )

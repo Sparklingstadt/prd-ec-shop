@@ -1,9 +1,12 @@
 "use client"
 
 import checkoutService from "@/services/checkout/checkoutService"
+import { useRouter } from "next/navigation"
 export default function PlaceOrderButton({ userId }: { userId: number }){
+  const router = useRouter()
   const handlePlaceOrder = async () => {
-    checkoutService(userId)
+    await checkoutService(userId)
+    router.push("/orders")
   }
 
   return (

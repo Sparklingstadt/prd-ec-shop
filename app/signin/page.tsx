@@ -1,5 +1,4 @@
 import { getUsers } from "@/repositories/users"
-import { cookies } from "next/headers"
 import UserTable from "./UserTable"
 
 export default async function Page() {
