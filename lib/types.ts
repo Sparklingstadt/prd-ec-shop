@@ -6,3 +6,7 @@ type Product = {
   price: number,
   imageUrl: string,
 }
+
+export type Result<T, E> =
+  | { ok: true, data: T }
+  | { ok: false, error: E }
