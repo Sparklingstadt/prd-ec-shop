@@ -3,6 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { getCartWithProductsByUserId } from "@/repositories/carts";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -17,14 +18,7 @@ export default async function RootLayout({
   const userId = (await cookies()).get("userId")?.value
   let cartItemCountText = ""
   if(userId){
-    const cart = await prisma.cart.findUnique({
-      where: {
-        userId: parseInt(userId)
-      },
-      include: {
-        items: true
-      }
-    })
+    const cart = await getCartWithProductsByUserId(parseInt(userId))
 
     if(!cart) throw new Error("Cart not found")
     cartItemCountText = `(${cart.items.length})`

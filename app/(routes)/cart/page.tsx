@@ -3,22 +3,11 @@ import Link from "next/link"
 import CartItemTable from "./CartItemTable"
 import PlaceOrderButton from "./PlaceOrderButton"
 import { requireUserId } from "@/lib/auth"
+import { getCartWithProductsByUserId } from "@/repositories/carts"
 
 export default async function Page(){
   const userId = await requireUserId()
-
-
-  const cart = await prisma.cart.findUnique({
-    where: { userId },
-    include: {
-      items: {
-        include: {
-          product: true
-        }
-      }
-    }
-  })
-  
+  const cart = await getCartWithProductsByUserId(userId)
   if(!cart) throw new Error("Cart not found")
   const subTotalPrice = cart.items.reduce((acc, item) => acc + (item.quantity * item.product.price), 0)
   const totalPrice = subTotalPrice + 1000 + 300
