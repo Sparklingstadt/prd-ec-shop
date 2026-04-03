@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Product } from "@/lib/types"
 
 export default function ProductList({ products }: {
   products: Array<Product>
