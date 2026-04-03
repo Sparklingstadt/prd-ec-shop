@@ -1,7 +1,13 @@
 "use client"
 import { decrementCartItemQuantity, incrementCartItemQuantity, removeCartItem } from "@/app/actions/actions"
 
-export default function CartItemTable({ cart }: { cart: any}) {
+export default function CartItemTable({
+  cart,
+  cartItems
+}: {
+  cart: any,
+  cartItems: any
+}) {
   const handleRemoveCartItem = async (cartId: number, productId: number) => {
     const res = await removeCartItem({
       cartId,
@@ -35,7 +41,7 @@ export default function CartItemTable({ cart }: { cart: any}) {
         </tr>
       </thead>
       <tbody>
-        { cart.items.map((item: any) => (
+        { cartItems.map((item: any) => (
           <tr key={item.productId} className="border-t border-gray-300 text-sm">
             <td className="p-4">{item.product.name}</td>
             <td className="p-4 text-center">¥{item.product.price}</td>

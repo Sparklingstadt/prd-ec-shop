@@ -1,11 +1,9 @@
-import { getProductById } from "@/repositories/products"
 import Image from "next/image"
 import AddItemToCartForm from "./AddItemToCartForm"
 import { requireUserId } from "@/lib/auth"
+import { getProductById } from "@/app/actions/actions"
 
-export default async function Page({
-  params
-}: { 
+export default async function Page({ params }: { 
   params: Promise<{ id: string }>
 }) {
   const id = parseInt((await params).id)

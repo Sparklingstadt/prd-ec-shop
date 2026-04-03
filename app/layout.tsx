@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { getCartWithProductsByUserId } from "@/repositories/carts";
+import { getCartByUserId, getCartItemsWithProductsByCartId } from "./actions/actions";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -18,10 +17,10 @@ export default async function RootLayout({
   const userId = (await cookies()).get("userId")?.value
   let cartItemCountText = ""
   if(userId){
-    const cart = await getCartWithProductsByUserId(parseInt(userId))
-
+    const cart = await getCartByUserId(parseInt(userId))
     if(!cart) throw new Error("Cart not found")
-    cartItemCountText = `(${cart.items.length})`
+    const cartItems = await getCartItemsWithProductsByCartId(cart.id)
+    cartItemCountText = `(${cartItems.length})`
   }
   
   const navLinks = [
@@ -65,3 +64,7 @@ export default async function RootLayout({
     </html>
   );
 }
+function getCartWithProductsByUserId(arg0: number) {
+  throw new Error("Function not implemented.");
+}
+

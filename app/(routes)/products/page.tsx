@@ -1,4 +1,4 @@
-import { getProducts } from "@/repositories/products"
+import { getProducts } from "@/app/actions/actions"
 import ProductList from "./ProductList"
 
 export default async function Page(){

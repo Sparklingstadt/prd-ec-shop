@@ -1,6 +1,6 @@
-import { getOrders } from "@/repositories/orders"
 import Link from "next/link"
 import { requireUserId } from "@/lib/auth"
+import { getOrders } from "@/app/actions/actions"
 
 export default async function Page() {
   const userId = await requireUserId()

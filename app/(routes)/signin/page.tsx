@@ -1,4 +1,4 @@
-import { getUsers } from "@/repositories/users"
+import { getUsers } from "@/app/actions/actions"
 import UserTable from "./UserTable"
 
 export default async function Page() {

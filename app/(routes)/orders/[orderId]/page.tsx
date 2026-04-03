@@ -1,4 +1,4 @@
-import getOrderItemsByOrderId from "@/repositories/orderItems/getOrderItemsByOrderId"
+import { getOrderItemsByOrderId } from "@/app/actions/actions"
 import Link from "next/link"
 
 export default async function Page({

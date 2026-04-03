@@ -1,13 +1,12 @@
-import { getOrders } from "@/repositories/orders";
 import Link from "next/link";
 import SignOut from "./SignOut";
-import { getUserById } from "@/repositories/users";
 import { requireUserId } from "@/lib/auth";
+import { getOrders, getUserByUserId } from "@/app/actions/actions";
 
 export default async function Page() {
   const userId = await requireUserId()
   const orders = await getOrders(userId)
-  const user = await getUserById(userId)
+  const user = await getUserByUserId(userId)
 
   return (
     <div>
