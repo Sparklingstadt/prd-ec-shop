@@ -31,5 +31,15 @@ export const cartItemRepository = {
         quantity
       }
     })
+  },
+  async removeCartItem(cartId: number, productId: number) {
+    await prisma.cartItem.delete({
+      where: {
+        cartId_productId: {
+          cartId,
+          productId
+        }
+      }
+    })    
   }
 }

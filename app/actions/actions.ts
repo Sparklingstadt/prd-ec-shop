@@ -69,15 +69,7 @@ export async function removeCartItem({ cartId, productId }: {
   cartId: number
   productId: number
 }) {
-  await prisma.cartItem.delete({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    }
-  })
-
+  await cartItemRepository.removeCartItem(cartId, productId)
   revalidatePath("/", "layout")
   return { success: true }
 }
