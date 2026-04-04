@@ -1,13 +1,16 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Product, Variant } from "@/lib/types"
+import { use } from "react"
 
-export default function ProductList({ products }: {
-  products: (Product & { variants: Variant[] })[]
+export default function ProductList({ productsPromise }: {
+  productsPromise: Promise<(Product & { variants: Variant[] })[]>
 }){
   const getProductStartingPrice = (productsWithVariants: (Product & { variants: Variant[] })) => {
     return Math.min(...productsWithVariants.variants.map(v => v.price))
   }
+
+  const products = use(productsPromise)
 
   return (
     <div className="grid grid-cols-3 gap-4">
