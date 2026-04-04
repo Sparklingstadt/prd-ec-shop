@@ -9,7 +9,7 @@ export default async function Page(){
   const cart = await getCartByUserId(userId)
   if(!cart) throw new Error("Cart not found")
   const cartItems = await getCartItemsWithProductsByCartId(cart.id)
-  const subTotalPrice = cartItems.reduce((acc, item) => acc + (item.quantity * item.product.price), 0)
+  const subTotalPrice = cartItems.reduce((acc, item) => acc + (item.quantity * item.variant.price), 0)
   const totalPrice = subTotalPrice + 1000 + 300
 
   return (

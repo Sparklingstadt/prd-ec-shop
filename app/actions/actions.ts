@@ -16,6 +16,14 @@ export async function getProducts() {
   return await productRepository.findMany()
 }
 
+export async function getProductsWithVariants() {
+  return await productRepository.findManyWithVariants()
+}
+
+export async function getProductWithVariantsById(productId: number) {
+  return await productRepository.findWithVariantsById(productId)
+}
+
 export async function getProductById(productId: number) {
   return await productRepository.findById(productId)
 }
@@ -51,15 +59,15 @@ export async function getCartItemsWithProductsByCartId(cartId: number) {
 
 export async function addItemToCart({
   cartId,
-  productId,
+  variantId,
   quantity
 }: {
   cartId: number,
-  productId: number,
+  variantId: number,
   quantity: number
 }) {
 
-  await cartItemRepository.addToCart(cartId, productId, quantity)
+  await cartItemRepository.addToCart(cartId, variantId, quantity)
   revalidatePath("/", "layout")
   return { success: true }
 }

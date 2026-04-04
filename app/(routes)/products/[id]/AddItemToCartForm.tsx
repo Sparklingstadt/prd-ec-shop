@@ -5,18 +5,19 @@ import QuantityStepper from "./QuantityStepper"
 import { addItemToCart } from "@/app/actions/actions"
 import { useState } from "react"
 
-type AddItemToCartFormProps = {
-  cartId: number
-  productId: number
-}
-
 const quantity = 1
 
-export default function AddItemToCartForm({ cartId, productId }: AddItemToCartFormProps) {
+export default function AddItemToCartForm({
+  cartId,
+  variantId
+}: {
+  cartId: number,
+  variantId: number
+}) {
   const [message, setMessesage] = useState("")
 
   const handleClick = async () => {
-    const res = await addItemToCart({ cartId, productId, quantity})
+    const res = await addItemToCart({ cartId, variantId, quantity})
     if(res?.success) setMessesage("カートに追加しました！")
   }
 

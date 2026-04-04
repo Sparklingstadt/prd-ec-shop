@@ -1,8 +1,8 @@
-import { getProducts } from "@/app/actions/actions"
+import { getProducts, getProductsWithVariants } from "@/app/actions/actions"
 import ProductList from "./ProductList"
 
 export default async function Page(){
-  const products = await getProducts()
+  const products = await getProductsWithVariants()
 
   return (
     <div>

@@ -11,16 +11,16 @@ export const cartItemRepository = {
     return await prisma.cartItem.findMany({
       where: { cartId },
       include: {
-        product: true
+        variant: true
       }
     })
   },
-  async addToCart(cartId: number, productId: number, quantity: number) {
+  async addToCart(cartId: number, variantId: number, quantity: number) {
     return await prisma.cartItem.upsert({
       where: {
-        cartId_productId: {
+        cartId_variantId: {
           cartId,
-          productId
+          variantId
         }
       },
       update: {
@@ -28,27 +28,27 @@ export const cartItemRepository = {
       },
       create: {
         cartId,
-        productId,
+        variantId,
         quantity
       }
     })
   },
-  async removeCartItem(cartId: number, productId: number) {
+  async removeCartItem(cartId: number, variantId: number) {
     await prisma.cartItem.delete({
       where: {
-        cartId_productId: {
+        cartId_variantId: {
           cartId,
-          productId
+          variantId
         }
       }
     })    
   },
-  async incrementQuantity(cartId: number, productId: number) {
+  async incrementQuantity(cartId: number, variantId: number) {
     await prisma.cartItem.update({
       where: {
-        cartId_productId: {
+        cartId_variantId: {
           cartId,
-          productId
+          variantId
         }
       },
       data: {
@@ -56,12 +56,12 @@ export const cartItemRepository = {
       }
     })
   },
-  async decrementQuantity(cartId: number, productId: number) {
+  async decrementQuantity(cartId: number, variantId: number) {
       await prisma.cartItem.update({
         where: {
-          cartId_productId: {
+          cartId_variantId: {
             cartId,
-            productId
+            variantId
           }
         },
         data: {

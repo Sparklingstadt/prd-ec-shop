@@ -1,8 +1,6 @@
 "use server"
-
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export default async function checkoutService(userId: number) {
   const result =  await prisma.$transaction(async tx => {
@@ -10,7 +8,7 @@ export default async function checkoutService(userId: number) {
       where: { userId },
       include: {
         items: {
-          include: { product: true }
+          include: { variant: true }
         }
       }
     })
@@ -25,13 +23,15 @@ export default async function checkoutService(userId: number) {
         paymentStatus: "支払い済み",
         shippingStatus: "発送済み",
         shippingPrice: 1000,
-        totalPrice: cart.items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0),
+        totalPrice: cart.items.reduce((acc, item) => acc + (item.variant.price * item.quantity), 0),
         orderItems: {
           create: cart.items.map(item => ({
-            productId: item.productId,
+            variant: {
+              connect: { id: item.variantId }
+            },
             quantity: item.quantity,
-            productName: item.product.name,
-            productPrice: item.product.price
+            variantName: item.variant.name,
+            priceAtPurchase: item.variant.price
           }))
         }
       }
