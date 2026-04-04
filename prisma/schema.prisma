@@ -26,6 +26,7 @@ model Product {
   category String?
   description String
   variants Variant[]
+  thumbnailImageUrl String
 }
 
 model Variant {
