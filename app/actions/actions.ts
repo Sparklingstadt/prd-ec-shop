@@ -50,7 +50,7 @@ export async function getCartItemsWithProductsByCartId(cartId: number) {
   return cartItemsWithProducts
 }
 
-export async function addItemToCart({
+export async function addItemToCartAction({
   cartId,
   productId,
   quantity
@@ -60,23 +60,7 @@ export async function addItemToCart({
   quantity: number
 }) {
 
-  await prisma.cartItem.upsert({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    update: {
-      quantity
-    },
-    create: {
-      cartId,
-      productId,
-      quantity
-    }
-  })
-
+  await cartItemRepository.addToCart(cartId, productId, quantity)
   revalidatePath("/", "layout")
   return { success: true }
 }
