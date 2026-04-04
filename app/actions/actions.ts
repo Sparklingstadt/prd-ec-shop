@@ -1,5 +1,4 @@
 "use server"
-import { prisma } from "@/lib/prisma"
 import { cartItemRepository } from "@/repositories/cartItemRepository"
 import { cartRepository } from "@/repositories/cartRepository"
 import { orderItemRepository } from "@/repositories/orderItemRepository"
@@ -90,18 +89,7 @@ export async function incrementCartItemQuantity({
   cartId: number
   productId: number
 }){
-  await prisma.cartItem.update({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    data: {
-      quantity: { increment: 1 }
-    }
-  })
-
+  await cartItemRepository.incrementQuantity(cartId, productId)
   revalidatePath("/cart")
 }
 
@@ -112,18 +100,7 @@ export async function decrementCartItemQuantity({
   cartId: number
   productId: number
 }){
-  await prisma.cartItem.update({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    data: {
-      quantity: { decrement: 1}
-    }
-  })
-
+  await cartItemRepository.decrementQuantity(cartId, productId)
   revalidatePath("/cart")
 }
 

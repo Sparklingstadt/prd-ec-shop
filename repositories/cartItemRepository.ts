@@ -1,3 +1,4 @@
+import { decrementCartItemQuantity, incrementCartItemQuantity } from "@/app/actions/actions"
 import { prisma } from "@/lib/prisma"
 
 export const cartItemRepository = {
@@ -41,5 +42,32 @@ export const cartItemRepository = {
         }
       }
     })    
+  },
+  async incrementQuantity(cartId: number, productId: number) {
+    await prisma.cartItem.update({
+      where: {
+        cartId_productId: {
+          cartId,
+          productId
+        }
+      },
+      data: {
+        quantity: { increment: 1 }
+      }
+    })
+  },
+  async decrementQuantity(cartId: number, productId: number) {
+      await prisma.cartItem.update({
+        where: {
+          cartId_productId: {
+            cartId,
+            productId
+          }
+        },
+        data: {
+          quantity: { decrement: 1 }
+        }
+      })
+    
   }
 }
