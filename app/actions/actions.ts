@@ -49,7 +49,7 @@ export async function getCartItemsWithProductsByCartId(cartId: number) {
   return cartItemsWithProducts
 }
 
-export async function addItemToCartAction({
+export async function addItemToCart({
   cartId,
   productId,
   quantity
