@@ -52,8 +52,8 @@ export async function getCartItemsByCartId(cartId: number) {
   return cartItems
 }
 
-export async function getCartItemsWithProductsByCartId(cartId: number) {
-  const cartItemsWithProducts = await cartItemRepository.findWithProductsByCartId(cartId)
+export async function getCartItemsWithVariantsByCartId(cartId: number) {
+  const cartItemsWithProducts = await cartItemRepository.findWithVariantsByCartId(cartId)
   return cartItemsWithProducts
 }
 

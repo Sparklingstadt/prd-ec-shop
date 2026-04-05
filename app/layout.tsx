@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { getCartByUserId, getCartItemsWithProductsByCartId } from "./actions/actions";
+import { getCartByUserId, getCartItemsWithVariantsByCartId } from "./actions/actions";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -19,7 +19,7 @@ export default async function RootLayout({
   if(userId){
     const cart = await getCartByUserId(parseInt(userId))
     if(!cart) throw new Error("Cart not found")
-    const cartItems = await getCartItemsWithProductsByCartId(cart.id)
+    const cartItems = await getCartItemsWithVariantsByCartId(cart.id)
     cartItemCountText = `(${cartItems.length})`
   }
   

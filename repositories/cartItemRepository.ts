@@ -7,7 +7,7 @@ export const cartItemRepository = {
       where: { cartId }
     })
   },
-  async findWithProductsByCartId(cartId: number) {
+  async findWithVariantsByCartId(cartId: number) {
     return await prisma.cartItem.findMany({
       where: { cartId },
       include: {
