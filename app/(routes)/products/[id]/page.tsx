@@ -9,7 +9,6 @@ export default async function Page({ params }: {
   const id = parseInt((await params).id)
   const product = await getProductWithVariantsById(id)
   if(!product) throw new Error("Product not found")
-
   const userId = await requireUserId()
   
   return (
