@@ -15,7 +15,15 @@ export const cartItemRepository = {
       }
     })
   },
-  async addToCart(cartId: number, variantId: number, quantity: number) {
+  async addToCart({
+    cartId,
+    variantId,
+    quantity
+  }: {
+    cartId: number,
+    variantId: number,
+    quantity: number
+  }) {
     return await prisma.cartItem.upsert({
       where: {
         cartId_variantId: {

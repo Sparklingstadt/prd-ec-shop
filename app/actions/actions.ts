@@ -5,6 +5,7 @@ import { orderItemRepository } from "@/repositories/orderItemRepository"
 import { orderRepository } from "@/repositories/orderRepository"
 import { productRepository } from "@/repositories/productRepository"
 import { userRepository } from "@/repositories/userRepository"
+import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
@@ -57,17 +58,12 @@ export async function getCartItemsWithVariantsByCartId(cartId: number) {
   return cartItemsWithProducts
 }
 
-export async function addItemToCart({
-  cartId,
-  variantId,
-  quantity
-}: {
-  cartId: number,
-  variantId: number,
-  quantity: number
-}) {
-
-  await cartItemRepository.addToCart(cartId, variantId, quantity)
+export async function addItemToCartAction(prevState: any, formData: FormData) {
+  const cartId = Number(formData.get("variantId"))
+  const variantId = Number(formData.get("variantId"))
+  const quantity = Number(formData.get("quantity"))
+  
+  await addItemToCart({ cartId, variantId, quantity })
   revalidatePath("/", "layout")
   return { success: true }
 }
