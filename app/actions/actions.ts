@@ -1,11 +1,11 @@
 "use server"
-import { prisma } from "@/lib/prisma"
 import { cartItemRepository } from "@/repositories/cartItemRepository"
 import { cartRepository } from "@/repositories/cartRepository"
 import { orderItemRepository } from "@/repositories/orderItemRepository"
 import { orderRepository } from "@/repositories/orderRepository"
 import { productRepository } from "@/repositories/productRepository"
 import { userRepository } from "@/repositories/userRepository"
+import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
@@ -15,6 +15,14 @@ export async function getUsers() {
 
 export async function getProducts() {
   return await productRepository.findMany()
+}
+
+export async function getProductsWithVariants() {
+  return await productRepository.findManyWithVariants()
+}
+
+export async function getProductWithVariantsById(productId: number) {
+  return await productRepository.findWithVariantsById(productId)
 }
 
 export async function getProductById(productId: number) {
@@ -45,38 +53,17 @@ export async function getCartItemsByCartId(cartId: number) {
   return cartItems
 }
 
-export async function getCartItemsWithProductsByCartId(cartId: number) {
-  const cartItemsWithProducts = await cartItemRepository.findWithProductsByCartId(cartId)
+export async function getCartItemsWithVariantsByCartId(cartId: number) {
+  const cartItemsWithProducts = await cartItemRepository.findWithVariantsByCartId(cartId)
   return cartItemsWithProducts
 }
 
-export async function addItemToCart({
-  cartId,
-  productId,
-  quantity
-}: {
-  cartId: number,
-  productId: number,
-  quantity: number
-}) {
-
-  await prisma.cartItem.upsert({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    update: {
-      quantity
-    },
-    create: {
-      cartId,
-      productId,
-      quantity
-    }
-  })
-
+export async function addItemToCartAction(prevState: any, formData: FormData) {
+  const cartId = Number(formData.get("variantId"))
+  const variantId = Number(formData.get("variantId"))
+  const quantity = Number(formData.get("quantity"))
+  
+  await addItemToCart({ cartId, variantId, quantity })
   revalidatePath("/", "layout")
   return { success: true }
 }
@@ -85,15 +72,7 @@ export async function removeCartItem({ cartId, productId }: {
   cartId: number
   productId: number
 }) {
-  await prisma.cartItem.delete({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    }
-  })
-
+  await cartItemRepository.removeCartItem(cartId, productId)
   revalidatePath("/", "layout")
   return { success: true }
 }
@@ -114,18 +93,7 @@ export async function incrementCartItemQuantity({
   cartId: number
   productId: number
 }){
-  await prisma.cartItem.update({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    data: {
-      quantity: { increment: 1 }
-    }
-  })
-
+  await cartItemRepository.incrementQuantity(cartId, productId)
   revalidatePath("/cart")
 }
 
@@ -136,18 +104,7 @@ export async function decrementCartItemQuantity({
   cartId: number
   productId: number
 }){
-  await prisma.cartItem.update({
-    where: {
-      cartId_productId: {
-        cartId,
-        productId
-      }
-    },
-    data: {
-      quantity: { decrement: 1}
-    }
-  })
-
+  await cartItemRepository.decrementQuantity(cartId, productId)
   revalidatePath("/cart")
 }
 

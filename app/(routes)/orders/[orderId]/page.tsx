@@ -8,7 +8,7 @@ export default async function Page({
 }) {
   const { orderId } = await params
   const orderItems = await getOrderItemsByOrderId(parseInt(orderId))
-  const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.productPrice), 0)
+  const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0)
   const totalPrice = subTotalPrice + 1000
 
   return (
@@ -27,11 +27,11 @@ export default async function Page({
         </thead>
         <tbody>
           { orderItems.map(item => (
-            <tr key={item.productId} className="border-t border-gray-300 text-sm">
-              <td className="p-4">{item.productName}</td>
-              <td className="p-4 text-center">¥{item.productPrice}</td>
+            <tr key={item.variantId} className="border-t border-gray-300 text-sm">
+              <td className="p-4">{item.variantName}</td>
+              <td className="p-4 text-center">¥{item.priceAtPurchase}</td>
               <td className="p-4 text-center">{item.quantity}</td>
-              <td className="p-4 text-center">¥{item.quantity * item.productPrice}</td>
+              <td className="p-4 text-center">¥{item.quantity * item.priceAtPurchase}</td>
             </tr>
           ))}
         </tbody>

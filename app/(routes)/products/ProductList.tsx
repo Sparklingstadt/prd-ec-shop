@@ -1,27 +1,33 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Product } from "@/lib/types"
+import { Product, Variant } from "@/lib/types"
+import { use } from "react"
 
-export default function ProductList({ products }: {
-  products: Array<Product>
+export default function ProductList({ productsPromise }: {
+  productsPromise: Promise<(Product & { variants: Variant[] })[]>
 }){
+  const getProductStartingPrice = (productsWithVariants: (Product & { variants: Variant[] })) => {
+    return Math.min(...productsWithVariants.variants.map(v => v.price))
+  }
+
+  const products = use(productsPromise)
+
   return (
     <div className="grid grid-cols-3 gap-4">
       { products.map(product => {
         return (
           <Link href={"/products/" + product.id} key={product.id}>
             <div className="mb-8">
-              <Image src={product.imageUrl} alt="prd" width={400} height={200}/>
+              <Image src={product.thumbnailImageUrl} alt="prd" width={400} height={200}/>
               <div>
                 <p className=" text-sm underline">グッズ</p>
                 <p className="text-lg">{product.name}</p>
-                <p>¥{product.price}</p>
+                <p>¥{getProductStartingPrice(product)}</p>
               </div>
             </div>
           </Link>
         )
-      })
-      }
+      })}
     </div>
   )
 }

@@ -3,8 +3,16 @@ export type Product = {
   name: string,
   category: string | null,
   description: string,
+  thumbnailImageUrl: string,
+}
+
+export type Variant = {
+  id: number,
+  name: string,
+  productId: number,
   price: number,
-  imageUrl: string,
+  stock: number,
+  imageUrl: string
 }
 
 export type Result<T, E> =
