@@ -13,6 +13,7 @@ export default async function Page({ params }: {
   
   return (
     <div className="flex">
+      { product.variants.map(v => ( <div key={v.id}>{v.name}</div>))}
       <ProductImageView productWithVariant={product} />
       <div className="px-12">
         <h1 className="text-2xl mt-4 mb-2">{product.name}</h1>

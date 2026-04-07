@@ -59,10 +59,10 @@ export async function getCartItemsWithVariantsByCartId(cartId: number) {
 }
 
 export async function addItemToCartAction(prevState: any, formData: FormData) {
-  const cartId = Number(formData.get("variantId"))
+  const cartId = Number(formData.get("cartId"))
   const variantId = Number(formData.get("variantId"))
   const quantity = Number(formData.get("quantity"))
-  
+
   await addItemToCart({ cartId, variantId, quantity })
   revalidatePath("/", "layout")
   return { success: true }
@@ -86,25 +86,20 @@ export async function signOut() {
   revalidatePath("/", "layout")
 }
 
-export async function incrementCartItemQuantity({
-  cartId,
-  productId
-}: {
-  cartId: number
-  productId: number
-}){
-  await cartItemRepository.incrementQuantity(cartId, productId)
-  revalidatePath("/cart")
-}
+export async function updateCartItemQuantityAction(
+  _: any,
+  formData: FormData
+) {
+  const cartItemId = Number(formData.get("cartItemId"))
+  const type = formData.get("type")
 
-export async function decrementCartItemQuantity({
-  cartId,
-  productId
-}: {
-  cartId: number
-  productId: number
-}){
-  await cartItemRepository.decrementQuantity(cartId, productId)
-  revalidatePath("/cart")
-}
+  if (type === "increment") {
+    await cartItemRepository.incrementQuantity(cartItemId)
+  }
 
+  if (type === "decrement") {
+    await cartItemRepository.decrementQuantity(cartItemId)
+  }
+
+  return { success: true }
+}
