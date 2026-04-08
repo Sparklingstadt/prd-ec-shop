@@ -5,6 +5,7 @@ import { orderItemRepository } from "@/repositories/orderItemRepository"
 import { orderRepository } from "@/repositories/orderRepository"
 import { productRepository } from "@/repositories/productRepository"
 import { userRepository } from "@/repositories/userRepository"
+import { variantRepository } from "@/repositories/variantRepository"
 import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
@@ -21,12 +22,12 @@ export async function getProductsWithVariants() {
   return await productRepository.findManyWithVariants()
 }
 
-export async function getProductWithVariantsById(productId: number) {
-  return await productRepository.findWithVariantsById(productId)
-}
-
 export async function getProductById(productId: number) {
   return await productRepository.findById(productId)
+}
+
+export async function getVariantsByProductId(productId: number) {
+  return await await variantRepository.findManyWithProductId(productId)
 }
 
 export async function getUserByUserId(userId: number) {
