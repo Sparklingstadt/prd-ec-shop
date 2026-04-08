@@ -5,7 +5,7 @@ export function CartItemRow({ cartItem }: { cartItem: any }) {
 const [state, formAction, isPending] = useActionState(updateCartItemQuantityAction, null)
   return (
 <form action={formAction} className="flex justify-center">
-  <input type="hidden" name="cartItem" value={cartItem.id} />
+  <input type="hidden" name="cartItemId" value={cartItem.id} />
   <button
     type="submit"
     name="type"

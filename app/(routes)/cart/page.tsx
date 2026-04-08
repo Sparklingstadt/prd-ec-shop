@@ -17,7 +17,7 @@ export default async function Page(){
     <div>
       <Link href="/products" className="text-sm underline">商品一覧へ戻る</Link>
       <p className="text-2xl font-bold py-4">買い物かご</p>
-      <CartItemTable cart={cart} cartItems={cartItems} />
+      <CartItemTable cartItems={cartItems} />
       <CartSummary
         cartItems={cartItems}
         subTotalPrice={subTotalPrice}

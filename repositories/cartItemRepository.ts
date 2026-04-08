@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 
 export const cartItemRepository = {
   async findByCartId(cartId: number) {
@@ -57,6 +58,7 @@ export const cartItemRepository = {
         quantity: { increment: 1 }
       }
     })
+    revalidatePath("/")
   },
   async decrementQuantity(cartItemId: number) {
     await prisma.cartItem.update({
@@ -65,5 +67,6 @@ export const cartItemRepository = {
         quantity: { decrement: 1 }
       }
     })
+    revalidatePath("/")
   },
 }
