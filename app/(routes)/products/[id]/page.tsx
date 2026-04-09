@@ -1,6 +1,7 @@
-import { getProductById, getVariantsByProductId } from "@/app/actions/actions"
+import { getCartByUserId, getProductById, getVariantsByProductId } from "@/app/actions/actions"
 import ProductImageView from "./ProductImageView"
 import { ProductActions } from "./ProductActions"
+import { requireUserId } from "@/lib/auth"
 
 export default async function Page({ params }: { 
   params: Promise<{ id: string }>
@@ -9,6 +10,9 @@ export default async function Page({ params }: {
   const product = await getProductById(id)
   if(!product) throw new Error("Product not found")
   const variants = await getVariantsByProductId(product.id)
+  const userId = await requireUserId()
+  const cart = await getCartByUserId(userId)
+  if(!cart) throw new Error("Cart not found")
   
   return (
     <div className="flex">
@@ -21,7 +25,7 @@ export default async function Page({ params }: {
           <h2 className="text-xl">詳細情報</h2>
           <p>{product.description || "詳細情報の記入なし"}</p>
         </div>
-        <ProductActions variants={variants} />
+        <ProductActions cartId={cart.id} variants={variants} />
       </div>
     </div>
   )

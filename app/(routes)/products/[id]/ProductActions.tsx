@@ -2,8 +2,7 @@
 import AddItemToCartForm from "./AddItemToCartForm";
 import { useState } from "react";
 
-export function ProductActions({ variants }: { variants: any}) {
-  const productId = 1
+export function ProductActions({ cartId, variants }: { cartId: number, variants: any}) {
   const [variantId, setVariantId] = useState()
 
   return (
@@ -16,7 +15,7 @@ export function ProductActions({ variants }: { variants: any}) {
       >
         { variants.map((v: any) => <option key={v.id} value={v.id} >{v.name}</option> )}
       </select>
-      <AddItemToCartForm cartId={1} variantId={1} />
+      <AddItemToCartForm cartId={cartId} variantId={variants[0].id} />
     </div>
   )
 }
