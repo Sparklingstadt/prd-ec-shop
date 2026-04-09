@@ -4,7 +4,10 @@
 
 商品一覧・商品詳細・カート・注文履歴までをフルスタックで実装
 
-責務分離と保守性を意識した構成にしています
+単なる機能実装ではなく、**責務分離・保守性・拡張性を意識した設計**を目的として開発しました
+
+特に、Server Action / Service層 / Repository層の分離を行い、
+実務を想定したアーキテクチャ構成を意識しています
 
 ## デモ
 
@@ -27,24 +30,6 @@ URL: https://candy-rain-store.vercel.app
 - Service層でドメインロジック集約
 - Prismaのトランザクション設計
 
-# prd-ec-shop
-
-## 概要
-認証・カート管理・注文履歴機能を備えたシンプルなECサイトです。
-
-単なる機能実装ではなく、  
-**責務分離・保守性・拡張性を意識した設計**を目的として開発しました。
-
-特に、Server Action / Service層 / Repository層の分離を行い、
-実務を想定したアーキテクチャ構成を意識しています。
-
----
-
-## デモ
-URL: https://candy-rain-store.vercel.app
-
-※ テストアカウントがあればここに記載
-
 ---
 
 ## 技術スタック
@@ -56,8 +41,10 @@ URL: https://candy-rain-store.vercel.app
 - TailwindCSS v4
 
 ### 採用理由
-- App Router + Server Action によるサーバー主導設計の理解を深めるため
+- App Router + Server Actions によるサーバー主導設計の理解を深めるため
+- 型安全・実行時エラー予防のためTSを導入
 - Prismaによる型安全なDB操作
+- VercelやSupabaseのようなマネージドDB対応のためPostgresを採用
 - Service層分離によるロジックの明確化
 
 ---
@@ -82,8 +69,10 @@ URL: https://candy-rain-store.vercel.app
 ## こだわった点 / 工夫
 
 - Server Actionで直接DB操作を行わない構成
+  - repository経由での取得を厳守
 - Prismaトランザクションを用いた注文処理の整合性担保
 - revalidatePathの適切な使用によるUI整合性維持
+  - 商品のカート追加でカートのアイテム数表記が更新される
 
 ---
 
