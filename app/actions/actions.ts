@@ -5,6 +5,7 @@ import { orderItemRepository } from "@/repositories/orderItemRepository"
 import { orderRepository } from "@/repositories/orderRepository"
 import { productRepository } from "@/repositories/productRepository"
 import { userRepository } from "@/repositories/userRepository"
+import { variantRepository } from "@/repositories/variantRepository"
 import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
@@ -21,12 +22,12 @@ export async function getProductsWithVariants() {
   return await productRepository.findManyWithVariants()
 }
 
-export async function getProductWithVariantsById(productId: number) {
-  return await productRepository.findWithVariantsById(productId)
-}
-
 export async function getProductById(productId: number) {
   return await productRepository.findById(productId)
+}
+
+export async function getVariantsByProductId(productId: number) {
+  return await await variantRepository.findManyWithProductId(productId)
 }
 
 export async function getUserByUserId(userId: number) {
@@ -59,10 +60,10 @@ export async function getCartItemsWithVariantsByCartId(cartId: number) {
 }
 
 export async function addItemToCartAction(prevState: any, formData: FormData) {
-  const cartId = Number(formData.get("variantId"))
+  const cartId = Number(formData.get("cartId"))
   const variantId = Number(formData.get("variantId"))
   const quantity = Number(formData.get("quantity"))
-  
+
   await addItemToCart({ cartId, variantId, quantity })
   revalidatePath("/", "layout")
   return { success: true }
@@ -86,25 +87,20 @@ export async function signOut() {
   revalidatePath("/", "layout")
 }
 
-export async function incrementCartItemQuantity({
-  cartId,
-  productId
-}: {
-  cartId: number
-  productId: number
-}){
-  await cartItemRepository.incrementQuantity(cartId, productId)
-  revalidatePath("/cart")
-}
+export async function updateCartItemQuantityAction(
+  _: any,
+  formData: FormData
+) {
+  const cartItemId = Number(formData.get("cartItemId"))
+  const type = formData.get("type")
 
-export async function decrementCartItemQuantity({
-  cartId,
-  productId
-}: {
-  cartId: number
-  productId: number
-}){
-  await cartItemRepository.decrementQuantity(cartId, productId)
-  revalidatePath("/cart")
-}
+  if (type === "increment") {
+    await cartItemRepository.incrementQuantity(cartItemId)
+  }
 
+  if (type === "decrement") {
+    await cartItemRepository.decrementQuantity(cartItemId)
+  }
+
+  return { success: true }
+}
