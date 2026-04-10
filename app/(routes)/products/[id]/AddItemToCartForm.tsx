@@ -8,7 +8,7 @@ export default function AddItemToCartForm({
   variantId
 }: {
   cartId: number,
-  variantId: number
+  variantId: string
 }) {
   const [state, formAction, isPending] = useActionState(addItemToCartAction, null)
 
