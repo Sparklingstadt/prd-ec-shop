@@ -78,10 +78,6 @@ export async function removeCartItem({ cartId, productId }: {
   return { success: true }
 }
 
-export async function signIn(userId: number) {
-  (await cookies()).set("userId", String(userId))
-}
-
 export async function signOut() {
   (await cookies()).delete("userId")
   revalidatePath("/", "layout")
