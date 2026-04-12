@@ -20,7 +20,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let user = null
 
         if(credentials.email === "angelia@example.com") {
-          user = { email: credentials.email }
+          user = { id: "0", email: credentials.email }
         } else {
           throw new Error("user not found")
         }
@@ -32,6 +32,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async authorized({ auth }) {
       return !!auth
-    }
+    },
+    jwt({ token, user }) {
+      if (user) { // User is available during sign-in
+        token.id = user.id
+      }
+      return token
+    },
+    session({ session, token }) {
+      session.user.id = token.id
+      return session
+    },
   }
 })
