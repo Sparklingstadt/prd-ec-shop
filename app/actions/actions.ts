@@ -98,5 +98,6 @@ export async function updateCartItemQuantityAction(
     await cartItemRepository.decrementQuantity(cartItemId)
   }
 
+  revalidatePath("/", "layout")
   return { success: true }
 }
