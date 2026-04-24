@@ -1,13 +1,13 @@
 import { signIn } from "@/auth"
 
 export function SignInForm() {
+  const handleSignIn = async (formData: FormData) => {
+    "use server"
+    await signIn("credentials", formData)
+  }
+
   return (
-    <form
-      action={async (formData) => {
-        "use server"
-        await signIn("credentials", formData)
-      }}
-    >
+    <form action={handleSignIn}>
       <div>
         <label className="w-full flex justify-between mt-4">
           <span>Email</span>
