@@ -1,9 +1,9 @@
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export async function requireUserId(){
-  const userId = (await cookies()).get("userId")?.value
-  if(userId === undefined) redirect("/signin")
+  const session = await auth()
+  if(!session || !session.user || !session.user.id) redirect("/signin")
 
-  return parseInt(userId)
+  return parseInt(session.user.id)
 }
