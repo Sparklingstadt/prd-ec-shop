@@ -3,6 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { getCartByUserId, getCartItemsWithVariantsByCartId } from "./actions/actions";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -14,10 +15,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userId = (await cookies()).get("userId")?.value
+  const session = await auth()
   let cartItemCountText = ""
-  if(userId){
-    const cart = await getCartByUserId(parseInt(userId))
+  if(session?.user){
+    const cart = await getCartByUserId(parseInt(session.user.id))
     if(!cart) throw new Error("Cart not found")
     const cartItems = await getCartItemsWithVariantsByCartId(cart.id)
     cartItemCountText = `(${cartItems.length})`
