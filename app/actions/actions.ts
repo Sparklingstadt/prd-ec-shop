@@ -1,4 +1,5 @@
 "use server"
+import { signOut } from "@/auth"
 import { cartItemRepository } from "@/repositories/cartItemRepository"
 import { cartRepository } from "@/repositories/cartRepository"
 import { orderItemRepository } from "@/repositories/orderItemRepository"
@@ -8,7 +9,6 @@ import { userRepository } from "@/repositories/userRepository"
 import { variantRepository } from "@/repositories/variantRepository"
 import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
-import { cookies } from "next/headers"
 
 export async function getUsers() {
   return await userRepository.findMany()
@@ -78,8 +78,8 @@ export async function removeCartItem({ cartId, productId }: {
   return { success: true }
 }
 
-export async function signOut() {
-  (await cookies()).delete("userId")
+export async function signOutAction() {
+  await signOut()
   revalidatePath("/", "layout")
 }
 
