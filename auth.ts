@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize(credentials) {
         let user = null
 
-        if(credentials.email === "angelia@example.com") {
+        if(credentials.email === "taro.yamada@example.com") {
           user = { id: "0", email: credentials.email }
         } else {
           throw new Error("user not found")
