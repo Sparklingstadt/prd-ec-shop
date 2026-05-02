@@ -29,8 +29,8 @@ async function main() {
 
   await prisma.user.createMany({
     data: [
-      { id: 0, firstName: "Angelia", lastName: "Hoge" },
-      { id: 1, firstName: "Bill", lastName: "Foo" },
+      { id: 0, firstName: "Taro", lastName: "Yamada" },
+      { id: 1, firstName: "Hana", lastName: "Tanaka" },
     ],
     skipDuplicates: true
   })
