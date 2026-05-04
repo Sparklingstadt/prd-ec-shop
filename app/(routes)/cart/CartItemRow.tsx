@@ -1,4 +1,4 @@
-import { updateCartItemQuantityAction } from "@/app/actions/actions"
+import { updateCartItemQuantityAction } from "@/app/actions/updateCartItemQuantityAction"
 import { useActionState } from "react"
 
 export function CartItemRow({ cartItem }: { cartItem: any }) {

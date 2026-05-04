@@ -1,3 +1,4 @@
+"use server"
 import { addItemToCart } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 

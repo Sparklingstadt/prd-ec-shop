@@ -1,5 +1,5 @@
 "use client"
-import { addItemToCartAction } from "@/app/actions/actions"
+import { addItemToCartAction } from "@/app/actions/addItemToCartAction"
 import { useActionState, useState } from "react"
 
 

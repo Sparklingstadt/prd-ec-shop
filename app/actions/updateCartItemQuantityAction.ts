@@ -1,3 +1,4 @@
+"use server"
 import { cartItemRepository } from "@/repositories/cartItemRepository"
 import { revalidatePath } from "next/cache"
 
