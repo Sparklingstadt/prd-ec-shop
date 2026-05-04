@@ -1,9 +1,16 @@
 import { signIn } from "@/auth"
+import { redirect } from "next/navigation"
 
 export function SignInForm() {
   const handleSignIn = async (formData: FormData) => {
     "use server"
-    await signIn("credentials", formData)
+    const res = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false
+    })
+
+    redirect("/products")
   }
 
   return (
