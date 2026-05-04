@@ -16,18 +16,18 @@ export function SignInForm() {
   return (
     <form action={handleSignIn}>
       <div>
-        <label className="w-full flex justify-between mt-4">
-          <span>Email</span>
-          <input name="email" type="email" className="border p-2" placeholder="email@example.com" />
-        </label>
-      </div>
-      <div>
-        <label className="w-full flex justify-between mt-4">
-          <span>Password</span>
-          <input name="password" type="password" className="border p-2" placeholder="*****" />
+        <label>
+          <span className="block py-2">Email</span>
+          <input name="email" type="email" className="w-full border border-gray-400 rounded-sm px-2 py-1" />
         </label>
       </div>
       <div className="mt-4">
+        <label>
+          <span className="block py-2">Password</span>
+          <input name="password" type="password" className="w-full border border-gray-400 rounded-sm px-2 py-1" />
+        </label>
+      </div>
+      <div className="mt-8">
        <button className="w-full bg-slate-800 text-white px-4 py-2">Sign In</button>
       </div>
     </form>
