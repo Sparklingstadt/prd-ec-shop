@@ -68,6 +68,8 @@ export async function removeCartItem({ cartId, productId }: {
 }
 
 export async function signOutAction() {
-  await signOut()
+  await signOut({
+    redirect: false,
+  })
   revalidatePath("/", "layout")
 }
