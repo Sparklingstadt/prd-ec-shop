@@ -10,6 +10,7 @@ export default async function Page({ params }: {
   const product = await getProductById(id)
   if(!product) throw new Error("Product not found")
   const variants = await getVariantsByProductId(product.id)
+  const minPrice = Math.min(...variants.map(v => v.price))
   const userId = await requireUserId()
   const cart = await getCartByUserId(userId)
   if(!cart) throw new Error("Cart not found")
@@ -19,7 +20,7 @@ export default async function Page({ params }: {
       <ProductImageView productId={product.id} />
       <div className="px-12">
         <h1 className="text-2xl mt-4 mb-2">{product.name}</h1>
-        <h2 className="text-xl">¥NaN</h2>
+        <h2 className="text-xl">¥{minPrice}</h2>
         <p className="py-2">カテゴリー：{product.category || "カテゴリー指定なし"}</p>
         <div className="my-4 py-2">
           <h2 className="text-xl">詳細情報</h2>
