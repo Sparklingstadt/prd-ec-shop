@@ -25,6 +25,7 @@ URL: https://candy-rain-store.vercel.app
 * Prisma ORM
 * PostgreSQL
 * Tailwind CSS
+* Auth.js
 * Playwright
 
 ## アーキテクチャ設計
