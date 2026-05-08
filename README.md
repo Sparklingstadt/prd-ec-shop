@@ -1,4 +1,4 @@
-Candy Rain Store / prd-ec-shop
+# Candy Rain Store / prd-ec-shop
 
 ECストアのデモWebアプリです。
 
@@ -12,15 +12,13 @@ ECストアのデモWebアプリです。
 具体的には、Server Action / Service層 / Repository層を分離し、
 変更に強い構成を実現しました。
 
-⸻
 
-デモ
+
+## デモ
 
 URL: https://candy-rain-store.vercel.app
 
-⸻
-
-技術スタック
+## 技術スタック
 
 * Next.js v16
 * TypeScript
@@ -29,37 +27,31 @@ URL: https://candy-rain-store.vercel.app
 * Tailwind CSS
 * Playwright
 
-⸻
+## アーキテクチャ設計
 
-アーキテクチャ設計
-
-レイヤー構成
+### レイヤー構成
 
 * UI（Server / Client Component）
 * Server Action（入力受付・DTO変換）
 * Service層（ビジネスロジック）
 * Repository層（DBアクセス）
 
-設計方針
+## 設計方針
 
 * Server Actionでは例外処理を行わず、Service層で制御
 * Repositoryは純粋なDBアクセスのみに限定
 * ビジネスロジックはService層に集約
 
-⸻
-
-こだわった点 / 工夫
+## こだわった点 / 工夫
 
 * Server Actionから直接DB操作を行わない構成
     * DBアクセスはRepository層に限定
 * Prismaのトランザクションを用いた注文処理の整合性担保
 * revalidatePath を適切に使用し、カート追加時のUI整合性を維持
 
-⸻
+## 苦労した点と解決
 
-苦労した点と解決
-
-RSCとClient Componentの責務分離
+### RSCとClient Componentの責務分離
 
 初期実装ではデータ取得・状態管理・UIロジックが混在していました。
 
@@ -67,9 +59,9 @@ Server Componentでデータ取得を行い、
 Client Componentには状態管理のみを担当させる構成へ整理することで、
 可読性と保守性を向上させました。
 
-⸻
 
-今後の改善点
+
+## 今後の改善点
 
 * テストコードの拡充
 * CIの整備
