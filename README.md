@@ -1,70 +1,77 @@
-## Candy Rain Stoer / prd-ec-shop
+Candy Rain Store / prd-ec-shop
 
-シンプルなECサイトです
+ECストアのデモWebアプリです。
 
-商品一覧・商品詳細・カート・注文履歴までをフルスタックで実装
+バックエンド学習の成果として、
+商品一覧・商品詳細・カート・注文履歴機能までをフルスタックで設計・実装しました。
 
-単なる機能実装ではなく、**責務分離・保守性・拡張性を意識した設計**を目的として開発しました
+単なる機能実装にとどまらず、
+責務分離・保守性・拡張性を意識したアーキテクチャ設計を行い、
+将来的な機能追加・改修・バグ修正を容易にする構成を目指しています。
 
-特に、Server Action / Service層 / Repository層の分離を行い、
-実務を想定したアーキテクチャ構成を意識しています
+具体的には、Server Action / Service層 / Repository層を分離し、
+変更に強い構成を実現しました。
 
-## デモ
+⸻
+
+デモ
 
 URL: https://candy-rain-store.vercel.app
 
-## 技術スタック
+⸻
 
-- Next.js v16 (App Router)
-- TypeScript v5
-- Prisma
-- PostgreSQL
-- TailwindCSS v4
+技術スタック
 
-### 採用理由
-- App Router + Server Actions によるサーバー主導設計の理解を深めるため
-- 型安全・実行時エラー予防のためTSを導入
-- Prismaによる型安全なDB操作
-- VercelやSupabaseのようなマネージドDB対応のためPostgresを採用
-- Service層分離によるロジックの明確化
+* Next.js v16
+* TypeScript
+* Prisma ORM
+* PostgreSQL
+* Tailwind CSS
+* Playwright
 
-## アーキテクチャ設計
+⸻
 
-### レイヤー構成
+アーキテクチャ設計
 
-- UI (Server / Client Component)
-- Server Action（入力受付のみ）
-- Service層（ビジネスロジック）
-- Repository層（DBアクセス）
+レイヤー構成
 
-### 設計方針
+* UI（Server / Client Component）
+* Server Action（入力受付・DTO変換）
+* Service層（ビジネスロジック）
+* Repository層（DBアクセス）
 
-- Server Actionでは例外を投げず、Service層で制御
-- Repositoryは純粋なDBアクセスのみに限定
-- ビジネスロジックはServiceに集約
+設計方針
 
-## こだわった点 / 工夫
+* Server Actionでは例外処理を行わず、Service層で制御
+* Repositoryは純粋なDBアクセスのみに限定
+* ビジネスロジックはService層に集約
 
-- Server Actionで直接DB操作を行わない構成
-  - repository経由での取得を厳守
-- Prismaトランザクションを用いた注文処理の整合性担保
-- revalidatePathの適切な使用によるUI整合性維持
-  - 商品のカート追加でカートのアイテム数表記が更新される
+⸻
 
-## 苦労した点と解決
+こだわった点 / 工夫
 
-### RSCとClient Componentの責務分離
+* Server Actionから直接DB操作を行わない構成
+    * DBアクセスはRepository層に限定
+* Prismaのトランザクションを用いた注文処理の整合性担保
+* revalidatePath を適切に使用し、カート追加時のUI整合性を維持
+
+⸻
+
+苦労した点と解決
+
+RSCとClient Componentの責務分離
+
+初期実装ではデータ取得・状態管理・UIロジックが混在していました。
 
 Server Componentでデータ取得を行い、
-Client Componentには状態管理のみを担当させる構成へ整理しました。
+Client Componentには状態管理のみを担当させる構成へ整理することで、
+可読性と保守性を向上させました。
 
-初期はロジックが混在していましたが、
-責務を明確に分離することで可読性と保守性を向上させました。
+⸻
 
-## 今後の改善点
+今後の改善点
 
-- 認証の導入
-- テストコード導入
-- CI/CD整備
-- テーブルコンポーネントの共通化
-- UIコンポーネントのさらなる抽象化
+* テストコードの拡充
+* CIの整備
+* UIコンポーネントのさらなる抽象化
+* shadcn/uiの導入
