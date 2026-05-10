@@ -13,7 +13,8 @@ export function ProductActions({ cartId, variants }: { cartId: number, variants:
           <div
             key={v.id}
             className="items-center border-gray-400 border rounded-sm px-4 py-4 mb-2 text-sm flex justify-between"
-            style={{ borderColor: "blue" }}
+            style={ variantId === v.id ? { borderColor: "blue" } : {}}
+            onClick={() => setVariantId(v.id)}
           >
             <span>{ v.name }</span>
             <div className="flex items-center">
