@@ -12,10 +12,14 @@ export function ProductActions({ cartId, variants }: { cartId: number, variants:
         { variants.map((v: any) => (
           <div
             key={v.id}
-            className="border-gray-400 border rounded-sm px-4 py-4 mb-2 text-sm flex justify-between"
+            className="items-center border-gray-400 border rounded-sm px-4 py-4 mb-2 text-sm flex justify-between"
+            style={{ borderColor: "blue" }}
           >
             <span>{ v.name }</span>
-            <span className="mr-4">¥{ v.price }</span>
+            <div className="flex items-center">
+              <span className="text-lg mr-2">¥{ v.price }</span>
+              <span className="text-sm">(税込)</span>
+            </div>
           </div>
         ))}
       </div>
