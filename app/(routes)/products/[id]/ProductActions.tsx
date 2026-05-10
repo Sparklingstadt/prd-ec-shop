@@ -7,18 +7,18 @@ export function ProductActions({ cartId, variants }: { cartId: number, variants:
 
   return (
     <div>
-      <p>選択：</p>
-      <select
-        name="variantId"
-        id="variantId"
-        className="border px-4 py-2 mb-4"
-        value={variantId}
-        onChange={ e  => setVariantId(e.target.value)}
-      >
+      <p className="mb-4">選択：</p>
+      <div className="mb-8">
         { variants.map((v: any) => (
-          <option key={v.id} value={v.id} >{v.name}</option>
+          <div
+            key={v.id}
+            className="border-gray-400 border rounded-sm px-4 py-4 mb-2 text-sm flex justify-between"
+          >
+            <span>{ v.name }</span>
+            <span className="mr-4">¥{ v.price }</span>
+          </div>
         ))}
-      </select>
+      </div>
       <AddItemToCartForm cartId={cartId} variantId={variantId} />
     </div>
   )

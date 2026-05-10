@@ -16,9 +16,9 @@ export default async function Page({ params }: {
   if(!cart) throw new Error("Cart not found")
   
   return (
-    <div className="flex">
+    <div>
       <ProductImageView productId={product.id} />
-      <div className="px-12">
+      <div>
         <h1 className="text-2xl mt-4 mb-2">{product.name}</h1>
         <h2 className="text-xl">¥{minPrice}</h2>
         <p className="py-2">カテゴリー：{product.category || "カテゴリー指定なし"}</p>
