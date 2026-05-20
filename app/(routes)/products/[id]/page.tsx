@@ -16,17 +16,19 @@ export default async function Page({ params }: {
   if(!cart) throw new Error("Cart not found")
   
   return (
-    <div className="flex">
+    <div className="flex justify-between">
       <ProductImageView productId={product.id} />
-      <div className="px-12">
-        <h1 className="text-2xl mt-4 mb-2">{product.name}</h1>
-        <h2 className="text-xl">¥{minPrice}</h2>
-        <p className="py-2">カテゴリー：{product.category || "カテゴリー指定なし"}</p>
-        <div className="my-4 py-2">
-          <h2 className="text-xl">詳細情報</h2>
-          <p>{product.description || "詳細情報の記入なし"}</p>
+      <div className="w-1/4">
+        <div className="w-3/4 mx-auto">
+          <h1 className="text-2xl mt-4 mb-2">{product.name}</h1>
+          <h2 className="text-xl">¥{minPrice}</h2>
+          <p className="py-2">カテゴリー：{product.category || "カテゴリー指定なし"}</p>
+          <div className="my-4 py-2">
+            <h2 className="text-xl">詳細情報</h2>
+            <p>{product.description || "詳細情報の記入なし"}</p>
+          </div>
+          <ProductActions cartId={cart.id} variants={variants} />
         </div>
-        <ProductActions cartId={cart.id} variants={variants} />
       </div>
     </div>
   )
