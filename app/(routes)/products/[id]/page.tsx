@@ -2,12 +2,14 @@ import { getCartByUserId, getProductById, getVariantsByProductId } from "@/app/a
 import ProductImageView from "./ProductImageView"
 import { ProductActions } from "./ProductActions"
 import { requireUserId } from "@/lib/auth"
+import { ProductRepository } from "@/repositories/implementations/productRepository"
 
 export default async function Page({ params }: { 
   params: Promise<{ id: string }>
 }) {
-  const id = parseInt((await params).id)
-  const product = await getProductById(id)
+  const productId = parseInt((await params).id)
+  const repo = new ProductRepository()
+  const product = await getProductById(repo, productId)
   if(!product) throw new Error("Product not found")
   const variants = await getVariantsByProductId(product.id)
   const minPrice = Math.min(...variants.map(v => v.price))

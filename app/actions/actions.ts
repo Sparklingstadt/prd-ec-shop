@@ -4,27 +4,24 @@ import { cartItemRepository } from "@/repositories/implementations/cartItemRepos
 import { cartRepository } from "@/repositories/implementations/cartRepository"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { orderRepository } from "@/repositories/implementations/orderRepository"
-import { ProductRepository } from "@/repositories/implementations/productRepository"
 import { userRepository } from "@/repositories/implementations/userRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
+import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
 import { revalidatePath } from "next/cache"
 
 export async function getUsers() {
   return await userRepository.findMany()
 }
 
-export async function getProducts() {
-  const repo = new ProductRepository()
+export async function getProducts(repo: IProductRepository) {
   return await repo.findMany()
 }
 
-export async function getProductsWithVariants() {
-  const repo = new ProductRepository()
+export async function getProductsWithVariants(repo: IProductRepository) {
   return await repo.findManyWithVariants()
 }
 
-export async function getProductById(productId: number) {
-  const repo = new ProductRepository()
+export async function getProductById(repo: IProductRepository, productId: number) {
   return await repo.findById(productId)
 }
 
