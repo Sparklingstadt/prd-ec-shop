@@ -1,12 +1,12 @@
 "use server"
 import { signOut } from "@/auth"
-import { cartItemRepository } from "@/repositories/cartItemRepository"
-import { cartRepository } from "@/repositories/cartRepository"
-import { orderItemRepository } from "@/repositories/orderItemRepository"
-import { orderRepository } from "@/repositories/orderRepository"
-import { productRepository } from "@/repositories/productRepository"
-import { userRepository } from "@/repositories/userRepository"
-import { variantRepository } from "@/repositories/variantRepository"
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
+import { cartRepository } from "@/repositories/implementations/cartRepository"
+import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
+import { orderRepository } from "@/repositories/implementations/orderRepository"
+import { ProductRepository } from "@/repositories/implementations/productRepository"
+import { userRepository } from "@/repositories/implementations/userRepository"
+import { variantRepository } from "@/repositories/implementations/variantRepository"
 import { revalidatePath } from "next/cache"
 
 export async function getUsers() {
@@ -14,15 +14,18 @@ export async function getUsers() {
 }
 
 export async function getProducts() {
-  return await productRepository.findMany()
+  const repo = new ProductRepository()
+  return await repo.findMany()
 }
 
 export async function getProductsWithVariants() {
-  return await productRepository.findManyWithVariants()
+  const repo = new ProductRepository()
+  return await repo.findManyWithVariants()
 }
 
 export async function getProductById(productId: number) {
-  return await productRepository.findById(productId)
+  const repo = new ProductRepository()
+  return await repo.findById(productId)
 }
 
 export async function getVariantsByProductId(productId: number) {

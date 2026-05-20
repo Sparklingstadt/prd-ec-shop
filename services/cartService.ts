@@ -1,5 +1,5 @@
 "use server"
-import { cartItemRepository } from "@/repositories/cartItemRepository"
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
 
 export async function addItemToCart({
   cartId, variantId, quantity
