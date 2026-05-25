@@ -1,8 +1,10 @@
 import { getProductById, getVariantsByProductId } from "@/app/actions/actions"
+import { ProductRepository } from "@/repositories/implementations/productRepository"
 import Image from "next/image"
 
 export default async function ProductImageView({ productId }: { productId: number}) {
-  const product = await getProductById(productId)
+  const repo = new ProductRepository()
+  const product = await getProductById(repo, productId)
   if(!product) throw new Error("Product not found")
   const variants = await getVariantsByProductId(productId)
 
