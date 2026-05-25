@@ -1,5 +1,5 @@
 "use server"
-import { cartItemRepository } from "@/repositories/cartItemRepository"
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
 import { revalidatePath } from "next/cache"
 
 export async function updateCartItemQuantityAction(
