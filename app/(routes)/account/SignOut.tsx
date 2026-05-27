@@ -4,7 +4,7 @@ import { signOutAction } from "@/app/actions/actions"
 
 export default function SignOut() {
   const handleSignOut = async () => {
-    signOutAction()
+    await signOutAction()
   }
 
   return (
