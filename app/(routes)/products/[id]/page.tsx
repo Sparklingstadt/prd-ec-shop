@@ -3,6 +3,7 @@ import ProductImageView from "./ProductImageView"
 import { ProductActions } from "./ProductActions"
 import { requireUserId } from "@/lib/auth"
 import { ProductRepository } from "@/repositories/implementations/productRepository"
+import { cartRepository } from "@/repositories/implementations/cartRepository"
 
 export default async function Page({ params }: { 
   params: Promise<{ id: string }>
@@ -14,7 +15,8 @@ export default async function Page({ params }: {
   const variants = await getVariantsByProductId(product.id)
   const minPrice = Math.min(...variants.map(v => v.price))
   const userId = await requireUserId()
-  const cart = await getCartByUserId(userId)
+  const cartRepo = new cartRepository()
+  const cart = await getCartByUserId(cartRepo, userId)
   if(!cart) throw new Error("Cart not found")
   
   return (

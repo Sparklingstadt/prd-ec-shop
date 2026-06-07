@@ -6,6 +6,7 @@ import { orderItemRepository } from "@/repositories/implementations/orderItemRep
 import { userRepository } from "@/repositories/implementations/userRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
 import { ICartItemRepository } from "@/repositories/interfaces/ICartItemRepository"
+import { ICartRepository } from "@/repositories/interfaces/ICartRepository"
 import { IOrderRepository } from "@/repositories/interfaces/IOrderRepository"
 import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
 import { revalidatePath } from "next/cache"
@@ -44,8 +45,8 @@ export async function getOrderItemsByOrderId(orderId: number) {
   return orderItems
 }
 
-export async function getCartByUserId(userId: number) {
-  const cart = await cartRepository.findByUserId(userId)
+export async function getCartByUserId(repo: ICartRepository, userId: number) {
+  const cart = await repo.findByUserId(userId)
   return cart
 }
 
