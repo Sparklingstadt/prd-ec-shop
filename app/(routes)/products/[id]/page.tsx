@@ -4,6 +4,7 @@ import { ProductActions } from "./ProductActions"
 import { requireUserId } from "@/lib/auth"
 import { ProductRepository } from "@/repositories/implementations/productRepository"
 import { cartRepository } from "@/repositories/implementations/cartRepository"
+import { variantRepository } from "@/repositories/implementations/variantRepository"
 
 export default async function Page({ params }: { 
   params: Promise<{ id: string }>
@@ -12,7 +13,8 @@ export default async function Page({ params }: {
   const repo = new ProductRepository()
   const product = await getProductById(repo, productId)
   if(!product) throw new Error("Product not found")
-  const variants = await getVariantsByProductId(product.id)
+  const variantRepo = new variantRepository()
+  const variants = await getVariantsByProductId(variantRepo, product.id)
   const minPrice = Math.min(...variants.map(v => v.price))
   const userId = await requireUserId()
   const cartRepo = new cartRepository()

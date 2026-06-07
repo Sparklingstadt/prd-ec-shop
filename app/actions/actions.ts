@@ -11,6 +11,7 @@ import { IOrderItemRepository } from "@/repositories/interfaces/IOrderItemReposi
 import { IOrderRepository } from "@/repositories/interfaces/IOrderRepository"
 import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
 import { IUserRepository } from "@/repositories/interfaces/IUserRepository"
+import { IVariantRepository } from "@/repositories/interfaces/IVariantRepository"
 import { revalidatePath } from "next/cache"
 
 export async function getUsers() {
@@ -29,8 +30,8 @@ export async function getProductById(repo: IProductRepository, productId: number
   return await repo.findById(productId)
 }
 
-export async function getVariantsByProductId(productId: number) {
-  return await await variantRepository.findManyWithProductId(productId)
+export async function getVariantsByProductId(repo: IVariantRepository, productId: number) {
+  return await repo.findManyByProductId(productId)
 }
 
 export async function getUserByUserId(repo: IUserRepository, userId: number) {

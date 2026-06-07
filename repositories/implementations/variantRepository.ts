@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma"
+import { IVariantRepository } from "../interfaces/IVariantRepository"
 
-export const variantRepository = {
-  async findManyWithProductId(productId: number) {
+export class variantRepository implements IVariantRepository {
+  async findManyByProductId(productId: number) {
     return await prisma.variant.findMany({where: { productId }})
   }
 }
