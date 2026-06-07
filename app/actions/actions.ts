@@ -14,8 +14,8 @@ import { IUserRepository } from "@/repositories/interfaces/IUserRepository"
 import { IVariantRepository } from "@/repositories/interfaces/IVariantRepository"
 import { revalidatePath } from "next/cache"
 
-export async function getUsers() {
-  return await userRepository.findMany()
+export async function getUsers(repo: IUserRepository) {
+  return await repo.findMany()
 }
 
 export async function getProducts(repo: IProductRepository) {
