@@ -1,4 +1,4 @@
-import { getProducts, getProductsWithVariants } from "@/app/actions/actions"
+import { getProductsWithVariants } from "@/app/actions/actions"
 import ProductList from "./ProductList"
 import { Suspense } from "react"
 import { ProductRepository } from "@/repositories/implementations/productRepository"

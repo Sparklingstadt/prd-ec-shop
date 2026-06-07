@@ -5,6 +5,7 @@ import { cartRepository } from "@/repositories/implementations/cartRepository"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { userRepository } from "@/repositories/implementations/userRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
+import { ICartItemRepository } from "@/repositories/interfaces/ICartItemRepository"
 import { IOrderRepository } from "@/repositories/interfaces/IOrderRepository"
 import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
 import { revalidatePath } from "next/cache"
@@ -48,13 +49,13 @@ export async function getCartByUserId(userId: number) {
   return cart
 }
 
-export async function getCartItemsByCartId(cartId: number) {
-  const cartItems = await cartItemRepository.findByCartId(cartId)
+export async function getCartItemsByCartId(repo: ICartItemRepository,cartId: number) {
+  const cartItems = await repo.findManyByCartId(cartId)
   return cartItems
 }
 
-export async function getCartItemsWithVariantsByCartId(cartId: number) {
-  const cartItemsWithProducts = await cartItemRepository.findWithVariantsByCartId(cartId)
+export async function getCartItemsWithVariantsByCartId(repo: ICartItemRepository, cartId: number) {
+  const cartItemsWithProducts = await repo.findManyWithVariantsByCartId(cartId)
   return cartItemsWithProducts
 }
 
@@ -62,7 +63,8 @@ export async function removeCartItem({ cartId, productId }: {
   cartId: number
   productId: number
 }) {
-  await cartItemRepository.removeCartItem(cartId, productId)
+  const repo = new cartItemRepository()
+  await repo.removeCartItem(cartId, productId)
   revalidatePath("/", "layout")
   return { success: true }
 }
