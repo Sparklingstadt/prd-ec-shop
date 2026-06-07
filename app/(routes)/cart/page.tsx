@@ -4,14 +4,16 @@ import PlaceOrderButton from "./PlaceOrderButton"
 import { requireUserId } from "@/lib/auth"
 import { getCartByUserId, getCartItemsWithVariantsByCartId } from "@/app/actions/actions"
 import { CartSummary } from "./CartSummary"
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
 
 export default async function Page(){
   const userId = await requireUserId()
   const cart = await getCartByUserId(userId)
   if(!cart) throw new Error("Cart not found")
-  const cartItems = await getCartItemsWithVariantsByCartId(cart.id)
+  const repo = new cartItemRepository()
+  const cartItems = await getCartItemsWithVariantsByCartId(repo, cart.id)
   const subTotalPrice = cartItems.reduce((acc, item) => acc + (item.quantity * item.variant.price), 0)
-  const totalPrice = subTotalPrice + 1000 + 300
+  const totalPrice = subTotalPrice + 1000
 
   return (
     <div>

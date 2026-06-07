@@ -1,6 +1,7 @@
 "use client"
 import { removeCartItem } from "@/app/actions/actions"
 import { CartItemRow } from "./CartItemRow"
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
 
 export default function CartItemTable({ cartItems }: { cartItems: any }) {
   const handleRemoveCartItem = async (cartId: number, productId: number) => {
