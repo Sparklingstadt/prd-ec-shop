@@ -60,7 +60,6 @@ export async function getCartItemsWithVariantsByCartId(repo: ICartItemRepository
 }
 
 export async function removeCartItem({ cartId, productId }: {
-  repo: ICartItemRepository,
   cartId: number
   productId: number
 }) {
