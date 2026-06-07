@@ -1,4 +1,5 @@
 import { getOrderItemsByOrderId } from "@/app/actions/actions"
+import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import Link from "next/link"
 
 export default async function Page({
@@ -7,7 +8,8 @@ export default async function Page({
   params: Promise<{'orderId': string}>
 }) {
   const { orderId } = await params
-  const orderItems = await getOrderItemsByOrderId(parseInt(orderId))
+  const orderItemRepo = new orderItemRepository()
+  const orderItems = await getOrderItemsByOrderId(orderItemRepo, parseInt(orderId))
   const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0)
   const totalPrice = subTotalPrice + 1000
 

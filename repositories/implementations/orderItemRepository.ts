@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma"
+import { IOrderItemRepository } from "../interfaces/IOrderItemRepository"
 
-export const orderItemRepository = {
-  async findByOrderId(orderId: number) {
+export class orderItemRepository implements IOrderItemRepository {
+  async findManyByOrderId(orderId: number) {
     return await prisma.orderItem.findMany({
       where: { orderId }
     })
