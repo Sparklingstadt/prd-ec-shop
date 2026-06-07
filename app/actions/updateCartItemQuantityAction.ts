@@ -8,13 +8,13 @@ export async function updateCartItemQuantityAction(
 ) {
   const cartItemId = Number(formData.get("cartItemId"))
   const type = formData.get("type")
-
+  const repo = new cartItemRepository()
   if (type === "increment") {
-    await cartItemRepository.incrementQuantity(cartItemId)
+    await repo.incrementQuantity(cartItemId)
   }
 
   if (type === "decrement") {
-    await cartItemRepository.decrementQuantity(cartItemId)
+    await repo.decrementQuantity(cartItemId)
   }
 
   revalidatePath("/", "layout")

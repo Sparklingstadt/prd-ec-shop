@@ -4,6 +4,8 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { getCartByUserId, getCartItemsWithVariantsByCartId } from "./actions/actions";
 import { auth } from "@/auth";
+import { cartItemRepository } from "@/repositories/implementations/cartItemRepository";
+import { cartRepository } from "@/repositories/implementations/cartRepository";
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -18,9 +20,11 @@ export default async function RootLayout({
   const session = await auth()
   let cartItemCountText = ""
   if(session?.user){
-    const cart = await getCartByUserId(parseInt(session.user.id))
+    const cartRepo = new cartRepository()
+    const cart = await getCartByUserId(cartRepo, parseInt(session.user.id))
     if(!cart) throw new Error("Cart not found")
-    const cartItems = await getCartItemsWithVariantsByCartId(cart.id)
+    const repo = new cartItemRepository()
+    const cartItems = await repo.findManyByCartId(cart.id)
     cartItemCountText = `(${cartItems.length})`
   }
   

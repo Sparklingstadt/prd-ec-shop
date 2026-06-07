@@ -1,20 +1,21 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { ICartItemRepository } from "../interfaces/ICartItemRepository"
 
-export const cartItemRepository = {
-  async findByCartId(cartId: number) {
+export class cartItemRepository implements ICartItemRepository {
+  async findManyByCartId(cartId: number) {
     return await prisma.cartItem.findMany({
       where: { cartId }
     })
-  },
-  async findWithVariantsByCartId(cartId: number) {
+  }
+  async findManyWithVariantsByCartId(cartId: number) {
     return await prisma.cartItem.findMany({
       where: { cartId },
       include: {
         variant: true
       }
     })
-  },
+  }
   async addToCart({
     cartId,
     variantId,
@@ -40,7 +41,7 @@ export const cartItemRepository = {
         quantity
       }
     })
-  },
+  }
   async removeCartItem(cartId: number, variantId: number) {
     await prisma.cartItem.delete({
       where: {
@@ -50,7 +51,7 @@ export const cartItemRepository = {
         }
       }
     })    
-  },
+  }
   async incrementQuantity(cartItemId: number) {
     await prisma.cartItem.update({
       where: { id: cartItemId },
@@ -59,7 +60,7 @@ export const cartItemRepository = {
       }
     })
     revalidatePath("/")
-  },
+  }
   async decrementQuantity(cartItemId: number) {
     await prisma.cartItem.update({
       where: { id: cartItemId },
@@ -68,5 +69,5 @@ export const cartItemRepository = {
       }
     })
     revalidatePath("/")
-  },
+  }
 }

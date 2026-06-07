@@ -8,5 +8,6 @@ export async function addItemToCart({
   variantId: number
   quantity: number
 }) {
-  await cartItemRepository.addToCart({ cartId, variantId, quantity })
+  const repo = new cartItemRepository()
+  await repo.addToCart({ cartId, variantId, quantity })
 }

@@ -5,12 +5,17 @@ import { cartRepository } from "@/repositories/implementations/cartRepository"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { userRepository } from "@/repositories/implementations/userRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
+import { ICartItemRepository } from "@/repositories/interfaces/ICartItemRepository"
+import { ICartRepository } from "@/repositories/interfaces/ICartRepository"
+import { IOrderItemRepository } from "@/repositories/interfaces/IOrderItemRepository"
 import { IOrderRepository } from "@/repositories/interfaces/IOrderRepository"
 import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
+import { IUserRepository } from "@/repositories/interfaces/IUserRepository"
+import { IVariantRepository } from "@/repositories/interfaces/IVariantRepository"
 import { revalidatePath } from "next/cache"
 
-export async function getUsers() {
-  return await userRepository.findMany()
+export async function getUsers(repo: IUserRepository) {
+  return await repo.findMany()
 }
 
 export async function getProducts(repo: IProductRepository) {
@@ -25,36 +30,36 @@ export async function getProductById(repo: IProductRepository, productId: number
   return await repo.findById(productId)
 }
 
-export async function getVariantsByProductId(productId: number) {
-  return await await variantRepository.findManyWithProductId(productId)
+export async function getVariantsByProductId(repo: IVariantRepository, productId: number) {
+  return await repo.findManyByProductId(productId)
 }
 
-export async function getUserByUserId(userId: number) {
-  return await userRepository.findByuserId(userId)
+export async function getUserByUserId(repo: IUserRepository, userId: number) {
+  return await repo.findByUserId(userId)
 }
 
 export async function getOrders(repo: IOrderRepository, userId: number) {
-  const orders = await repo.findByUserId(userId)
+  const orders = await repo.findManyByUserId(userId)
   return orders
 }
 
-export async function getOrderItemsByOrderId(orderId: number) {
-  const orderItems = await orderItemRepository.findByOrderId(orderId)
+export async function getOrderItemsByOrderId(repo: IOrderItemRepository,orderId: number) {
+  const orderItems = await repo.findManyByOrderId(orderId)
   return orderItems
 }
 
-export async function getCartByUserId(userId: number) {
-  const cart = await cartRepository.findByUserId(userId)
+export async function getCartByUserId(repo: ICartRepository, userId: number) {
+  const cart = await repo.findByUserId(userId)
   return cart
 }
 
-export async function getCartItemsByCartId(cartId: number) {
-  const cartItems = await cartItemRepository.findByCartId(cartId)
+export async function getCartItemsByCartId(repo: ICartItemRepository,cartId: number) {
+  const cartItems = await repo.findManyByCartId(cartId)
   return cartItems
 }
 
-export async function getCartItemsWithVariantsByCartId(cartId: number) {
-  const cartItemsWithProducts = await cartItemRepository.findWithVariantsByCartId(cartId)
+export async function getCartItemsWithVariantsByCartId(repo: ICartItemRepository, cartId: number) {
+  const cartItemsWithProducts = await repo.findManyWithVariantsByCartId(cartId)
   return cartItemsWithProducts
 }
 
@@ -62,7 +67,8 @@ export async function removeCartItem({ cartId, productId }: {
   cartId: number
   productId: number
 }) {
-  await cartItemRepository.removeCartItem(cartId, productId)
+  const repo = new cartItemRepository()
+  await repo.removeCartItem(cartId, productId)
   revalidatePath("/", "layout")
   return { success: true }
 }

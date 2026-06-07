@@ -3,12 +3,14 @@ import SignOut from "./SignOut";
 import { requireUserId } from "@/lib/auth";
 import { getOrders, getUserByUserId } from "@/app/actions/actions";
 import { OrderRepository } from "@/repositories/implementations/orderRepository";
+import { userRepository } from "@/repositories/implementations/userRepository";
 
 export default async function Page() {
   const userId = await requireUserId()
   const repo = new OrderRepository()
   const orders = await getOrders(repo, userId)
-  const user = await getUserByUserId(userId)
+  const userRepo = new userRepository()
+  const user = await getUserByUserId(userRepo, userId)
 
   return (
     <div>
