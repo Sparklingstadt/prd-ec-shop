@@ -2,10 +2,12 @@ import Link from "next/link";
 import SignOut from "./SignOut";
 import { requireUserId } from "@/lib/auth";
 import { getOrders, getUserByUserId } from "@/app/actions/actions";
+import { OrderRepository } from "@/repositories/implementations/orderRepository";
 
 export default async function Page() {
   const userId = await requireUserId()
-  const orders = await getOrders(userId)
+  const repo = new OrderRepository()
+  const orders = await getOrders(repo, userId)
   const user = await getUserByUserId(userId)
 
   return (

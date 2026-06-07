@@ -3,9 +3,9 @@ import { signOut } from "@/auth"
 import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
 import { cartRepository } from "@/repositories/implementations/cartRepository"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
-import { orderRepository } from "@/repositories/implementations/orderRepository"
 import { userRepository } from "@/repositories/implementations/userRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
+import { IOrderRepository } from "@/repositories/interfaces/IOrderRepository"
 import { IProductRepository } from "@/repositories/interfaces/IProductRepository"
 import { revalidatePath } from "next/cache"
 
@@ -33,8 +33,8 @@ export async function getUserByUserId(userId: number) {
   return await userRepository.findByuserId(userId)
 }
 
-export async function getOrders(userId: number) {
-  const orders = await orderRepository.findByUserId(userId)
+export async function getOrders(repo: IOrderRepository, userId: number) {
+  const orders = await repo.findByUserId(userId)
   return orders
 }
 
