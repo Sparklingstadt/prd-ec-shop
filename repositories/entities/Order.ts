@@ -26,7 +26,7 @@ export class Order {
     if(!orderedAt) {
       throw new Error("orderedAt is required!")
     }
-    if(!userId) {
+    if(userId === undefined) {
       throw new Error("userId is required!")
     }
   }
