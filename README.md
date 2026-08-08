@@ -65,6 +65,8 @@ npm run dev
 
 `npm run dev`はPostgreSQLコンテナが起動済みであることを確認してからNext.jsを起動します。DBだけを操作する場合は次のコマンドを使用します。
 
+起動前に`npm run env:check`が`.env`のDocker DB接続先と`AUTH_SECRET`を検証します。エラーになった場合は`.env.example`を基準に設定を更新してください。
+
 ```bash
 npm run db:start  # PostgreSQLを起動してhealthcheckを待つ
 npm run db:logs   # PostgreSQLのログを表示
@@ -79,11 +81,21 @@ openssl rand -base64 32
 
 通常のアプリビルドはDB更新を行いません。ローカルDBへmigrationとseedをまとめて適用する場合は`npm run db:setup`を使用します。デプロイ先のDBへmigrationを適用する場合は、対象の`DATABASE_URL`を確認したうえで`npm run db:migrate`を明示的に実行します。
 
+## 品質チェック
+
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
+現在はNode.js Test Runnerとtsxを利用し、注文合計計算の単体テストを実装しています。
+
 ## 今後の改善候補
 
 - Service層とRepository層の責務整理
-- ESLint設定と既存エラーの整理
-- Jestによる単体テスト
+- 単体・統合テストの対象拡大
 - PlaywrightによるE2Eテスト
 - GitHub ActionsによるCI
 - 入力バリデーションと認証・認可の強化
