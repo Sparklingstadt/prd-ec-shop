@@ -43,6 +43,11 @@ async function main() {
     ],
     skipDuplicates: true
   })
+
+  await prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('"Product"', 'id'), COALESCE(MAX(id), 1)) FROM "Product"`
+  await prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('"Variant"', 'id'), COALESCE(MAX(id), 1)) FROM "Variant"`
+  await prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('"User"', 'id'), COALESCE(MAX(id), 1)) FROM "User"`
+  await prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('"Cart"', 'id'), COALESCE(MAX(id), 1)) FROM "Cart"`
 }
 
 main()
