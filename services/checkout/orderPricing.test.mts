@@ -14,3 +14,9 @@ test("送料を含めた注文合計を計算する", () => {
 test("商品がない場合は送料だけを返す", () => {
   assert.equal(calculateOrderTotal([], 1000), 1000)
 })
+
+test("送料無料の場合は商品小計を返す", () => {
+  const items = [{ quantity: 3, variant: { price: 500 } }]
+
+  assert.equal(calculateOrderTotal(items, 0), 1500)
+})

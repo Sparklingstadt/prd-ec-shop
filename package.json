@@ -13,7 +13,7 @@
     "db:seed": "prisma db seed",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test services/checkout/orderPricing.test.mts",
+    "test": "tsx --test services/checkout/orderPricing.test.mts repositories/entities/entities.test.mts",
     "env:check": "node scripts/check-docker-env.mjs"
   },
   "dependencies": {
