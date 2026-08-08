@@ -92,13 +92,12 @@ npx tsc --noEmit
 npm run build
 ```
 
-現在はNode.js Test Runnerとtsxを利用し、注文合計計算の単体テストを実装しています。
+Node.js Test Runnerとtsxを利用し、注文合計計算と主要Entityの単体テストを実装しています。main・devへのpushとPull RequestではGitHub Actionsが品質チェックを自動実行します。
 
 ## 今後の改善候補
 
 - Service層とRepository層の責務整理
 - 単体・統合テストの対象拡大
 - PlaywrightによるE2Eテスト
-- GitHub ActionsによるCI
 - 入力バリデーションと認証・認可の強化
 - 有限在庫を扱う場合の在庫管理
