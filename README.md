@@ -87,13 +87,14 @@ openssl rand -base64 32
 
 ```bash
 npm test
+npm run test:integration
 npm run test:e2e
 npm run lint
 npx tsc --noEmit
 npm run build
 ```
 
-Node.js Test Runnerとtsxによる単体テストに加え、Playwrightによるサインインから購入完了までのE2Eテストを実装しています。E2Eテストの前にDocker PostgreSQLへmigrationとseedを適用してください。main・devへのpushとPull RequestではGitHub ActionsがPostgreSQLを起動し、品質チェックとE2Eテストを自動実行します。
+Node.js Test Runnerとtsxによる単体・DB統合テストに加え、Playwrightによるサインインから購入完了までのE2Eテストを実装しています。統合・E2Eテストの前にDocker PostgreSQLへmigrationとseedを適用してください。main・devへのpushとPull RequestではGitHub ActionsがPostgreSQLを起動し、品質チェック、統合テスト、E2Eテストを自動実行します。
 
 ## 今後の改善候補
 
