@@ -62,6 +62,7 @@ jobs:
       - run: npm install --global npm@11.6.2
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - run: npx prisma generate
       - run: npm run db:migrate
       - run: npm run db:seed
       - run: npm run test:e2e
