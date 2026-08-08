@@ -61,7 +61,7 @@ npm run db:setup
 npm run dev
 ```
 
-以前のHomebrew PostgreSQL設定を使っていた場合は、既存の`.env`にある`DATABASE_URL`も`.env.example`と同じDocker用の接続先（ポート`5433`）へ更新してください。ホスト側の`5433`を使用するため、Homebrew PostgreSQLが標準ポート`5432`で動作していても競合しません。
+以前の設定を使っていた場合は、既存の`.env`にある`DATABASE_URL`も`.env.example`と同じDocker用の接続先（ポート`5432`）へ更新してください。ポート競合を避けるため、Homebrewなどで起動しているローカルPostgreSQLは停止してください。
 
 `npm run dev`はPostgreSQLコンテナが起動済みであることを確認してからNext.jsを起動します。DBだけを操作する場合は次のコマンドを使用します。
 
