@@ -1,5 +1,6 @@
-import { getOrderItemsByOrderId } from "@/app/actions/actions"
+import { getOrderByOrderId, getOrderItemsByOrderId } from "@/app/actions/actions"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
+import { OrderRepository } from "@/repositories/implementations/orderRepository"
 import Link from "next/link"
 
 export default async function Page({
@@ -8,8 +9,12 @@ export default async function Page({
   params: Promise<{'orderId': string}>
 }) {
   const { orderId } = await params
+  const parsedOrderId = parseInt(orderId)
+  const orderRepo = new OrderRepository()
+  const order = await getOrderByOrderId(orderRepo, parsedOrderId)
+  if (!order) throw new Error("Order not found")
   const orderItemRepo = new orderItemRepository()
-  const orderItems = await getOrderItemsByOrderId(orderItemRepo, parseInt(orderId))
+  const orderItems = await getOrderItemsByOrderId(orderItemRepo, parsedOrderId)
   const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0)
   const totalPrice = subTotalPrice + 1000
 
@@ -17,7 +22,7 @@ export default async function Page({
     <div>
       <Link href="/orders" className="text-sm underline">注文一覧へ戻る</Link>
       <p className="text-2xl font-bold py-4">Order #{orderId}</p>
-      <p className="py-4">{new Date().toLocaleString()}</p>
+      <p className="py-4">{order.orderedAt.toLocaleString()}</p>
       <table className="w-full border border-gray-300">
         <thead>
           <tr>

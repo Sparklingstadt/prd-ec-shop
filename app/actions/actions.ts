@@ -39,6 +39,10 @@ export async function getOrders(repo: IOrderRepository, userId: number) {
   return orders
 }
 
+export async function getOrderByOrderId(repo: IOrderRepository, orderId: number) {
+  return await repo.findByOrderId(orderId)
+}
+
 export async function getOrderItemsByOrderId(repo: IOrderItemRepository,orderId: number) {
   const orderItems = await repo.findManyByOrderId(orderId)
   return orderItems
