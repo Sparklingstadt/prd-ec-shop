@@ -1,15 +1,16 @@
 "use client"
 import AddItemToCartForm from "./AddItemToCartForm";
 import { useState } from "react";
+import { Variant } from "@/lib/types";
 
-export function ProductActions({ cartId, variants }: { cartId: number, variants: any}) {
+export function ProductActions({ cartId, variants }: { cartId: number, variants: Variant[]}) {
   const [variantId, setVariantId] = useState(variants[0].id)
 
   return (
     <div>
       <p className="mb-4">選択：</p>
       <div className="mb-8">
-        { variants.map((v: any) => (
+        { variants.map(v => (
           <div
             key={v.id}
             className="items-center border-gray-400 border rounded-sm px-4 py-4 mb-2 text-sm flex justify-between"
