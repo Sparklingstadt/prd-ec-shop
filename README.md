@@ -1,70 +1,61 @@
 # Candy Rain Store / prd-ec-shop
 
-ECストアのデモWebアプリです。
+ECストアの基本的な購入フローを実装したデモWebアプリです。
 
-バックエンド学習の成果として、
-商品一覧・商品詳細・カート・注文履歴機能までをフルスタックで設計・実装しました。
-
-単なる機能実装にとどまらず、
-責務分離・保守性・拡張性を意識したアーキテクチャ設計を行い、
-将来的な機能追加・改修・バグ修正を容易にする構成を目指しています。
-
-具体的には、Server Action / Service層 / Repository層を分離し、
-変更に強い構成を実現しました。
-
-
+バックエンド開発の学習を目的として、商品一覧・商品詳細・カート・購入・注文履歴をフルスタックで設計・実装しています。正常系の機能実装と責務分離を優先しており、入力バリデーションや厳密な認証、有限在庫の管理は将来の拡張対象です。
 
 ## デモ
 
-URL: https://candy-rain-store.vercel.app
+https://candy-rain-store.vercel.app
+
+デモアカウントの入力内容はサインイン画面に記載しています。
+
+## 実装済みの機能
+
+- Credentialsを利用したデモ用サインイン・サインアウト
+- 商品一覧・商品詳細・商品バリエーション表示
+- カートへの追加・数量変更・削除
+- Prismaトランザクションを利用した注文処理
+- 注文履歴・注文詳細の表示
+- Vercelへのデプロイ
 
 ## 技術スタック
 
-* Next.js v16
-* TypeScript
-* Prisma ORM
-* PostgreSQL
-* Tailwind CSS
-* Auth.js
-* Playwright
+- Next.js 16 / React 19
+- TypeScript
+- Prisma ORM 7
+- PostgreSQL
+- Tailwind CSS 4
+- Auth.js 5 beta
 
-## アーキテクチャ設計
+## アーキテクチャ
 
-### レイヤー構成
+次のレイヤー分離を目標に、段階的にリファクタリングしています。
 
-* UI（Server / Client Component）
-* Server Action（入力受付・DTO変換）
-* Service層（ビジネスロジック）
-* Repository層（DBアクセス）
+- UI（Server Component / Client Component）
+- Server Action（入力受付・UI更新）
+- Service層（ビジネスロジック）
+- Repository層（DBアクセス）
 
-## 設計方針
+注文作成とカート削除は同じトランザクション内で処理し、購入時の商品名と価格を注文データに保存しています。
 
-* Server Actionでは例外処理を行わず、Service層で制御
-* Repositoryは純粋なDBアクセスのみに限定
-* ビジネスロジックはService層に集約
+## 開発上の前提
 
-## こだわった点 / 工夫
+本プロジェクトは学習用デモのため、常に正常な操作が行われるケースを中心に実装しています。
 
-* Server Actionから直接DB操作を行わない構成
-    * DBアクセスはRepository層に限定
-* Prismaのトランザクションを用いた注文処理の整合性担保
-* revalidatePath を適切に使用し、カート追加時のUI整合性を維持
+- 入力バリデーションは未実装
+- 認証はデモ用に簡略化
+- 在庫は無限として扱い、注文時の在庫確認・減算は行わない
+- Docker構成は現在利用しておらず、ローカルではHomebrewのPostgreSQLを利用
 
-## 苦労した点と解決
+これらは実運用を想定する場合の追加課題です。
 
-### RSCとClient Componentの責務分離
+## 今後の改善候補
 
-初期実装ではデータ取得・状態管理・UIロジックが混在していました。
-
-Server Componentでデータ取得を行い、
-Client Componentには状態管理のみを担当させる構成へ整理することで、
-可読性と保守性を向上させました。
-
-
-
-## 今後の改善点
-
-* テストコードの拡充
-* CIの整備
-* UIコンポーネントのさらなる抽象化
-* shadcn/uiの導入
+- Service層とRepository層の責務整理
+- ESLint設定と既存エラーの整理
+- Jestによる単体テスト
+- PlaywrightによるE2Eテスト
+- GitHub ActionsによるCI
+- 入力バリデーションと認証・認可の強化
+- 有限在庫を扱う場合の在庫管理
