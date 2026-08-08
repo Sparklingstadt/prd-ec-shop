@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run db:start && next dev",
+    "dev": "npm run env:check && npm run db:start && next dev",
     "build": "prisma generate && next build",
     "db:start": "docker compose up -d --wait db",
     "db:stop": "docker compose down",
     "db:logs": "docker compose logs -f db",
-    "db:setup": "npm run db:start && npm run db:migrate && npm run db:seed",
+    "db:setup": "npm run env:check && npm run db:start && npm run db:migrate && npm run db:seed",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test services/checkout/orderPricing.test.mts"
+    "test": "tsx --test services/checkout/orderPricing.test.mts",
+    "env:check": "node scripts/check-docker-env.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
