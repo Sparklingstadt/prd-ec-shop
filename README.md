@@ -81,6 +81,8 @@ openssl rand -base64 32
 
 通常のアプリビルドはDB更新を行いません。ローカルDBへmigrationとseedをまとめて適用する場合は`npm run db:setup`を使用します。デプロイ先のDBへmigrationを適用する場合は、対象の`DATABASE_URL`を確認したうえで`npm run db:migrate`を明示的に実行します。
 
+本番DBのmigrationはGitHub Actionsの「Migrate production database」を手動実行します。GitHubの`production` Environmentに`DATABASE_URL` secretを登録し、必要に応じてEnvironmentの承認ルールを設定してください。
+
 ## 品質チェック
 
 ```bash
