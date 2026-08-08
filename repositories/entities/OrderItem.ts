@@ -7,14 +7,14 @@ export class OrderItem {
     public readonly priceAtPurchase: number,
     public readonly quantity: number,
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
-    if(!orderId) {
-      throw new Error("orderId is required!")
+    if(orderId < 0) {
+      throw new Error("orderId must be non-negative!")
     }
-    if(!variantId) {
-      throw new Error("variantId is required!")
+    if(variantId < 0) {
+      throw new Error("variantId must be non-negative!")
     }
     if(!variantName) {
       throw new Error("varintName is required!")

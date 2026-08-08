@@ -4,8 +4,8 @@ export class User {
     public readonly firstName: string,
     public readonly lastName: string
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
     if(!firstName) {
       throw new Error("firstName is required!")
