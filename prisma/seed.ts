@@ -24,7 +24,8 @@ async function main() {
       { id: 7, name: "タペストリー B", productId: 3, price: 4500, stock: 50, imageUrl: "/products/Rectangle 4.png" },
       { id: 8, name: "オリジナル TEE A", productId: 4, price: 6500, stock: 50, imageUrl: "/products/Rectangle 3.png" },
       { id: 9, name: "オリジナル TEE B", productId: 4, price: 6500, stock: 50, imageUrl: "/products/Rectangle 4.png" },
-    ]
+    ],
+    skipDuplicates: true
   })
 
   await prisma.user.createMany({
@@ -45,5 +46,8 @@ async function main() {
 }
 
 main()
-  .catch(e => console.error(e))
+  .catch(e => {
+    console.error(e)
+    process.exitCode = 1
+  })
   .finally(async () => await prisma.$disconnect())
