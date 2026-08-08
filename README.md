@@ -46,7 +46,7 @@ https://candy-rain-store.vercel.app
 - 入力バリデーションは未実装
 - 認証はデモ用に簡略化
 - 在庫は無限として扱い、注文時の在庫確認・減算は行わない
-- Docker構成は現在利用しておらず、ローカルではHomebrewのPostgreSQLを利用
+- ローカルではHomebrewのPostgreSQLを利用
 
 これらは実運用を想定する場合の追加課題です。
 
