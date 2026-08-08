@@ -1,0 +1,16 @@
+import assert from "node:assert/strict"
+import test from "node:test"
+import { calculateOrderTotal } from "./orderPricing"
+
+test("送料を含めた注文合計を計算する", () => {
+  const items = [
+    { quantity: 2, variant: { price: 500 } },
+    { quantity: 1, variant: { price: 800 } },
+  ]
+
+  assert.equal(calculateOrderTotal(items, 1000), 2800)
+})
+
+test("商品がない場合は送料だけを返す", () => {
+  assert.equal(calculateOrderTotal([], 1000), 1000)
+})

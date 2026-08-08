@@ -1,6 +1,7 @@
 "use server"
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { calculateOrderTotal } from "./orderPricing";
 
 export default async function checkoutService(userId: number) {
   const shippingPrice = 1000
@@ -24,7 +25,7 @@ export default async function checkoutService(userId: number) {
         paymentStatus: "支払い済み",
         shippingStatus: "発送済み",
         shippingPrice,
-        totalPrice: cart.items.reduce((acc, item) => acc + (item.variant.price * item.quantity), shippingPrice),
+        totalPrice: calculateOrderTotal(cart.items, shippingPrice),
         orderItems: {
           create: cart.items.map(item => ({
             variant: {
