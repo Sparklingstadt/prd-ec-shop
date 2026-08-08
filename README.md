@@ -46,22 +46,29 @@ https://candy-rain-store.vercel.app
 - 入力バリデーションは未実装
 - 認証はデモ用に簡略化
 - 在庫は無限として扱い、注文時の在庫確認・減算は行わない
-- ローカルではHomebrewのPostgreSQLを利用
+- ローカル開発ではDocker ComposeのPostgreSQLを利用
 
 これらは実運用を想定する場合の追加課題です。
 
 ## ローカル開発
 
-Node.js、npm、HomebrewでインストールしたPostgreSQLを使用します。
+Node.js、npm、Docker Desktopを使用します。ローカル開発時のPostgreSQLはDocker Composeで起動するため、Dockerの起動が必須です。
 
 ```bash
-brew services start postgresql@18
-createdb candyrain
 cp .env.example .env
 npm install
-npm run db:migrate
-npm run db:seed
+npm run db:setup
 npm run dev
+```
+
+以前のHomebrew PostgreSQL設定を使っていた場合は、既存の`.env`にある`DATABASE_URL`も`.env.example`と同じDocker用の接続先（ポート`5433`）へ更新してください。ホスト側の`5433`を使用するため、Homebrew PostgreSQLが標準ポート`5432`で動作していても競合しません。
+
+`npm run dev`はPostgreSQLコンテナが起動済みであることを確認してからNext.jsを起動します。DBだけを操作する場合は次のコマンドを使用します。
+
+```bash
+npm run db:start  # PostgreSQLを起動してhealthcheckを待つ
+npm run db:logs   # PostgreSQLのログを表示
+npm run db:stop   # コンテナを停止（データはvolumeに保持）
 ```
 
 `AUTH_SECRET`は次のコマンドなどで生成した値へ置き換えてください。
@@ -70,7 +77,7 @@ npm run dev
 openssl rand -base64 32
 ```
 
-通常のアプリビルドはDB更新を行いません。デプロイ先のDBへmigrationを適用する場合は、対象の`DATABASE_URL`を確認したうえで`npm run db:migrate`を明示的に実行します。
+通常のアプリビルドはDB更新を行いません。ローカルDBへmigrationとseedをまとめて適用する場合は`npm run db:setup`を使用します。デプロイ先のDBへmigrationを適用する場合は、対象の`DATABASE_URL`を確認したうえで`npm run db:migrate`を明示的に実行します。
 
 ## 今後の改善候補
 
