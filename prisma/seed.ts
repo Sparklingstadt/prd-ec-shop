@@ -28,6 +28,11 @@ async function main() {
     skipDuplicates: true
   })
 
+  await prisma.variant.update({
+    where: { id: 5 },
+    data: { imageUrl: "/products/Rectangle 3.png" }
+  })
+
   await prisma.user.createMany({
     data: [
       { id: 0, firstName: "Taro", lastName: "Yamada" },
