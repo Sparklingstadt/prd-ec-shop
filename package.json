@@ -16,11 +16,11 @@
     "test": "tsx --test services/checkout/orderPricing.test.mts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.5.0",
-    "@prisma/client": "^7.8.0",
-    "next": "^16.2.7",
-    "next-auth": "^5.0.0-beta.30",
-    "pg": "^8.20.0",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "next": "^16.3.0",
+    "next-auth": "^5.0.0-beta.32",
+    "pg": "^8.22.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -31,8 +31,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "prisma": "^7.8.0",
+    "eslint-config-next": "^16.3.0",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.11",
     "typescript": "^5"
