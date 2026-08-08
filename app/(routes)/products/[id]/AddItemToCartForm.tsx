@@ -1,6 +1,6 @@
 "use client"
 import { addItemToCartAction } from "@/app/actions/addItemToCartAction"
-import { useActionState, useState } from "react"
+import { useActionState } from "react"
 
 
 export default function AddItemToCartForm({
@@ -8,9 +8,9 @@ export default function AddItemToCartForm({
   variantId
 }: {
   cartId: number,
-  variantId: string
+  variantId: number
 }) {
-  const [state, formAction, isPending] = useActionState(addItemToCartAction, null)
+  const [, formAction, isPending] = useActionState(addItemToCartAction, null)
 
   return (
     <form action={formAction}>

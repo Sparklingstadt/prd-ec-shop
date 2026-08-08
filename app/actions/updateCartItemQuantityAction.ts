@@ -3,7 +3,7 @@ import { updateCartItemQuantity } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 
 export async function updateCartItemQuantityAction(
-  _: any,
+  _prevState: unknown,
   formData: FormData
 ) {
   const cartItemId = Number(formData.get("cartItemId"))

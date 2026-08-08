@@ -15,6 +15,14 @@ export type Variant = {
   imageUrl: string
 }
 
+export type CartItemWithVariant = {
+  id: number,
+  cartId: number,
+  variantId: number,
+  quantity: number,
+  variant: Variant,
+}
+
 export type Result<T, E> =
   | { ok: true, data: T }
   | { ok: false, error: E }

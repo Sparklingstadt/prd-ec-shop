@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 export function SignInForm() {
   const handleSignIn = async (formData: FormData) => {
     "use server"
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false

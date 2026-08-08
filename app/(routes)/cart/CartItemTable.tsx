@@ -1,8 +1,9 @@
 "use client"
 import { removeCartItem } from "@/app/actions/actions"
 import { CartItemRow } from "./CartItemRow"
+import { CartItemWithVariant } from "@/lib/types"
 
-export default function CartItemTable({ cartItems }: { cartItems: any }) {
+export default function CartItemTable({ cartItems }: { cartItems: CartItemWithVariant[] }) {
   const handleRemoveCartItem = async (cartId: number, variantId: number) => {
     await removeCartItem({ cartId, variantId })
   }
@@ -19,7 +20,7 @@ export default function CartItemTable({ cartItems }: { cartItems: any }) {
         </tr>
       </thead>
       <tbody>
-        { cartItems.map((cartItem: any) => (
+        { cartItems.map(cartItem => (
           <tr key={cartItem.variantId} className="border-t border-gray-300 text-sm">
             <td className="p-4">{cartItem.variant.name}</td>
             <td className="p-4 text-center">¥{cartItem.variant.price}</td>

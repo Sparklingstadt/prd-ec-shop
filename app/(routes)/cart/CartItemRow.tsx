@@ -1,8 +1,9 @@
 import { updateCartItemQuantityAction } from "@/app/actions/updateCartItemQuantityAction"
 import { useActionState } from "react"
+import { CartItemWithVariant } from "@/lib/types"
 
-export function CartItemRow({ cartItem }: { cartItem: any }) {
-const [state, formAction, isPending] = useActionState(updateCartItemQuantityAction, null)
+export function CartItemRow({ cartItem }: { cartItem: CartItemWithVariant }) {
+const [, formAction, isPending] = useActionState(updateCartItemQuantityAction, null)
   return (
 <form action={formAction} className="flex justify-center">
   <input type="hidden" name="cartItemId" value={cartItem.id} />

@@ -1,10 +1,12 @@
+import { CartItemWithVariant } from "@/lib/types"
+
 export async function CartSummary({
   cartItems,
   subTotalPrice,
   shippingFee,
   totalPrice
 }: {
-  cartItems: any,
+  cartItems: CartItemWithVariant[],
   subTotalPrice: number,
   shippingFee: number,
   totalPrice: number

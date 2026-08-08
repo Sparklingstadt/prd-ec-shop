@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { getCartByUserId, getCartItemsWithVariantsByCartId } from "./actions/actions";
+import { getCartByUserId } from "./actions/actions";
 import { auth } from "@/auth";
 import { cartItemRepository } from "@/repositories/implementations/cartItemRepository";
 import { cartRepository } from "@/repositories/implementations/cartRepository";
@@ -69,7 +68,3 @@ export default async function RootLayout({
     </html>
   );
 }
-function getCartWithProductsByUserId(arg0: number) {
-  throw new Error("Function not implemented.");
-}
-
