@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SignOut from "./SignOut";
 import { requireUserId } from "@/lib/auth";
-import { getOrders, getUserByUserId } from "@/app/actions/actions";
+import { getOrders, getUserByUserId } from "@/services/storeQueryService";
 import { OrderRepository } from "@/repositories/implementations/orderRepository";
 import { userRepository } from "@/repositories/implementations/userRepository";
 
