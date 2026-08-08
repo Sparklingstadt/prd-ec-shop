@@ -19,7 +19,7 @@ async function main() {
       { id: 2, name: "クリアファイル B", productId: 1, price: 800, stock: 50, imageUrl: "/products/Rectangle 4.png" },
       { id: 3, name: "アクリルスタンド A", productId: 2, price: 1500, stock: 50, imageUrl: "/products/Rectangle 3.png" },
       { id: 4, name: "アクリルスタンド B", productId: 2, price: 1500, stock: 50, imageUrl: "/products/Rectangle 4.png" },
-      { id: 5, name: "アクリルスタンド C", productId: 2, price: 1500, stock: 50, imageUrl: "/products/Rectangle 5.png" },
+      { id: 5, name: "アクリルスタンド C", productId: 2, price: 1500, stock: 50, imageUrl: "/products/Rectangle 3.png" },
       { id: 6, name: "タペストリー A", productId: 3, price: 4500, stock: 50, imageUrl: "/products/Rectangle 3.png" },
       { id: 7, name: "タペストリー B", productId: 3, price: 4500, stock: 50, imageUrl: "/products/Rectangle 4.png" },
       { id: 8, name: "オリジナル TEE A", productId: 4, price: 6500, stock: 50, imageUrl: "/products/Rectangle 3.png" },
