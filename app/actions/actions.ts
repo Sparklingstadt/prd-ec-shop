@@ -1,10 +1,6 @@
 "use server"
 import { signOut } from "@/auth"
-import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
-import { cartRepository } from "@/repositories/implementations/cartRepository"
-import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
-import { userRepository } from "@/repositories/implementations/userRepository"
-import { variantRepository } from "@/repositories/implementations/variantRepository"
+import { removeItemFromCart } from "@/services/cartService"
 import { ICartItemRepository } from "@/repositories/interfaces/ICartItemRepository"
 import { ICartRepository } from "@/repositories/interfaces/ICartRepository"
 import { IOrderItemRepository } from "@/repositories/interfaces/IOrderItemRepository"
@@ -63,12 +59,11 @@ export async function getCartItemsWithVariantsByCartId(repo: ICartItemRepository
   return cartItemsWithProducts
 }
 
-export async function removeCartItem({ cartId, productId }: {
+export async function removeCartItem({ cartId, variantId }: {
   cartId: number
-  productId: number
+  variantId: number
 }) {
-  const repo = new cartItemRepository()
-  await repo.removeCartItem(cartId, productId)
+  await removeItemFromCart(cartId, variantId)
   revalidatePath("/", "layout")
   return { success: true }
 }

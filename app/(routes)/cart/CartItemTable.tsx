@@ -3,8 +3,8 @@ import { removeCartItem } from "@/app/actions/actions"
 import { CartItemRow } from "./CartItemRow"
 
 export default function CartItemTable({ cartItems }: { cartItems: any }) {
-  const handleRemoveCartItem = async (cartId: number, productId: number) => {
-    await removeCartItem({ cartId, productId })
+  const handleRemoveCartItem = async (cartId: number, variantId: number) => {
+    await removeCartItem({ cartId, variantId })
   }
   
   return (
@@ -36,4 +36,3 @@ export default function CartItemTable({ cartItems }: { cartItems: any }) {
     </table>
   )
 }
-
