@@ -50,6 +50,28 @@ https://candy-rain-store.vercel.app
 
 これらは実運用を想定する場合の追加課題です。
 
+## ローカル開発
+
+Node.js、npm、HomebrewでインストールしたPostgreSQLを使用します。
+
+```bash
+brew services start postgresql@18
+createdb candyrain
+cp .env.example .env
+npm install
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+`AUTH_SECRET`は次のコマンドなどで生成した値へ置き換えてください。
+
+```bash
+openssl rand -base64 32
+```
+
+通常のアプリビルドはDB更新を行いません。デプロイ先のDBへmigrationを適用する場合は、対象の`DATABASE_URL`を確認したうえで`npm run db:migrate`を明示的に実行します。
+
 ## 今後の改善候補
 
 - Service層とRepository層の責務整理
