@@ -87,17 +87,17 @@ openssl rand -base64 32
 
 ```bash
 npm test
+npm run test:e2e
 npm run lint
 npx tsc --noEmit
 npm run build
 ```
 
-Node.js Test Runnerとtsxを利用し、注文合計計算と主要Entityの単体テストを実装しています。main・devへのpushとPull RequestではGitHub Actionsが品質チェックを自動実行します。
+Node.js Test Runnerとtsxによる単体テストに加え、Playwrightによるサインインから購入完了までのE2Eテストを実装しています。E2Eテストの前にDocker PostgreSQLへmigrationとseedを適用してください。main・devへのpushとPull RequestではGitHub ActionsがPostgreSQLを起動し、品質チェックとE2Eテストを自動実行します。
 
 ## 今後の改善候補
 
 - Service層とRepository層の責務整理
 - 単体・統合テストの対象拡大
-- PlaywrightによるE2Eテスト
 - 入力バリデーションと認証・認可の強化
 - 有限在庫を扱う場合の在庫管理
