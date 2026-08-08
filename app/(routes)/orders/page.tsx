@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { requireUserId } from "@/lib/auth"
-import { getOrders } from "@/app/actions/actions"
+import { getOrders } from "@/services/storeQueryService"
 import { OrderRepository } from "@/repositories/implementations/orderRepository"
 
 export default async function Page() {

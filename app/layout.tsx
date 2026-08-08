@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
-import { getCartByUserId } from "./actions/actions";
+import { getCartByUserId } from "@/services/storeQueryService";
 import { auth } from "@/auth";
 import { cartItemRepository } from "@/repositories/implementations/cartItemRepository";
 import { cartRepository } from "@/repositories/implementations/cartRepository";

@@ -1,4 +1,4 @@
-import { getProductById, getVariantsByProductId } from "@/app/actions/actions"
+import { getProductById, getVariantsByProductId } from "@/services/storeQueryService"
 import { ProductRepository } from "@/repositories/implementations/productRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
 import Image from "next/image"

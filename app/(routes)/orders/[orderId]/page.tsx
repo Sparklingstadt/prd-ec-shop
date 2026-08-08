@@ -1,4 +1,4 @@
-import { getOrderByOrderId, getOrderItemsByOrderId } from "@/app/actions/actions"
+import { getOrderByOrderId, getOrderItemsByOrderId } from "@/services/storeQueryService"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { OrderRepository } from "@/repositories/implementations/orderRepository"
 import Link from "next/link"

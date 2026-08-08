@@ -1,4 +1,4 @@
-import { getCartByUserId, getProductById, getVariantsByProductId } from "@/app/actions/actions"
+import { getCartByUserId, getProductById, getVariantsByProductId } from "@/services/storeQueryService"
 import ProductImageView from "./ProductImageView"
 import { ProductActions } from "./ProductActions"
 import { requireUserId } from "@/lib/auth"
