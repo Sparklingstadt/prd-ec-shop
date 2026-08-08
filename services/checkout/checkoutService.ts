@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { calculateOrderTotal } from "./orderPricing";
 
-export default async function checkoutService(userId: number) {
+export async function createOrderFromCart(userId: number) {
   const shippingPrice = 1000
-  await prisma.$transaction(async tx => {
+  return prisma.$transaction(async tx => {
     const cart = await tx.cart.findUnique({
       where: { userId },
       include: {
@@ -45,6 +45,10 @@ export default async function checkoutService(userId: number) {
 
     return order
   })
+}
 
+export default async function checkoutService(userId: number) {
+  const order = await createOrderFromCart(userId)
   revalidatePath("/", "layout")
+  return order
 }
