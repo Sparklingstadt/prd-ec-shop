@@ -1,5 +1,5 @@
 "use server"
-import { cartItemRepository } from "@/repositories/implementations/cartItemRepository"
+import { updateCartItemQuantity } from "@/services/cartService"
 import { revalidatePath } from "next/cache"
 
 export async function updateCartItemQuantityAction(
@@ -8,13 +8,8 @@ export async function updateCartItemQuantityAction(
 ) {
   const cartItemId = Number(formData.get("cartItemId"))
   const type = formData.get("type")
-  const repo = new cartItemRepository()
-  if (type === "increment") {
-    await repo.incrementQuantity(cartItemId)
-  }
-
-  if (type === "decrement") {
-    await repo.decrementQuantity(cartItemId)
+  if (type === "increment" || type === "decrement") {
+    await updateCartItemQuantity(cartItemId, type)
   }
 
   revalidatePath("/", "layout")

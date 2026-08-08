@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma"
-import { revalidatePath } from "next/cache"
 import { ICartItemRepository } from "../interfaces/ICartItemRepository"
 
 export class cartItemRepository implements ICartItemRepository {
@@ -59,7 +58,6 @@ export class cartItemRepository implements ICartItemRepository {
         quantity: { increment: 1 }
       }
     })
-    revalidatePath("/")
   }
   async decrementQuantity(cartItemId: number) {
     await prisma.cartItem.update({
@@ -68,6 +66,5 @@ export class cartItemRepository implements ICartItemRepository {
         quantity: { decrement: 1 }
       }
     })
-    revalidatePath("/")
   }
 }
