@@ -5,17 +5,17 @@ export class CartItem {
     public readonly quantity: number,
     public readonly variantId: number
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
-    if(!cartId) {
-      throw new Error("cartId is required!")
+    if(cartId < 0) {
+      throw new Error("cartId must be non-negative!")
     }
     if(!quantity) {
       throw new Error("quantity is required!")
     }
-    if(!variantId) {
-      throw new Error("variantId is required!")
+    if(variantId < 0) {
+      throw new Error("variantId must be non-negative!")
     }
   }
 }

@@ -8,17 +8,11 @@ export class Product {
     public readonly description: string,
     public readonly thumbnailImageUrl: string,
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
     if(!name) {
       throw new Error("name is required!")
-    }
-    if(!category) {
-      throw new Error("category is required!")
-    }
-    if(description) {
-      throw new Error("description is required!")
     }
     if(!thumbnailImageUrl) {
       throw new Error("thumbnailImageUrl is required!")

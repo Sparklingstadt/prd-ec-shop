@@ -7,14 +7,14 @@ export class Variant {
     public readonly stock: number,
     public readonly imageUrl: string
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
     if(!name) {
       throw new Error("name is required!")
     }
-    if(!productId) {
-      throw new Error("productId is required!")
+    if(productId < 0) {
+      throw new Error("productId must be non-negative!")
     }
     if(!price) {
       throw new Error("price is required!")

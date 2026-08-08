@@ -8,8 +8,8 @@ export class Order {
     public readonly orderedAt: Date,
     public readonly userId: number,
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
     if(!paymentStatus) {
       throw new Error("paymentStatus is required!")

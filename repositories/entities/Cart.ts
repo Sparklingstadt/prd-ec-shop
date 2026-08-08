@@ -3,12 +3,12 @@ export class Cart {
     public readonly id: number,
     public readonly userId: number
   ) {
-    if(!id) {
-      throw new Error("id is required!")
+    if(id < 0) {
+      throw new Error("id must be non-negative!")
     }
 
-    if(!userId) {
-      throw new Error("userId is required!")
+    if(userId < 0) {
+      throw new Error("userId must be non-negative!")
     }
   }
 }
