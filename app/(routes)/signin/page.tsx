@@ -2,7 +2,9 @@ import { SignInForm } from "@/app/(routes)/signin/SignInForm"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-export default async function Page() {  
+export default async function Page({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const hasCredentialsError = (await searchParams).error === "credentials"
+
   return (
     <Card className="shadow-xl shadow-primary/5">
       <CardHeader className="space-y-3">
@@ -11,6 +13,11 @@ export default async function Page() {
         <CardDescription>デモアカウントでストアへサインインします。</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {hasCredentialsError && (
+          <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+            デモアカウントのメールアドレスを確認してください。
+          </p>
+        )}
         <SignInForm />
         <div className="rounded-xl bg-muted p-4 text-sm">
           <p className="font-medium">入力例</p>
