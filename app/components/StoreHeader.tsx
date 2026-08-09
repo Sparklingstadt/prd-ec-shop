@@ -3,7 +3,8 @@
 import Link from "next/link"
 import { Code2, Menu, ShoppingBag, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import {
   Sheet,
   SheetContent,
@@ -34,18 +35,18 @@ export default function StoreHeader({ cartItemCount, signedIn }: { cartItemCount
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="メインナビゲーション">
           {navigation.map((item) => (
-            <Button key={item.href} variant="ghost" render={<Link href={item.href} />}>
+            <Link key={item.href} href={item.href} className={buttonVariants({ variant: "ghost" })}>
               {item.label}
-            </Button>
+            </Link>
           ))}
-          <Button variant="outline" render={<Link href="/cart" />} className="ml-2">
+          <Link href="/cart" className={cn(buttonVariants({ variant: "outline" }), "ml-2")}>
             <ShoppingBag data-icon="inline-start" />
             {cartLabel}
-          </Button>
-          <Button variant="ghost" size="icon" render={<a href="https://github.com/Sparklingstadt/prd-ec-shop" target="_blank" rel="noreferrer" />}>
+          </Link>
+          <a href="https://github.com/Sparklingstadt/prd-ec-shop" target="_blank" rel="noreferrer" className={buttonVariants({ variant: "ghost", size: "icon" })}>
             <Code2 />
             <span className="sr-only">GitHub</span>
-          </Button>
+          </a>
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
@@ -62,14 +63,14 @@ export default function StoreHeader({ cartItemCount, signedIn }: { cartItemCount
               </SheetHeader>
               <nav className="flex flex-col gap-2 px-4" aria-label="モバイルナビゲーション">
                 {navigation.map((item) => (
-                  <Button key={item.href} variant="ghost" className="justify-start" render={<Link href={item.href} />}>
+                  <Link key={item.href} href={item.href} className={cn(buttonVariants({ variant: "ghost" }), "justify-start")}>
                     {item.label}
-                  </Button>
+                  </Link>
                 ))}
-                <Button variant="secondary" className="justify-start" render={<Link href="/cart" />}>
+                <Link href="/cart" className={cn(buttonVariants({ variant: "secondary" }), "justify-start")}>
                   <ShoppingBag data-icon="inline-start" />
                   {cartLabel}
-                </Button>
+                </Link>
               </nav>
             </SheetContent>
           </Sheet>

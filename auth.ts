@@ -17,15 +17,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       authorize(credentials) {
-        let user = null
-
         if(credentials.email === "user1@mail.com") {
-          user = { id: "0", email: credentials.email }
-        } else {
-          throw new Error("user not found")
+          return { id: "0", email: credentials.email }
         }
 
-        return user
+        return null
       }
     })
   ],
