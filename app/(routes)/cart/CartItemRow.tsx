@@ -1,27 +1,31 @@
 import { updateCartItemQuantityAction } from "@/app/actions/updateCartItemQuantityAction"
 import { useActionState } from "react"
 import { CartItemWithVariant } from "@/lib/types"
+import { Minus, Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function CartItemRow({ cartItem }: { cartItem: CartItemWithVariant }) {
 const [, formAction, isPending] = useActionState(updateCartItemQuantityAction, null)
   return (
-<form action={formAction} className="flex justify-center">
+<form action={formAction} className="flex w-fit items-center rounded-lg border bg-background p-0.5">
   <input type="hidden" name="cartItemId" value={cartItem.id} />
-  <button
+  <Button
     type="submit"
     name="type"
     value="increment"
     disabled={isPending}
-    className="flex-none w-12 h-12 border border-gray-300"
-  >+</button>
-  <p className="flex-none w-12 h-12 flex items-center justify-center border border-l-0 border-r-0 border-gray-300">{cartItem.quantity}</p>
-  <button
+    variant="ghost"
+    size="icon-sm"
+  ><Plus /></Button>
+  <p className="flex h-7 w-9 items-center justify-center text-sm font-medium">{cartItem.quantity}</p>
+  <Button
     type="submit"
     name="type"
     value="decrement"
     disabled={isPending}
-    className="flex-none w-12 h-12 border border-gray-300"
-  >-</button>
+    variant="ghost"
+    size="icon-sm"
+  ><Minus /></Button>
 </form>
   )
 }

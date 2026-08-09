@@ -2,6 +2,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { Product, Variant } from "@/lib/types"
 import { use } from "react"
+import { ArrowUpRight } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function ProductList({ productsPromise }: {
   productsPromise: Promise<(Product & { variants: Variant[] })[]>
@@ -13,18 +16,23 @@ export default function ProductList({ productsPromise }: {
   const products = use(productsPromise)
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       { products.map(product => {
         return (
-          <Link href={"/products/" + product.id} key={product.id}>
-            <div className="mb-8">
-              <Image src={product.thumbnailImageUrl} alt="prd" width={400} height={200}/>
-              <div>
-                <p className=" text-sm underline">グッズ</p>
-                <p className="text-lg">{product.name}</p>
-                <p>¥{getProductStartingPrice(product)}</p>
+          <Link href={"/products/" + product.id} key={product.id} className="group">
+            <Card className="h-full overflow-hidden p-0 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10">
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                <Image src={product.thumbnailImageUrl} alt={product.name} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                <Badge className="absolute left-4 top-4" variant="secondary">{product.category || "グッズ"}</Badge>
               </div>
-            </div>
+              <CardContent className="flex items-end justify-between p-5">
+                <div>
+                  <h2 className="text-lg font-medium">{product.name}</h2>
+                  <p className="mt-2 font-semibold text-primary">¥{getProductStartingPrice(product).toLocaleString()}〜</p>
+                </div>
+                <span className="flex size-9 items-center justify-center rounded-full border transition group-hover:bg-primary group-hover:text-primary-foreground"><ArrowUpRight className="size-4" /></span>
+              </CardContent>
+            </Card>
           </Link>
         )
       })}

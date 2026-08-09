@@ -2,15 +2,21 @@ import { getProductsWithVariants } from "@/services/storeQueryService"
 import ProductList from "./ProductList"
 import { Suspense } from "react"
 import { ProductRepository } from "@/repositories/implementations/productRepository"
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Page(){
   const repo = new ProductRepository()
   const products = getProductsWithVariants(repo)
 
   return (
-    <div>
-      <h1>Products</h1>
-      <Suspense fallback={<p>読み込み中</p>}>
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <Badge variant="secondary">Collection</Badge>
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Products</h1>
+        <p className="max-w-2xl text-muted-foreground">毎日に小さな彩りを添える、Candy Rainのオリジナルグッズ。</p>
+      </div>
+      <Suspense fallback={<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{[1,2,3].map(i => <Skeleton key={i} className="aspect-[4/3] rounded-2xl" />)}</div>}>
         <ProductList productsPromise={products} />
       </Suspense>
     </div>

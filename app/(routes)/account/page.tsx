@@ -1,9 +1,15 @@
-import Link from "next/link";
 import SignOut from "./SignOut";
 import { requireUserId } from "@/lib/auth";
 import { getOrders, getUserByUserId } from "@/services/storeQueryService";
 import { OrderRepository } from "@/repositories/implementations/orderRepository";
 import { userRepository } from "@/repositories/implementations/userRepository";
+import Link from "next/link";
+import { MapPin, Pencil, UserRound } from "lucide-react"
+import OrderHistory from "@/app/components/OrderHistory"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function Page() {
   const userId = await requireUserId()
@@ -13,47 +19,16 @@ export default async function Page() {
   const user = await getUserByUserId(userRepo, userId)
 
   return (
-    <div>
-      <SignOut />
-      <h1 className="text-2xl font-bold py-4">Account</h1>
-      <h2 className=" text-xl font-bold py-4">注文履歴</h2>
-      <table className="w-full mx-auto border border-gray-300">
-        <thead>
-          <tr>
-            <th className="p-4 font-normal text-gray-500 text-sm">注文ID</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">注文日時</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">支払い状況</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">発送状況</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">合計金額</th>
-          </tr>
-        </thead>
-        <tbody>
-          { orders.map(order => (
-            <tr key={order.id} className="border-t border-gray-300">
-              <td className="text-center">
-                <Link href={`/orders/${order.id}`} className="border border-gray-300 text-xs p-2 px-4">#{order.id}</Link>
-              </td>
-              <td className="p-4 text-center">{order.orderedAt.toLocaleString()}</td>
-              <td className="p-4 text-center">{order.paymentStatus}</td>
-              <td className="p-4 text-center">{order.shippingStatus}</td>
-              <td className="p-4 text-center">¥{order.totalPrice}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h2 className="text-xl font-bold py-4">お届け先住所</h2>
-      <div>
-        <p>{user && user.firstName} {user && user.lastName}</p>
-        <p>000-0000</p>
-        <p>XX県 YY市 ZZ丁目</p>
-        <p>A-B-C号室</p>
+    <div className="space-y-10">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4"><Avatar size="lg"><AvatarFallback>{user?.firstName?.[0]}{user?.lastName?.[0]}</AvatarFallback></Avatar><div><Badge variant="secondary">Member</Badge><h1 className="mt-2 text-3xl font-semibold tracking-tight">{user?.firstName} {user?.lastName}</h1><p className="text-sm text-muted-foreground">Candy Rain account</p></div></div>
+        <SignOut />
       </div>
-      <div className="py-4">
-        <Link href="/account/address" className="underline">住所を見る(1)</Link>
-      </div>
-      <div className="py-4">
-        <Link href="/account/edit" className="underline">アカウント情報を編集</Link>
-      </div>
+      <section className="space-y-4"><div><h2 className="text-2xl font-semibold">注文履歴</h2><p className="mt-1 text-sm text-muted-foreground">最近の注文と配送状況</p></div><OrderHistory orders={orders} /></section>
+      <section className="grid gap-4 md:grid-cols-2">
+        <Card><CardHeader><MapPin className="size-5 text-primary" /><CardTitle>お届け先住所</CardTitle><CardDescription>デモ用に登録された住所</CardDescription></CardHeader><CardContent className="space-y-1 leading-6"><p className="font-medium">{user?.firstName} {user?.lastName}</p><p className="text-muted-foreground">000-0000</p><p className="text-muted-foreground">XX県 YY市 ZZ丁目 A-B-C号室</p><Link href="/account/address" className={buttonVariants({ variant: "outline", className: "mt-4" })}>住所を見る(1)</Link></CardContent></Card>
+        <Card><CardHeader><UserRound className="size-5 text-primary" /><CardTitle>プロフィール</CardTitle><CardDescription>アカウント情報の確認</CardDescription></CardHeader><CardContent><p className="text-muted-foreground">デモユーザーとしてサインインしています。</p><Link href="/account/edit" className={buttonVariants({ variant: "outline", className: "mt-4" })}><Pencil /> アカウント情報を編集</Link></CardContent></Card>
+      </section>
     </div>
   )
 }

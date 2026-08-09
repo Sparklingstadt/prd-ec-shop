@@ -26,6 +26,7 @@ https://candy-rain-store.vercel.app
 - Prisma ORM 7
 - PostgreSQL
 - Tailwind CSS 4
+- shadcn/ui / Base UI / Lucide
 - Auth.js 5 beta
 
 ## アーキテクチャ

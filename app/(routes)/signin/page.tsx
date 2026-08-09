@@ -1,19 +1,23 @@
 import { SignInForm } from "@/app/(routes)/signin/SignInForm"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function Page() {  
   return (
-    <div>
-      <h1 className="text-2xl font-bold py-4">サインイン</h1>
-      <SignInForm />
-      <div className="mt-8">
-        <h1 className="text-2xl my-4">説明</h1>
-        <p>下記の内容を入力し、「Sign In」クリックで入れます</p>
-        <div className="my-4">
-          <p>Email: user1@mail.com</p>
-          <p className="lline-">Password: hoge</p>
+    <Card className="shadow-xl shadow-primary/5">
+      <CardHeader className="space-y-3">
+        <Badge variant="secondary" className="w-fit">Demo account</Badge>
+        <CardTitle className="text-2xl">おかえりなさい</CardTitle>
+        <CardDescription>デモアカウントでストアへサインインします。</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <SignInForm />
+        <div className="rounded-xl bg-muted p-4 text-sm">
+          <p className="font-medium">入力例</p>
+          <p className="mt-2 text-muted-foreground">Email: user1@mail.com</p>
+          <p className="text-muted-foreground">Password: 任意の文字列</p>
         </div>
-        <p className="text-gray-500">※便宜上、Passwordは現状なんでも通すようにしています</p>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

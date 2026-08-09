@@ -4,7 +4,7 @@ export default function Layout({
   children: Readonly<React.ReactNode>
 }) {
   return (
-    <div className="w-11/12 mx-auto">
+    <div>
       {children}
     </div>
   )
