@@ -1,7 +1,8 @@
-import Link from "next/link"
 import { requireUserId } from "@/lib/auth"
 import { getOrders } from "@/services/storeQueryService"
 import { OrderRepository } from "@/repositories/implementations/orderRepository"
+import { Badge } from "@/components/ui/badge"
+import OrderHistory from "@/app/components/OrderHistory"
 
 export default async function Page() {
   const userId = await requireUserId()
@@ -9,32 +10,9 @@ export default async function Page() {
   const orders = await getOrders(repo, userId)
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold py-4">注文履歴</h1>
-      <table className="w-full mx-auto border border-gray-300">
-        <thead>
-          <tr>
-            <th className="p-4 font-normal text-gray-500 text-sm">注文ID</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">日付</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">支払い状況</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">発送状況</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">合計金額</th>
-          </tr>
-        </thead>
-        <tbody>
-          { orders.map(order => (
-            <tr key={order.id} className="border-t border-gray-300">
-              <td className="text-center">
-                <Link href={`/orders/${order.id}`} className="border border-gray-300 text-xs p-2 px-4">#{order.id}</Link>
-              </td>
-              <td className="p-4 text-center">{order.orderedAt.toLocaleString()}</td>
-              <td className="p-4 text-center">{order.paymentStatus}</td>
-              <td className="p-4 text-center">{order.shippingStatus}</td>
-              <td className="p-4 text-center">¥{order.totalPrice}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="space-y-8">
+      <div className="space-y-3"><Badge variant="secondary">Order history</Badge><h1 className="text-4xl font-semibold tracking-tight">注文履歴</h1><p className="text-muted-foreground">これまでの注文内容と配送状況を確認できます。</p></div>
+      <OrderHistory orders={orders} />
     </div>
   )
 }

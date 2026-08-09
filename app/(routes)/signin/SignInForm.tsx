@@ -1,5 +1,8 @@
 import { signIn } from "@/auth"
 import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export function SignInForm() {
   const handleSignIn = async (formData: FormData) => {
@@ -14,22 +17,16 @@ export function SignInForm() {
   }
 
   return (
-    <form action={handleSignIn}>
-      <div>
-        <label>
-          <span className="block py-2">Email</span>
-          <input name="email" type="email" className="w-full border border-gray-400 rounded-sm px-2 py-1" />
-        </label>
+    <form action={handleSignIn} className="space-y-5">
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" name="email" type="email" autoComplete="email" placeholder="user1@mail.com" />
       </div>
-      <div className="mt-4">
-        <label>
-          <span className="block py-2">Password</span>
-          <input name="password" type="password" className="w-full border border-gray-400 rounded-sm px-2 py-1" />
-        </label>
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" name="password" type="password" autoComplete="current-password" placeholder="••••••••" />
       </div>
-      <div className="mt-8">
-       <button className="w-full bg-slate-800 text-white px-4 py-2">Sign In</button>
-      </div>
+      <Button type="submit" size="lg" className="h-11 w-full">Sign In</Button>
     </form>
   )
 }

@@ -2,6 +2,11 @@ import { getOrderByOrderId, getOrderItemsByOrderId } from "@/services/storeQuery
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { OrderRepository } from "@/repositories/implementations/orderRepository"
 import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export default async function Page({
   params
@@ -19,43 +24,16 @@ export default async function Page({
   const totalPrice = subTotalPrice + 1000
 
   return (
-    <div>
-      <Link href="/orders" className="text-sm underline">注文一覧へ戻る</Link>
-      <p className="text-2xl font-bold py-4">Order #{orderId}</p>
-      <p className="py-4">{order.orderedAt.toLocaleString()}</p>
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr>
-            <th className="p-4 text-left font-normal text-gray-500 text-sm">商品名</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">価格</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">数量</th>
-            <th className="p-4 font-normal text-gray-500 text-sm">合計</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="space-y-8">
+      <Link href="/orders" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ChevronLeft className="size-4" /> 注文一覧へ戻る</Link>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-sm text-muted-foreground">{order.orderedAt.toLocaleString()}</p><h1 className="mt-2 text-4xl font-semibold tracking-tight">Order #{orderId}</h1></div><div className="flex gap-2"><Badge variant="secondary">{order.paymentStatus}</Badge><Badge variant="outline">{order.shippingStatus}</Badge></div></div>
+      <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+      <Card className="py-0"><Table><TableHeader><TableRow><TableHead className="p-4">商品名</TableHead><TableHead>価格</TableHead><TableHead>数量</TableHead><TableHead className="text-right">合計</TableHead></TableRow></TableHeader><TableBody>
           { orderItems.map(item => (
-            <tr key={item.variantId} className="border-t border-gray-300 text-sm">
-              <td className="p-4">{item.variantName}</td>
-              <td className="p-4 text-center">¥{item.priceAtPurchase}</td>
-              <td className="p-4 text-center">{item.quantity}</td>
-              <td className="p-4 text-center">¥{item.quantity * item.priceAtPurchase}</td>
-            </tr>
+            <TableRow key={item.variantId}><TableCell className="p-4 font-medium">{item.variantName}</TableCell><TableCell>¥{item.priceAtPurchase.toLocaleString()}</TableCell><TableCell>{item.quantity}</TableCell><TableCell className="text-right font-semibold">¥{(item.quantity * item.priceAtPurchase).toLocaleString()}</TableCell></TableRow>
           ))}
-        </tbody>
-      </table>
-      <div className="w-full mx-auto p-4 border border-t-0 border-gray-300">
-        <div className="flex justify-between mt-4">
-          <p>小計(税込)</p>
-          <p>¥{subTotalPrice}</p>
-        </div>
-        <div className="flex justify-between mt-4">
-          <p>送料(税込)</p>
-          <p>¥1000</p>
-        </div>
-        <div className="flex justify-between text-2xl mt-4">
-          <p>合計</p>
-          <p>¥{totalPrice}</p>
-        </div>
+        </TableBody></Table></Card>
+      <Card><CardHeader><CardTitle>お支払い内容</CardTitle></CardHeader><CardContent className="space-y-4"><div className="flex justify-between text-sm"><p>小計(税込)</p><p>¥{subTotalPrice.toLocaleString()}</p></div><div className="flex justify-between text-sm"><p>送料(税込)</p><p>¥1,000</p></div><Separator /><div className="flex items-end justify-between"><p className="font-medium">合計</p><p className="text-2xl font-semibold text-primary">¥{totalPrice.toLocaleString()}</p></div></CardContent></Card>
       </div>
     </div>
   )

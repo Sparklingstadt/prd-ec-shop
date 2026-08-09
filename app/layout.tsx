@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Link from "next/link";
 import { getCartByUserId } from "@/services/storeQueryService";
 import { auth } from "@/auth";
 import { cartItemRepository } from "@/repositories/implementations/cartItemRepository";
 import { cartRepository } from "@/repositories/implementations/cartRepository";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+import StoreHeader from "@/app/components/StoreHeader";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Candy Rain",
@@ -17,53 +21,29 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth()
-  let cartItemCountText = ""
+  let cartItemCount = 0
   if(session?.user){
     const cartRepo = new cartRepository()
     const cart = await getCartByUserId(cartRepo, parseInt(session.user.id))
     if(!cart) throw new Error("Cart not found")
     const repo = new cartItemRepository()
     const cartItems = await repo.findManyByCartId(cart.id)
-    cartItemCountText = `(${cartItems.length})`
+    cartItemCount = cartItems.length
   }
-  
-  const navLinks = [
-    { href: "/products", text: "Products" },
-    { href: "/cart", text: "Cart" + cartItemCountText},
-    { href: "/orders", text: "Orders" },
-    { href: "/account", text: "Account"}
-  ]
 
   return (
-    <html lang="ja">
+    <html lang="ja" className={cn("font-sans", geist.variable)}>
       <body>
-        <header className="border-b border-gray-300">
-        <div className="flex justify-between items-center w-11/12 mx-auto">
-          <h1 className="text-2xl font-light">
-            <Link href="/">Candy Rain</Link>
-          </h1>
-          <nav>
-            <ul className="flex">
-              { navLinks.map((navLink, index) => (
-                <li key={index}>
-                  <Link href={navLink.href} className="inline-block p-8 font-bold uppercase text-sm">{navLink.text}</Link>
-                </li>
-              ))}
-              <li>
-                <a
-                  href="https://github.com/Sparklingstadt/prd-ec-shop"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block p-8 font-bold uppercase text-sm"
-                >GitHub</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        </header>
-        <div className="w-11/12 mx-auto py-8">
+        <StoreHeader cartItemCount={cartItemCount} signedIn={Boolean(session?.user)} />
+        <main className="page-shell py-8 sm:py-12">
           {children}
-        </div>
+        </main>
+        <footer className="mt-16 border-t bg-card/60">
+          <div className="page-shell flex flex-col gap-2 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <p>© 2026 Candy Rain Store</p>
+            <p>正常系の購入体験を検証するデモストア</p>
+          </div>
+        </footer>
       </body>
     </html>
   );
