@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { Code2, Menu, ShoppingBag, Sparkles } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
@@ -21,7 +20,7 @@ const navigation = [
 ]
 
 export default function StoreHeader({ cartItemCount, signedIn }: { cartItemCount: number, signedIn: boolean }) {
-  const cartLabel = `Cart(${cartItemCount})`
+  const cartLabel = `カート(${cartItemCount})`
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-xl">
@@ -50,7 +49,14 @@ export default function StoreHeader({ cartItemCount, signedIn }: { cartItemCount
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <Badge variant={signedIn ? "secondary" : "outline"}>{signedIn ? "Signed in" : "Guest"}</Badge>
+          <Link
+            href="/cart"
+            aria-label={cartLabel}
+            className={cn(buttonVariants({ variant: "outline" }), "gap-1 px-2.5")}
+          >
+            <ShoppingBag />
+            <span>({cartItemCount})</span>
+          </Link>
           <Sheet>
             <SheetTrigger render={<Button variant="outline" size="icon" />}>
               <Menu />
@@ -59,7 +65,7 @@ export default function StoreHeader({ cartItemCount, signedIn }: { cartItemCount
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Candy Rain</SheetTitle>
-                <SheetDescription>ストアメニュー</SheetDescription>
+                <SheetDescription>{signedIn ? "サインイン中" : "ゲスト"} ・ ストアメニュー</SheetDescription>
               </SheetHeader>
               <nav className="flex flex-col gap-2 px-4" aria-label="モバイルナビゲーション">
                 {navigation.map((item) => (
