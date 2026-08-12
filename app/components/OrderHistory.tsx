@@ -11,7 +11,8 @@ export default function OrderHistory({ orders }: { orders: Order[] }) {
   }
 
   return (
-    <Card className="py-0">
+    <>
+      <Card className="hidden py-0 md:flex">
       <Table>
         <TableHeader><TableRow><TableHead className="p-4">注文</TableHead><TableHead>日時</TableHead><TableHead>支払い</TableHead><TableHead>配送</TableHead><TableHead className="text-right">合計</TableHead></TableRow></TableHeader>
         <TableBody>
@@ -26,6 +27,28 @@ export default function OrderHistory({ orders }: { orders: Order[] }) {
           ))}
         </TableBody>
       </Table>
-    </Card>
+      </Card>
+      <div className="grid gap-3 md:hidden">
+        {orders.map(order => (
+          <Link key={order.id} href={`/orders/${order.id}`} className="block rounded-xl focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+            <Card>
+              <CardContent className="space-y-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-primary">注文 #{order.id}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{order.orderedAt.toLocaleString()}</p>
+                  </div>
+                  <p className="shrink-0 font-semibold">¥{order.totalPrice.toLocaleString()}</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">{order.paymentStatus}</Badge>
+                  <Badge variant="outline">{order.shippingStatus}</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }

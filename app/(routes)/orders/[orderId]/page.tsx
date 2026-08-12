@@ -28,11 +28,24 @@ export default async function Page({
       <Link href="/orders" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ChevronLeft className="size-4" /> 注文一覧へ戻る</Link>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-sm text-muted-foreground">{order.orderedAt.toLocaleString()}</p><h1 className="mt-2 text-4xl font-semibold tracking-tight">Order #{orderId}</h1></div><div className="flex gap-2"><Badge variant="secondary">{order.paymentStatus}</Badge><Badge variant="outline">{order.shippingStatus}</Badge></div></div>
       <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
-      <Card className="py-0"><Table><TableHeader><TableRow><TableHead className="p-4">商品名</TableHead><TableHead>価格</TableHead><TableHead>数量</TableHead><TableHead className="text-right">合計</TableHead></TableRow></TableHeader><TableBody>
+      <Card className="hidden py-0 md:flex"><Table><TableHeader><TableRow><TableHead className="p-4">商品名</TableHead><TableHead>価格</TableHead><TableHead>数量</TableHead><TableHead className="text-right">合計</TableHead></TableRow></TableHeader><TableBody>
           { orderItems.map(item => (
             <TableRow key={item.variantId}><TableCell className="p-4 font-medium">{item.variantName}</TableCell><TableCell>¥{item.priceAtPurchase.toLocaleString()}</TableCell><TableCell>{item.quantity}</TableCell><TableCell className="text-right font-semibold">¥{(item.quantity * item.priceAtPurchase).toLocaleString()}</TableCell></TableRow>
           ))}
         </TableBody></Table></Card>
+      <div className="grid gap-3 md:hidden">
+        {orderItems.map(item => (
+          <Card key={item.variantId}>
+            <CardContent className="space-y-3">
+              <p className="font-medium">{item.variantName}</p>
+              <div className="flex items-end justify-between gap-4 text-sm">
+                <p className="text-muted-foreground">¥{item.priceAtPurchase.toLocaleString()} × {item.quantity}</p>
+                <p className="shrink-0 font-semibold">¥{(item.quantity * item.priceAtPurchase).toLocaleString()}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
       <Card><CardHeader><CardTitle>お支払い内容</CardTitle></CardHeader><CardContent className="space-y-4"><div className="flex justify-between text-sm"><p>小計(税込)</p><p>¥{subTotalPrice.toLocaleString()}</p></div><div className="flex justify-between text-sm"><p>送料(税込)</p><p>¥1,000</p></div><Separator /><div className="flex items-end justify-between"><p className="font-medium">合計</p><p className="text-2xl font-semibold text-primary">¥{totalPrice.toLocaleString()}</p></div></CardContent></Card>
       </div>
     </div>
