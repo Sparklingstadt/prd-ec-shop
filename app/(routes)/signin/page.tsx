@@ -15,14 +15,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ e
       <CardContent className="space-y-6">
         {hasCredentialsError && (
           <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
-            デモアカウントのメールアドレスを確認してください。
+            メールアドレスまたはパスワードが正しくありません。
           </p>
         )}
         <SignInForm />
         <div className="rounded-xl bg-muted p-4 text-sm">
           <p className="font-medium">入力例</p>
           <p className="mt-2 text-muted-foreground">Email: user1@mail.com</p>
-          <p className="text-muted-foreground">Password: 任意の文字列</p>
+          <p className="text-muted-foreground">Password: demo-password</p>
         </div>
       </CardContent>
     </Card>
