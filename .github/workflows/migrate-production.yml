@@ -20,6 +20,30 @@ jobs:
           cache: npm
       - run: npm install --global npm@11.6.2
       - run: npm ci
+      - name: Validate production database target
+        shell: bash
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [[ -z "$DATABASE_URL" ]]; then
+            echo "DATABASE_URL is not configured in the production environment." >&2
+            exit 1
+          fi
+
+          case "$DATABASE_URL" in
+            postgresql://*|postgres://*) ;;
+            *)
+              echo "DATABASE_URL must be a PostgreSQL connection URL." >&2
+              exit 1
+              ;;
+          esac
+
+          case "$DATABASE_URL" in
+            *localhost*|*127.0.0.1*)
+              echo "Refusing to run a production migration against a local database." >&2
+              exit 1
+              ;;
+          esac
       - run: npm run db:migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
