@@ -60,8 +60,10 @@ test("必須文字列が空の場合は拒否する", () => {
   assert.throws(() => new Variant(0, "", 0, 500, 50, "/variant.png"), /name is required/)
 })
 
-test("数量が0の場合は拒否する", () => {
-  assert.throws(() => new CartItem(0, 0, 0, 0), /quantity is required/)
+test("数量が正の整数でない場合は拒否する", () => {
+  assert.throws(() => new CartItem(0, 0, 0, 0), /quantity must be a positive integer/)
+  assert.throws(() => new CartItem(0, 0, -1, 0), /quantity must be a positive integer/)
+  assert.throws(() => new CartItem(0, 0, 1.5, 0), /quantity must be a positive integer/)
   assert.throws(() => new OrderItem(0, 0, 0, "商品", 500, 0), /quantity is required/)
 })
 

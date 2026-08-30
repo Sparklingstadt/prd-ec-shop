@@ -3,6 +3,7 @@ import { useActionState } from "react"
 import { CartItemWithVariant } from "@/lib/types"
 import { Minus, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { MAX_CART_QUANTITY } from "@/lib/validation"
 
 export function CartItemRow({ cartItem }: { cartItem: CartItemWithVariant }) {
 const [, formAction, isPending] = useActionState(updateCartItemQuantityAction, null)
@@ -13,7 +14,7 @@ const [, formAction, isPending] = useActionState(updateCartItemQuantityAction, n
     type="submit"
     name="type"
     value="increment"
-    disabled={isPending}
+    disabled={isPending || cartItem.quantity >= MAX_CART_QUANTITY}
     variant="ghost"
     size="icon-sm"
   ><Plus /></Button>
@@ -22,7 +23,7 @@ const [, formAction, isPending] = useActionState(updateCartItemQuantityAction, n
     type="submit"
     name="type"
     value="decrement"
-    disabled={isPending}
+    disabled={isPending || cartItem.quantity <= 1}
     variant="ghost"
     size="icon-sm"
   ><Minus /></Button>

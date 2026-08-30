@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { notFound } from "next/navigation"
+import { toNonNegativeInteger } from "@/lib/validation"
 
 export default async function Page({
   params
@@ -16,7 +17,8 @@ export default async function Page({
   params: Promise<{'orderId': string}>
 }) {
   const { orderId } = await params
-  const parsedOrderId = parseInt(orderId)
+  const parsedOrderId = toNonNegativeInteger(orderId)
+  if (parsedOrderId === null) notFound()
   const userId = await requireUserId()
   const orderRepo = new OrderRepository()
   const order = await getOrderByOrderIdForUser(orderRepo, parsedOrderId, userId)

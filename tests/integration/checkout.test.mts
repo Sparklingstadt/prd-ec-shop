@@ -81,3 +81,32 @@ test("他ユーザーの注文は注文IDを指定しても取得できない", 
   assert.equal(await repo.findByOrderIdForUser(otherOrder.id, 0), null)
   assert.equal((await repo.findByOrderIdForUser(otherOrder.id, 1))?.id, otherOrder.id)
 })
+
+test("カート数量は1未満にも99超にも更新できない", async () => {
+  const cart = await prisma.cart.findUniqueOrThrow({ where: { userId: 0 } })
+  const cartItem = await prisma.cartItem.create({
+    data: { cartId: cart.id, variantId: 0, quantity: 1 },
+  })
+
+  await assert.rejects(
+    () => updateCartItemQuantity(0, cartItem.id, "decrement"),
+    /Cart item not found/,
+  )
+  assert.equal(
+    (await prisma.cartItem.findUniqueOrThrow({ where: { id: cartItem.id } })).quantity,
+    1,
+  )
+
+  await prisma.cartItem.update({
+    where: { id: cartItem.id },
+    data: { quantity: 99 },
+  })
+  await assert.rejects(
+    () => updateCartItemQuantity(0, cartItem.id, "increment"),
+    /Cart item not found/,
+  )
+  assert.equal(
+    (await prisma.cartItem.findUniqueOrThrow({ where: { id: cartItem.id } })).quantity,
+    99,
+  )
+})

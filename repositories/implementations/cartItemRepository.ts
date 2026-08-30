@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { ICartItemRepository } from "../interfaces/ICartItemRepository"
+import { MAX_CART_QUANTITY } from "@/lib/validation"
 
 export class cartItemRepository implements ICartItemRepository {
   async findManyByCartId(cartId: number) {
@@ -54,7 +55,8 @@ export class cartItemRepository implements ICartItemRepository {
     const result = await prisma.cartItem.updateMany({
       where: {
         id: cartItemId,
-        cart: { userId }
+        cart: { userId },
+        quantity: { lt: MAX_CART_QUANTITY }
       },
       data: {
         quantity: { increment: 1 }
@@ -66,7 +68,8 @@ export class cartItemRepository implements ICartItemRepository {
     const result = await prisma.cartItem.updateMany({
       where: {
         id: cartItemId,
-        cart: { userId }
+        cart: { userId },
+        quantity: { gt: 1 }
       },
       data: {
         quantity: { decrement: 1 }

@@ -1,6 +1,7 @@
 "use server"
 import { updateCartItemQuantity } from "@/services/cartService"
 import { requireUserId } from "@/lib/auth"
+import { requireCartMutationType, requireNonNegativeInteger } from "@/lib/validation"
 import { revalidatePath } from "next/cache"
 
 export async function updateCartItemQuantityAction(
@@ -8,11 +9,9 @@ export async function updateCartItemQuantityAction(
   formData: FormData
 ) {
   const userId = await requireUserId()
-  const cartItemId = Number(formData.get("cartItemId"))
-  const type = formData.get("type")
-  if (type === "increment" || type === "decrement") {
-    await updateCartItemQuantity(userId, cartItemId, type)
-  }
+  const cartItemId = requireNonNegativeInteger(formData.get("cartItemId"), "cartItemId")
+  const type = requireCartMutationType(formData.get("type"))
+  await updateCartItemQuantity(userId, cartItemId, type)
 
   revalidatePath("/", "layout")
   return { success: true }
