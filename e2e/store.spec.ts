@@ -30,6 +30,19 @@ test("未認証ユーザーを商品詳細からもサインイン画面へ誘�
   await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible()
 })
 
+test("未認証でも公開商品画像を配信する", async ({ request }) => {
+  const sourceImage = await request.get("/products/Rectangle%201.png", { maxRedirects: 0 })
+  expect(sourceImage.status()).toBe(200)
+  expect(sourceImage.headers()["content-type"]).toBe("image/png")
+
+  const optimizedImage = await request.get(
+    "/_next/image?url=%2Fproducts%2FRectangle%201.png&w=640&q=75",
+    { maxRedirects: 0 },
+  )
+  expect(optimizedImage.status()).toBe(200)
+  expect(optimizedImage.headers()["content-type"]).toMatch(/^image\//)
+})
+
 test("パスワードが正しくない場合はサインインできない", async ({ page }) => {
   await page.goto("/signin")
   await page.getByLabel("Email").fill("user1@mail.com")
