@@ -26,7 +26,6 @@ export default async function Page({
   const orderItemRepo = new orderItemRepository()
   const orderItems = await getOrderItemsByOrderId(orderItemRepo, parsedOrderId)
   const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0)
-  const totalPrice = subTotalPrice + 1000
 
   return (
     <div className="space-y-8">
@@ -51,7 +50,7 @@ export default async function Page({
           </Card>
         ))}
       </div>
-      <Card><CardHeader><CardTitle>お支払い内容</CardTitle></CardHeader><CardContent className="space-y-4"><div className="flex justify-between text-sm"><p>小計(税込)</p><p>¥{subTotalPrice.toLocaleString()}</p></div><div className="flex justify-between text-sm"><p>送料(税込)</p><p>¥1,000</p></div><Separator /><div className="flex items-end justify-between"><p className="font-medium">合計</p><p className="text-2xl font-semibold text-primary">¥{totalPrice.toLocaleString()}</p></div></CardContent></Card>
+      <Card><CardHeader><CardTitle>お支払い内容</CardTitle></CardHeader><CardContent className="space-y-4"><div className="flex justify-between text-sm"><p>小計(税込)</p><p>¥{subTotalPrice.toLocaleString()}</p></div><div className="flex justify-between text-sm"><p>送料(税込)</p><p>¥{order.shippingPrice.toLocaleString()}</p></div><Separator /><div className="flex items-end justify-between"><p className="font-medium">合計</p><p className="text-2xl font-semibold text-primary">¥{order.totalPrice.toLocaleString()}</p></div></CardContent></Card>
       </div>
     </div>
   )
