@@ -5,6 +5,7 @@ async function resetE2eData() {
     prisma.orderItem.deleteMany(),
     prisma.order.deleteMany({ where: { userId: 0 } }),
     prisma.cartItem.deleteMany({ where: { cart: { userId: 0 } } }),
+    prisma.variant.update({ where: { id: 0 }, data: { stock: 50 } }),
   ])
 }
 
