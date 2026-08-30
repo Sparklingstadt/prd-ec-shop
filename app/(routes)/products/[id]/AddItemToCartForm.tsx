@@ -6,20 +6,25 @@ import { Button } from "@/components/ui/button"
 
 
 export default function AddItemToCartForm({
-  variantId
+  variantId,
+  isAvailable,
 }: {
   variantId: number
+  isAvailable: boolean
 }) {
-  const [, formAction, isPending] = useActionState(addItemToCartAction, null)
+  const [state, formAction, isPending] = useActionState(addItemToCartAction, null)
 
   return (
-    <form action={formAction}>
+    <form action={formAction} className="space-y-3">
       <input type="hidden" name="variantId" value={variantId} />
       <input type="hidden" name="quantity" value={1} />
-      <Button type="submit" disabled={isPending} size="lg" className="h-11 w-full">
+      <Button type="submit" disabled={isPending || !isAvailable} size="lg" className="h-11 w-full">
         <ShoppingBag data-icon="inline-start" />
-        { isPending ? "追加中..." : "カートに追加"}
+        {isPending ? "追加中..." : isAvailable ? "カートに追加" : "売り切れ"}
       </Button>
+      {state && !state.success ? (
+        <p role="alert" className="text-sm text-destructive">{state.message}</p>
+      ) : null}
     </form>
   )
 }

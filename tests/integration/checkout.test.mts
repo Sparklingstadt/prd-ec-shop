@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import { after, beforeEach, test } from "node:test"
 import { prisma } from "../../lib/prisma"
 import { CheckoutError, createOrderFromCart } from "../../services/checkout/checkoutService"
-import { removeItemFromCart, updateCartItemQuantity } from "../../services/cartService"
+import { addItemToCart, CartError, removeItemFromCart, updateCartItemQuantity } from "../../services/cartService"
 import { OrderRepository } from "../../repositories/implementations/orderRepository"
 import { INITIAL_PAYMENT_STATUS, INITIAL_SHIPPING_STATUS } from "../../services/checkout/orderStatus"
 
@@ -58,7 +58,7 @@ test("他ユーザーのカート商品は更新も削除もできない", async
 
   await assert.rejects(
     () => updateCartItemQuantity(0, otherCartItem.id, "increment"),
-    /Cart item not found/,
+    /在庫数を超えて数量を増やすことはできません/,
   )
   await assert.rejects(
     () => removeItemFromCart(0, otherCartItem.variantId),
@@ -108,11 +108,39 @@ test("カート数量は1未満にも99超にも更新できない", async () =>
   })
   await assert.rejects(
     () => updateCartItemQuantity(0, cartItem.id, "increment"),
-    /Cart item not found/,
+    /在庫数を超えて数量を増やすことはできません/,
   )
   assert.equal(
     (await prisma.cartItem.findUniqueOrThrow({ where: { id: cartItem.id } })).quantity,
     99,
+  )
+})
+
+test("売り切れ商品はカートへ追加できない", async () => {
+  await prisma.variant.update({ where: { id: 0 }, data: { stock: 0 } })
+
+  await assert.rejects(() => addItemToCart({ userId: 0, variantId: 0, quantity: 1 }), (error) => {
+    assert.ok(error instanceof CartError)
+    assert.equal(error.code, "OUT_OF_STOCK")
+    return true
+  })
+  assert.equal(await prisma.cartItem.count({ where: { variantId: 0 } }), 0)
+})
+
+test("カート数量は現在庫を超えて増やせない", async () => {
+  const cart = await prisma.cart.findUniqueOrThrow({ where: { userId: 0 } })
+  await prisma.variant.update({ where: { id: 0 }, data: { stock: 1 } })
+  const cartItem = await prisma.cartItem.create({
+    data: { cartId: cart.id, variantId: 0, quantity: 1 },
+  })
+
+  await assert.rejects(
+    () => updateCartItemQuantity(0, cartItem.id, "increment"),
+    /在庫数を超えて数量を増やすことはできません/,
+  )
+  assert.equal(
+    (await prisma.cartItem.findUniqueOrThrow({ where: { id: cartItem.id } })).quantity,
+    1,
   )
 })
 

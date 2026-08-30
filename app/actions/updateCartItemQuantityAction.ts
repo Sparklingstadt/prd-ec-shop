@@ -1,5 +1,5 @@
 "use server"
-import { updateCartItemQuantity } from "@/services/cartService"
+import { CartError, updateCartItemQuantity } from "@/services/cartService"
 import { requireUserId } from "@/lib/auth"
 import { requireCartMutationType, requireNonNegativeInteger } from "@/lib/validation"
 import { revalidatePath } from "next/cache"
@@ -11,7 +11,14 @@ export async function updateCartItemQuantityAction(
   const userId = await requireUserId()
   const cartItemId = requireNonNegativeInteger(formData.get("cartItemId"), "cartItemId")
   const type = requireCartMutationType(formData.get("type"))
-  await updateCartItemQuantity(userId, cartItemId, type)
+  try {
+    await updateCartItemQuantity(userId, cartItemId, type)
+  } catch (error) {
+    if (error instanceof CartError) {
+      return { success: false, message: error.message }
+    }
+    throw error
+  }
 
   revalidatePath("/", "layout")
   return { success: true }
