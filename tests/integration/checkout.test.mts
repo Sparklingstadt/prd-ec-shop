@@ -10,6 +10,7 @@ async function resetPurchaseData() {
     prisma.orderItem.deleteMany(),
     prisma.order.deleteMany({ where: { userId: { in: [0, 1] } } }),
     prisma.cartItem.deleteMany({ where: { cart: { userId: { in: [0, 1] } } } }),
+    prisma.variant.update({ where: { id: 0 }, data: { stock: 50 } }),
   ])
 }
 
@@ -38,6 +39,7 @@ test("購入処理は注文スナップショットを保存してカートを�
   assert.equal(storedOrder.orderItems[0].priceAtPurchase, 500)
   assert.equal(storedOrder.orderItems[0].quantity, 2)
   assert.equal(await prisma.cartItem.count({ where: { cartId: cart.id } }), 0)
+  assert.equal((await prisma.variant.findUniqueOrThrow({ where: { id: 0 } })).stock, 48)
 })
 
 test("空のカートでは注文を作成しない", async () => {
@@ -108,5 +110,27 @@ test("カート数量は1未満にも99超にも更新できない", async () =>
   assert.equal(
     (await prisma.cartItem.findUniqueOrThrow({ where: { id: cartItem.id } })).quantity,
     99,
+  )
+})
+
+test("在庫不足の場合は注文・在庫・カートを変更しない", async () => {
+  const cart = await prisma.cart.findUniqueOrThrow({ where: { userId: 0 } })
+  await prisma.variant.update({ where: { id: 0 }, data: { stock: 1 } })
+  await prisma.cartItem.create({
+    data: { cartId: cart.id, variantId: 0, quantity: 2 },
+  })
+
+  await assert.rejects(
+    () => createOrderFromCart(0),
+    /在庫が不足しています/,
+  )
+
+  assert.equal(await prisma.order.count({ where: { userId: 0 } }), 0)
+  assert.equal((await prisma.variant.findUniqueOrThrow({ where: { id: 0 } })).stock, 1)
+  assert.equal(
+    (await prisma.cartItem.findUniqueOrThrow({
+      where: { cartId_variantId: { cartId: cart.id, variantId: 0 } },
+    })).quantity,
+    2,
   )
 })

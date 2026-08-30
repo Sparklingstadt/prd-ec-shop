@@ -18,6 +18,22 @@ export async function createOrderFromCart(userId: number) {
       throw new Error("カートが空です")
     }
 
+    for (const item of cart.items) {
+      const stockUpdate = await tx.variant.updateMany({
+        where: {
+          id: item.variantId,
+          stock: { gte: item.quantity }
+        },
+        data: {
+          stock: { decrement: item.quantity }
+        }
+      })
+
+      if (stockUpdate.count !== 1) {
+        throw new Error(`在庫が不足しています: ${item.variant.name}`)
+      }
+    }
+
     const order = await tx.order.create({
       data: {
         userId,
