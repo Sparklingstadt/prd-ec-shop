@@ -5,7 +5,7 @@ import { Variant } from "@/lib/types";
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function ProductActions({ cartId, variants }: { cartId: number, variants: Variant[]}) {
+export function ProductActions({ variants }: { variants: Variant[]}) {
   const [variantId, setVariantId] = useState(variants[0].id)
 
   return (
@@ -28,7 +28,7 @@ export function ProductActions({ cartId, variants }: { cartId: number, variants:
         ))}
         </div>
       </div>
-      <AddItemToCartForm cartId={cartId} variantId={variantId} />
+      <AddItemToCartForm variantId={variantId} />
     </div>
   )
 }

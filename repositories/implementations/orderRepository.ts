@@ -19,12 +19,12 @@ export class OrderRepository implements IOrderRepository {
       )
     })
   }
-  async findByOrderId(orderId: number) {
-    const order = await prisma.order.findUnique({
-      where: { id: orderId }
+  async findByOrderIdForUser(orderId: number, userId: number) {
+    const order = await prisma.order.findFirst({
+      where: { id: orderId, userId }
     })
-    if(!order) throw new Error("Order not found!")
-    
+    if (!order) return null
+
     return new Order(
       order.id,
       order.paymentStatus,

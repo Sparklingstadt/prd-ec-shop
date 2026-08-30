@@ -1,4 +1,5 @@
-import { getOrderByOrderId, getOrderItemsByOrderId } from "@/services/storeQueryService"
+import { getOrderByOrderIdForUser, getOrderItemsByOrderId } from "@/services/storeQueryService"
+import { requireUserId } from "@/lib/auth"
 import { orderItemRepository } from "@/repositories/implementations/orderItemRepository"
 import { OrderRepository } from "@/repositories/implementations/orderRepository"
 import Link from "next/link"
@@ -7,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { notFound } from "next/navigation"
 
 export default async function Page({
   params
@@ -15,9 +17,10 @@ export default async function Page({
 }) {
   const { orderId } = await params
   const parsedOrderId = parseInt(orderId)
+  const userId = await requireUserId()
   const orderRepo = new OrderRepository()
-  const order = await getOrderByOrderId(orderRepo, parsedOrderId)
-  if (!order) throw new Error("Order not found")
+  const order = await getOrderByOrderIdForUser(orderRepo, parsedOrderId, userId)
+  if (!order) notFound()
   const orderItemRepo = new orderItemRepository()
   const orderItems = await getOrderItemsByOrderId(orderItemRepo, parsedOrderId)
   const subTotalPrice = orderItems.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0)

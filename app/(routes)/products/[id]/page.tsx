@@ -1,9 +1,8 @@
-import { getCartByUserId, getProductById, getVariantsByProductId } from "@/services/storeQueryService"
+import { getProductById, getVariantsByProductId } from "@/services/storeQueryService"
 import ProductImageView from "./ProductImageView"
 import { ProductActions } from "./ProductActions"
 import { requireUserId } from "@/lib/auth"
 import { ProductRepository } from "@/repositories/implementations/productRepository"
-import { cartRepository } from "@/repositories/implementations/cartRepository"
 import { variantRepository } from "@/repositories/implementations/variantRepository"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
@@ -14,17 +13,13 @@ export default async function Page({ params }: {
   params: Promise<{ id: string }>
 }) {
   const productId = parseInt((await params).id)
+  await requireUserId()
   const repo = new ProductRepository()
   const product = await getProductById(repo, productId)
   if(!product) throw new Error("Product not found")
   const variantRepo = new variantRepository()
   const variants = await getVariantsByProductId(variantRepo, product.id)
   const minPrice = Math.min(...variants.map(v => v.price))
-  const userId = await requireUserId()
-  const cartRepo = new cartRepository()
-  const cart = await getCartByUserId(cartRepo, userId)
-  if(!cart) throw new Error("Cart not found")
-  
   return (
     <div className="space-y-8">
       <Link href="/products" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ChevronLeft className="size-4" /> 商品一覧へ戻る</Link>
@@ -38,7 +33,7 @@ export default async function Page({ params }: {
             <p className="leading-7 text-muted-foreground">{product.description || "日常にさりげない彩りを添える、Candy Rainのオリジナルアイテムです。"}</p>
           </div>
           <Separator className="my-7" />
-          <ProductActions cartId={cart.id} variants={variants} />
+          <ProductActions variants={variants} />
         </div>
       </div>
     </div>
