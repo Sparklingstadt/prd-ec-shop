@@ -2,6 +2,18 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { calculateOrderTotal } from "./orderPricing";
 
+export type CheckoutErrorCode = "EMPTY_CART" | "INSUFFICIENT_STOCK"
+
+export class CheckoutError extends Error {
+  constructor(
+    public readonly code: CheckoutErrorCode,
+    message: string,
+  ) {
+    super(message)
+    this.name = "CheckoutError"
+  }
+}
+
 export async function createOrderFromCart(userId: number) {
   const shippingPrice = 1000
   return prisma.$transaction(async tx => {
@@ -15,7 +27,7 @@ export async function createOrderFromCart(userId: number) {
     })
 
     if(!cart || cart.items.length === 0) {
-      throw new Error("カートが空です")
+      throw new CheckoutError("EMPTY_CART", "カートが空です")
     }
 
     for (const item of cart.items) {
@@ -30,7 +42,10 @@ export async function createOrderFromCart(userId: number) {
       })
 
       if (stockUpdate.count !== 1) {
-        throw new Error(`在庫が不足しています: ${item.variant.name}`)
+        throw new CheckoutError(
+          "INSUFFICIENT_STOCK",
+          `在庫が不足しています: ${item.variant.name}`,
+        )
       }
     }
 

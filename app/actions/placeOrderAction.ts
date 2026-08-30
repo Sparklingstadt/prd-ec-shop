@@ -1,9 +1,21 @@
 "use server"
 
 import { requireUserId } from "@/lib/auth"
-import checkoutService from "@/services/checkout/checkoutService"
+import checkoutService, { CheckoutError } from "@/services/checkout/checkoutService"
 
-export async function placeOrderAction() {
+export type PlaceOrderResult =
+  | { success: true }
+  | { success: false; message: string }
+
+export async function placeOrderAction(): Promise<PlaceOrderResult> {
   const userId = await requireUserId()
-  await checkoutService(userId)
+  try {
+    await checkoutService(userId)
+    return { success: true }
+  } catch (error) {
+    if (error instanceof CheckoutError) {
+      return { success: false, message: error.message }
+    }
+    throw error
+  }
 }
