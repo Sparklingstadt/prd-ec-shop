@@ -8,8 +8,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export default function CartItemTable({ cartItems }: { cartItems: CartItemWithVariant[] }) {
-  const handleRemoveCartItem = async (cartId: number, variantId: number) => {
-    await removeCartItem({ cartId, variantId })
+  const handleRemoveCartItem = async (variantId: number) => {
+    await removeCartItem({ variantId })
   }
   
   return (
@@ -23,7 +23,7 @@ export default function CartItemTable({ cartItems }: { cartItems: CartItemWithVa
                 <TableCell className="p-4 font-medium">{cartItem.variant.name}</TableCell>
                 <TableCell>¥{cartItem.variant.price.toLocaleString()}</TableCell>
                 <TableCell><CartItemRow cartItem={cartItem} /></TableCell>
-                <TableCell><Button variant="ghost" size="icon" onClick={() => handleRemoveCartItem(cartItem.cartId, cartItem.variant.id)}><Trash2 /><span className="sr-only">削除</span></Button></TableCell>
+                <TableCell><Button variant="ghost" size="icon" onClick={() => handleRemoveCartItem(cartItem.variant.id)}><Trash2 /><span className="sr-only">削除</span></Button></TableCell>
                 <TableCell className="text-right font-semibold">¥{(cartItem.quantity * cartItem.variant.price).toLocaleString()}</TableCell>
               </TableRow>
             ))}
@@ -34,7 +34,7 @@ export default function CartItemTable({ cartItems }: { cartItems: CartItemWithVa
         {cartItems.map(cartItem => (
           <Card key={cartItem.variantId}>
             <CardContent className="space-y-4">
-              <div className="flex items-start justify-between gap-4"><div><p className="font-medium">{cartItem.variant.name}</p><p className="mt-1 text-sm text-muted-foreground">¥{cartItem.variant.price.toLocaleString()} / 個</p></div><Button variant="ghost" size="icon" onClick={() => handleRemoveCartItem(cartItem.cartId, cartItem.variant.id)}><Trash2 /><span className="sr-only">削除</span></Button></div>
+              <div className="flex items-start justify-between gap-4"><div><p className="font-medium">{cartItem.variant.name}</p><p className="mt-1 text-sm text-muted-foreground">¥{cartItem.variant.price.toLocaleString()} / 個</p></div><Button variant="ghost" size="icon" onClick={() => handleRemoveCartItem(cartItem.variant.id)}><Trash2 /><span className="sr-only">削除</span></Button></div>
               <div className="flex items-center justify-between"><CartItemRow cartItem={cartItem} /><p className="font-semibold">¥{(cartItem.quantity * cartItem.variant.price).toLocaleString()}</p></div>
             </CardContent>
           </Card>

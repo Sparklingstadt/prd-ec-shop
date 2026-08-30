@@ -31,7 +31,7 @@ export default async function Page(){
         <CartItemTable cartItems={cartItems} />
         <div className="space-y-4">
           <CartSummary cartItems={cartItems} subTotalPrice={subTotalPrice} shippingFee={1000} totalPrice={totalPrice} />
-          {cartItems.length > 0 && <PlaceOrderButton userId={userId}/>}
+          {cartItems.length > 0 && <PlaceOrderButton />}
         </div>
       </div>
     </div>

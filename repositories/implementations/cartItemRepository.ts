@@ -41,30 +41,37 @@ export class cartItemRepository implements ICartItemRepository {
       }
     })
   }
-  async removeCartItem(cartId: number, variantId: number) {
-    await prisma.cartItem.delete({
+  async removeCartItemForUser(userId: number, variantId: number) {
+    const result = await prisma.cartItem.deleteMany({
       where: {
-        cartId_variantId: {
-          cartId,
-          variantId
-        }
+        variantId,
+        cart: { userId }
       }
-    })    
+    })
+    return result.count
   }
-  async incrementQuantity(cartItemId: number) {
-    await prisma.cartItem.update({
-      where: { id: cartItemId },
+  async incrementQuantityForUser(cartItemId: number, userId: number) {
+    const result = await prisma.cartItem.updateMany({
+      where: {
+        id: cartItemId,
+        cart: { userId }
+      },
       data: {
         quantity: { increment: 1 }
       }
     })
+    return result.count
   }
-  async decrementQuantity(cartItemId: number) {
-    await prisma.cartItem.update({
-      where: { id: cartItemId },
+  async decrementQuantityForUser(cartItemId: number, userId: number) {
+    const result = await prisma.cartItem.updateMany({
+      where: {
+        id: cartItemId,
+        cart: { userId }
+      },
       data: {
         quantity: { decrement: 1 }
       }
     })
+    return result.count
   }
 }

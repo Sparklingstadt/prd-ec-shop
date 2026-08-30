@@ -2,12 +2,14 @@ import assert from "node:assert/strict"
 import { after, beforeEach, test } from "node:test"
 import { prisma } from "../../lib/prisma"
 import { createOrderFromCart } from "../../services/checkout/checkoutService"
+import { removeItemFromCart, updateCartItemQuantity } from "../../services/cartService"
+import { OrderRepository } from "../../repositories/implementations/orderRepository"
 
 async function resetPurchaseData() {
   await prisma.$transaction([
     prisma.orderItem.deleteMany(),
-    prisma.order.deleteMany({ where: { userId: 0 } }),
-    prisma.cartItem.deleteMany({ where: { cart: { userId: 0 } } }),
+    prisma.order.deleteMany({ where: { userId: { in: [0, 1] } } }),
+    prisma.cartItem.deleteMany({ where: { cart: { userId: { in: [0, 1] } } } }),
   ])
 }
 
@@ -41,4 +43,41 @@ test("購入処理は注文スナップショットを保存してカートを�
 test("空のカートでは注文を作成しない", async () => {
   await assert.rejects(() => createOrderFromCart(0), /カートが空です/)
   assert.equal(await prisma.order.count({ where: { userId: 0 } }), 0)
+})
+
+test("他ユーザーのカート商品は更新も削除もできない", async () => {
+  const otherCart = await prisma.cart.findUniqueOrThrow({ where: { userId: 1 } })
+  const otherCartItem = await prisma.cartItem.create({
+    data: { cartId: otherCart.id, variantId: 0, quantity: 2 },
+  })
+
+  await assert.rejects(
+    () => updateCartItemQuantity(0, otherCartItem.id, "increment"),
+    /Cart item not found/,
+  )
+  await assert.rejects(
+    () => removeItemFromCart(0, otherCartItem.variantId),
+    /Cart item not found/,
+  )
+
+  const storedItem = await prisma.cartItem.findUniqueOrThrow({
+    where: { id: otherCartItem.id },
+  })
+  assert.equal(storedItem.quantity, 2)
+})
+
+test("他ユーザーの注文は注文IDを指定しても取得できない", async () => {
+  const otherOrder = await prisma.order.create({
+    data: {
+      userId: 1,
+      paymentStatus: "支払い済み",
+      shippingStatus: "発送済み",
+      shippingPrice: 1000,
+      totalPrice: 1500,
+    },
+  })
+  const repo = new OrderRepository()
+
+  assert.equal(await repo.findByOrderIdForUser(otherOrder.id, 0), null)
+  assert.equal((await repo.findByOrderIdForUser(otherOrder.id, 1))?.id, otherOrder.id)
 })

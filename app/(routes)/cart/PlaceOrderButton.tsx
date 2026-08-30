@@ -1,16 +1,16 @@
 "use client"
 
-import checkoutService from "@/services/checkout/checkoutService"
+import { placeOrderAction } from "@/app/actions/placeOrderAction"
 import { useRouter } from "next/navigation"
 import { ArrowRight, LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-export default function PlaceOrderButton({ userId }: { userId: number }){
+export default function PlaceOrderButton(){
   const router = useRouter()
   const [isPending, setIsPending] = useState(false)
   const handlePlaceOrder = async () => {
     setIsPending(true)
-    await checkoutService(userId)
+    await placeOrderAction()
     router.push("/orders")
   }
 

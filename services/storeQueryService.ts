@@ -12,7 +12,7 @@ export const getProductById = (repo: IProductRepository, productId: number) => r
 export const getVariantsByProductId = (repo: IVariantRepository, productId: number) => repo.findManyByProductId(productId)
 export const getUserByUserId = (repo: IUserRepository, userId: number) => repo.findByUserId(userId)
 export const getOrders = (repo: IOrderRepository, userId: number) => repo.findManyByUserId(userId)
-export const getOrderByOrderId = (repo: IOrderRepository, orderId: number) => repo.findByOrderId(orderId)
+export const getOrderByOrderIdForUser = (repo: IOrderRepository, orderId: number, userId: number) => repo.findByOrderIdForUser(orderId, userId)
 export const getOrderItemsByOrderId = (repo: IOrderItemRepository, orderId: number) => repo.findManyByOrderId(orderId)
 export const getCartByUserId = (repo: ICartRepository, userId: number) => repo.findByUserId(userId)
 export const getCartItemsWithVariantsByCartId = (repo: ICartItemRepository, cartId: number) => repo.findManyWithVariantsByCartId(cartId)
