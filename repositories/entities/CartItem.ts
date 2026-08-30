@@ -11,8 +11,8 @@ export class CartItem {
     if(cartId < 0) {
       throw new Error("cartId must be non-negative!")
     }
-    if(!quantity) {
-      throw new Error("quantity is required!")
+    if(!Number.isInteger(quantity) || quantity < 1) {
+      throw new Error("quantity must be a positive integer!")
     }
     if(variantId < 0) {
       throw new Error("variantId must be non-negative!")

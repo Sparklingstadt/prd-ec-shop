@@ -8,15 +8,18 @@ import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { toNonNegativeInteger } from "@/lib/validation"
+import { notFound } from "next/navigation"
 
 export default async function Page({ params }: { 
   params: Promise<{ id: string }>
 }) {
-  const productId = parseInt((await params).id)
+  const productId = toNonNegativeInteger((await params).id)
+  if (productId === null) notFound()
   await requireUserId()
   const repo = new ProductRepository()
   const product = await getProductById(repo, productId)
-  if(!product) throw new Error("Product not found")
+  if(!product) notFound()
   const variantRepo = new variantRepository()
   const variants = await getVariantsByProductId(variantRepo, product.id)
   const minPrice = Math.min(...variants.map(v => v.price))
