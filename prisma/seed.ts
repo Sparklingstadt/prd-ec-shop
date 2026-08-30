@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 
 async function main() {
+  const demoPasswordHash = await hash("demo-password", 12)
+
   await prisma.product.createMany({
     data: [
       { id: 0, name: "ランダム缶バッジ", category: "グッズ", description: "", thumbnailImageUrl: "/products/Rectangle 1.png" },
@@ -35,10 +38,19 @@ async function main() {
 
   await prisma.user.createMany({
     data: [
-      { id: 0, firstName: "Taro", lastName: "Yamada" },
-      { id: 1, firstName: "Hana", lastName: "Tanaka" },
+      { id: 0, email: "user1@mail.com", passwordHash: demoPasswordHash, firstName: "Taro", lastName: "Yamada" },
+      { id: 1, email: "user2@mail.com", passwordHash: demoPasswordHash, firstName: "Hana", lastName: "Tanaka" },
     ],
     skipDuplicates: true
+  })
+
+  await prisma.user.update({
+    where: { id: 0 },
+    data: { email: "user1@mail.com", passwordHash: demoPasswordHash }
+  })
+  await prisma.user.update({
+    where: { id: 1 },
+    data: { email: "user2@mail.com", passwordHash: demoPasswordHash }
   })
 
   await prisma.cart.createMany({
