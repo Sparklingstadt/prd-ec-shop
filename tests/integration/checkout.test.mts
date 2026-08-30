@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma"
 import { CheckoutError, createOrderFromCart } from "../../services/checkout/checkoutService"
 import { removeItemFromCart, updateCartItemQuantity } from "../../services/cartService"
 import { OrderRepository } from "../../repositories/implementations/orderRepository"
+import { INITIAL_PAYMENT_STATUS, INITIAL_SHIPPING_STATUS } from "../../services/checkout/orderStatus"
 
 async function resetPurchaseData() {
   await prisma.$transaction([
@@ -34,6 +35,8 @@ test("購入処理は注文スナップショットを保存してカートを�
 
   assert.equal(storedOrder.shippingPrice, 1000)
   assert.equal(storedOrder.totalPrice, 2000)
+  assert.equal(storedOrder.paymentStatus, INITIAL_PAYMENT_STATUS)
+  assert.equal(storedOrder.shippingStatus, INITIAL_SHIPPING_STATUS)
   assert.equal(storedOrder.orderItems.length, 1)
   assert.equal(storedOrder.orderItems[0].variantName, "ランダム缶バッジ")
   assert.equal(storedOrder.orderItems[0].priceAtPurchase, 500)

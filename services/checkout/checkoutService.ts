@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { calculateOrderTotal } from "./orderPricing";
+import { INITIAL_PAYMENT_STATUS, INITIAL_SHIPPING_STATUS } from "./orderStatus";
 
 export type CheckoutErrorCode = "EMPTY_CART" | "INSUFFICIENT_STOCK"
 
@@ -52,8 +53,8 @@ export async function createOrderFromCart(userId: number) {
     const order = await tx.order.create({
       data: {
         userId,
-        paymentStatus: "支払い済み",
-        shippingStatus: "発送済み",
+        paymentStatus: INITIAL_PAYMENT_STATUS,
+        shippingStatus: INITIAL_SHIPPING_STATUS,
         shippingPrice,
         totalPrice: calculateOrderTotal(cart.items, shippingPrice),
         orderItems: {
