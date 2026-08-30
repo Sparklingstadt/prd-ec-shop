@@ -32,7 +32,7 @@ export function SignInForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" name="password" type="password" autoComplete="current-password" defaultValue="password" required />
+        <Input id="password" name="password" type="password" autoComplete="current-password" defaultValue="demo-password" required />
       </div>
       <Button type="submit" size="lg" className="h-11 w-full">Sign In</Button>
     </form>

@@ -15,6 +15,16 @@ test("未認証ユーザーをサインイン画面へ誘導する", async ({ pa
   await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible()
 })
 
+test("パスワードが正しくない場合はサインインできない", async ({ page }) => {
+  await page.goto("/signin")
+  await page.getByLabel("Email").fill("user1@mail.com")
+  await page.getByLabel("Password").fill("wrong-password")
+  await page.getByRole("button", { name: "Sign In" }).click()
+
+  await expect(page).toHaveURL(/\/signin\?error=credentials$/)
+  await expect(page.getByText("メールアドレスまたはパスワードが正しくありません。", { exact: true })).toBeVisible()
+})
+
 test("サインインして商品を購入できる", async ({ page }) => {
   await signIn(page)
 
