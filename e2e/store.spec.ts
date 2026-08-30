@@ -1,4 +1,12 @@
+import "dotenv/config"
 import { expect, test, type Page } from "@playwright/test"
+import pg from "pg"
+
+const database = new pg.Pool({ connectionString: process.env.DATABASE_URL })
+
+test.afterAll(async () => {
+  await database.end()
+})
 
 async function signIn(page: Page) {
   await page.goto("/signin")
@@ -50,4 +58,22 @@ test("サインインして商品を購入できる", async ({ page }) => {
 
   await page.getByRole("link", { name: "カート(0)" }).click()
   await expect(page.getByText("カートの中は空です")).toBeVisible()
+})
+
+test("在庫不足を表示し、購入を再試行できる状態に戻す", async ({ page }) => {
+  await signIn(page)
+  await page.getByRole("link", { name: /ランダム缶バッジ/ }).click()
+  await page.getByRole("button", { name: "カートに追加" }).click()
+  await database.query('UPDATE "Variant" SET stock = 0 WHERE id = $1', [0])
+
+  try {
+    await page.getByRole("link", { name: "カート(1)" }).click()
+    await page.getByRole("button", { name: "購入", exact: true }).click()
+
+    await expect(page.locator('p[role="alert"]')).toContainText("在庫が不足しています")
+    await expect(page.getByRole("button", { name: "購入", exact: true })).toBeEnabled()
+    await expect(page).toHaveURL(/\/cart$/)
+  } finally {
+    await database.query('UPDATE "Variant" SET stock = 50 WHERE id = $1', [0])
+  }
 })

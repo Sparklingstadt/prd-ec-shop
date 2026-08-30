@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { after, beforeEach, test } from "node:test"
 import { prisma } from "../../lib/prisma"
-import { createOrderFromCart } from "../../services/checkout/checkoutService"
+import { CheckoutError, createOrderFromCart } from "../../services/checkout/checkoutService"
 import { removeItemFromCart, updateCartItemQuantity } from "../../services/cartService"
 import { OrderRepository } from "../../repositories/implementations/orderRepository"
 
@@ -120,10 +120,12 @@ test("在庫不足の場合は注文・在庫・カートを変更しない", as
     data: { cartId: cart.id, variantId: 0, quantity: 2 },
   })
 
-  await assert.rejects(
-    () => createOrderFromCart(0),
-    /在庫が不足しています/,
-  )
+  await assert.rejects(() => createOrderFromCart(0), (error) => {
+    assert.ok(error instanceof CheckoutError)
+    assert.equal(error.code, "INSUFFICIENT_STOCK")
+    assert.match(error.message, /在庫が不足しています/)
+    return true
+  })
 
   assert.equal(await prisma.order.count({ where: { userId: 0 } }), 0)
   assert.equal((await prisma.variant.findUniqueOrThrow({ where: { id: 0 } })).stock, 1)
