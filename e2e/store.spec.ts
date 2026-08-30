@@ -80,3 +80,40 @@ test("在庫不足を表示し、購入を再試行できる状態に戻す", as
     await database.query('UPDATE "Variant" SET stock = 50 WHERE id = $1', [0])
   }
 })
+
+test("売り切れ商品を表示し、カート追加を無効にする", async ({ page }) => {
+  await database.query('UPDATE "Variant" SET stock = 0 WHERE id = $1', [0])
+
+  try {
+    await signIn(page)
+    await expect(page.getByText("売り切れ", { exact: true }).first()).toBeVisible()
+    await page.getByRole("link", { name: /ランダム缶バッジ/ }).click()
+    await expect(page.getByRole("button", { name: "売り切れ", exact: true })).toBeDisabled()
+  } finally {
+    await database.query('UPDATE "Variant" SET stock = 50 WHERE id = $1', [0])
+  }
+})
+
+test("カートで現在庫を超える数量増加を無効にする", async ({ page }) => {
+  await database.query(
+    'DELETE FROM "CartItem" WHERE "cartId" = (SELECT id FROM "Cart" WHERE "userId" = $1)',
+    [0],
+  )
+  await database.query('UPDATE "Variant" SET stock = 1 WHERE id = $1', [0])
+
+  try {
+    await signIn(page)
+    await page.getByRole("link", { name: /ランダム缶バッジ/ }).click()
+    await page.getByRole("button", { name: "カートに追加" }).click()
+    await page.getByRole("link", { name: "カート(1)" }).click()
+
+    await expect(page.getByText("在庫上限").first()).toBeVisible()
+    await expect(page.getByRole("button", { name: "数量を増やす" }).first()).toBeDisabled()
+  } finally {
+    await database.query(
+      'DELETE FROM "CartItem" WHERE "cartId" = (SELECT id FROM "Cart" WHERE "userId" = $1)',
+      [0],
+    )
+    await database.query('UPDATE "Variant" SET stock = 50 WHERE id = $1', [0])
+  }
+})

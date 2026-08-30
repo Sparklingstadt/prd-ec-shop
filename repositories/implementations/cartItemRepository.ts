@@ -52,17 +52,35 @@ export class cartItemRepository implements ICartItemRepository {
     return result.count
   }
   async incrementQuantityForUser(cartItemId: number, userId: number) {
-    const result = await prisma.cartItem.updateMany({
-      where: {
-        id: cartItemId,
-        cart: { userId },
-        quantity: { lt: MAX_CART_QUANTITY }
-      },
-      data: {
-        quantity: { increment: 1 }
+    return prisma.$transaction(async tx => {
+      const cartItem = await tx.cartItem.findFirst({
+        where: {
+          id: cartItemId,
+          cart: { userId },
+        },
+        include: { variant: true },
+      })
+
+      if (
+        !cartItem ||
+        cartItem.quantity >= MAX_CART_QUANTITY ||
+        cartItem.quantity >= cartItem.variant.stock
+      ) {
+        return 0
       }
-    })
-    return result.count
+
+      const result = await tx.cartItem.updateMany({
+        where: {
+          id: cartItem.id,
+          cart: { userId },
+          quantity: cartItem.quantity,
+        },
+        data: {
+          quantity: { increment: 1 },
+        },
+      })
+      return result.count
+    }, { isolationLevel: "Serializable" })
   }
   async decrementQuantityForUser(cartItemId: number, userId: number) {
     const result = await prisma.cartItem.updateMany({

@@ -1,5 +1,5 @@
 "use server"
-import { addItemToCart } from "@/services/cartService"
+import { addItemToCart, CartError } from "@/services/cartService"
 import { requireUserId } from "@/lib/auth"
 import { requireCartQuantity, requireNonNegativeInteger } from "@/lib/validation"
 import { revalidatePath } from "next/cache"
@@ -9,7 +9,14 @@ export async function addItemToCartAction(_prevState: unknown, formData: FormDat
   const variantId = requireNonNegativeInteger(formData.get("variantId"), "variantId")
   const quantity = requireCartQuantity(formData.get("quantity"))
 
-  await addItemToCart({ userId, variantId, quantity })
-  revalidatePath("/", "layout")
-  return { success: true }
+  try {
+    await addItemToCart({ userId, variantId, quantity })
+    revalidatePath("/", "layout")
+    return { success: true }
+  } catch (error) {
+    if (error instanceof CartError) {
+      return { success: false, message: error.message }
+    }
+    throw error
+  }
 }
