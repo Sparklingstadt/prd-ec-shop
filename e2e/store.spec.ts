@@ -55,6 +55,9 @@ test("サインインして商品を購入できる", async ({ page }) => {
   await expect(page).toHaveURL(/\/orders$/)
   await expect(page.getByRole("heading", { name: "注文履歴" })).toBeVisible()
   await expect(page.getByRole("cell", { name: "¥1,500" })).toBeVisible()
+  const orderTable = page.getByRole("table")
+  await expect(orderTable.getByText("支払い待ち", { exact: true })).toBeVisible()
+  await expect(orderTable.getByText("未発送", { exact: true })).toBeVisible()
 
   await page.getByRole("link", { name: "カート(0)" }).click()
   await expect(page.getByText("カートの中は空です")).toBeVisible()
